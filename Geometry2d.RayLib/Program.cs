@@ -28,7 +28,7 @@ internal class Program
         //    new Vector2(150.0f, 175.0f),
         //    new Vector2(25.0f, 90.0f));
 
-        var mouse = new Polygon();
+        var mouse = new Circle();
 
         var p = new Vector2(50.0f, 50.0f);
         var l = new Line(10.0f, 10.0f, 75.0f, 150.0f);
@@ -82,7 +82,7 @@ internal class Program
             // update mouse shape coords                        
             var mx = (Raylib.GetMousePosition().X / screenScale);
             var my = (Raylib.GetMousePosition().Y / screenScale);
-            mouse = new Polygon(mx, my, 7, 20.0f);
+            mouse = new Circle(mx, my, 10.0f);
 
 
             //
@@ -94,7 +94,7 @@ internal class Program
             Raylib.BeginTextureMode(target);
             Raylib.ClearBackground(Color.Black);
                                     
-            Gfx.DrawPolygon(mouse, Color.RayWhite);
+            Gfx.DrawCircle(mouse, Color.RayWhite);
 
             try
             {
