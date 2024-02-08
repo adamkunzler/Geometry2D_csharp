@@ -5,6 +5,8 @@ namespace Geometry2d.Lib.Extensions
 {
     public static class LineExtensions
     {
-        public static bool Contains(this Line l, Vector2 p) => G2d.Contains(l, p);
+        public static bool Contains(this Line line, Vector2 p) => G2d.Contains(line, p);
+
+        public static bool Contains(this Line line, Line other) => G2d.Contains(line, other);
     }
 }

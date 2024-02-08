@@ -6,5 +6,7 @@ namespace Geometry2d.Lib.Extensions
     public static class RectangleExtensions
     {
         public static bool Contains(this Rectangle rectangle, Vector2 p) => G2d.Contains(rectangle, p);
+
+        public static bool Contains(this Rectangle rectangle, Line l) => G2d.Contains(rectangle, l);
     }
 }

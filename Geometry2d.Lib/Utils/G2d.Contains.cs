@@ -1,4 +1,4 @@
-﻿
+﻿using Geometry2d.Lib.Extensions;
 using Geometry2d.Lib.Primitives;
 
 namespace Geometry2d.Lib.Utils
@@ -9,17 +9,17 @@ namespace Geometry2d.Lib.Utils
 
         /// <summary>
         /// determine if a point contains a point
-        /// </summary>        
+        /// </summary>
         public static bool Contains(Vector2 p, Vector2 other)
         {
             // get the magnitude squared of the vector p pointing to other
-            var mag2 = (p - other).Magnitude2();            
+            var mag2 = (p - other).Magnitude2();
             return mag2 <= Consts.EPSILON;
         }
 
         /// <summary>
         /// determine if a line contains a point
-        /// </summary>        
+        /// </summary>
         public static bool Contains(Line l, Vector2 p)
         {
             double dx = l.End.X - l.Start.X;
@@ -48,11 +48,11 @@ namespace Geometry2d.Lib.Utils
 
         /// <summary>
         /// determine if a rectangle contains a point
-        /// </summary>        
+        /// </summary>
         public static bool Contains(Rectangle r, Vector2 p)
         {
             return !(
-                p.X < r.Position.X || 
+                p.X < r.Position.X ||
                 p.X > (r.Position.X + r.Size.Width) ||
                 p.Y < r.Position.Y ||
                 p.Y > (r.Position.Y + r.Size.Height));
@@ -60,7 +60,7 @@ namespace Geometry2d.Lib.Utils
 
         /// <summary>
         /// determine if a circle contains a point
-        /// </summary>        
+        /// </summary>
         public static bool Contains(Circle c, Vector2 p)
         {
             var mag2 = (p - c.Position).Magnitude2();
@@ -69,20 +69,20 @@ namespace Geometry2d.Lib.Utils
 
         /// <summary>
         /// determine if a triangle contains a point
-        /// </summary>        
+        /// </summary>
         public static bool Contains(Triangle t, Vector2 p)
         {
             // compute vectors from P to each vertex of triangle
-            var v0 = t.Vertices[2] - t.Vertices[0];// new Vector2(t.Vertices[2].X - t.Vertices[0].X, t.Vertices[2].Y - t.Vertices[0].Y);
-            var v1 = t.Vertices[1] - t.Vertices[0];// new Vector2(t.Vertices[1].X - t.Vertices[0].X, t.Vertices[1].Y - t.Vertices[0].Y);
-            var v2 = p - t.Vertices[0];// new Vector2(p.X - t.Vertices[0].X, p.Y - t.Vertices[0].Y);
+            var v0 = t.Vertices[2] - t.Vertices[0];
+            var v1 = t.Vertices[1] - t.Vertices[0];
+            var v2 = p - t.Vertices[0];
 
             // compute dot products
-            var dot00 = v0.Dot(v0);// v0.X * v0.X + v0.Y * v0.Y;
-            var dot01 = v0.Dot(v1);// v0.X * v1.X + v0.Y * v1.Y;
-            var dot02 = v0.Dot(v2);// v0.X * v2.X + v0.Y * v2.Y;
-            var dot11 = v1.Dot(v1);// v1.X * v1.X + v1.Y * v1.Y;
-            var dot12 = v1.Dot(v2);// v1.X * v2.X + v1.Y * v2.Y;
+            var dot00 = v0.Dot(v0);
+            var dot01 = v0.Dot(v1);
+            var dot02 = v0.Dot(v2);
+            var dot11 = v1.Dot(v1);
+            var dot12 = v1.Dot(v2);
 
             // Compute barycentric coordinates
             var invDenom = 1 / (dot00 * dot11 - dot01 * dot01);
@@ -95,21 +95,61 @@ namespace Geometry2d.Lib.Utils
 
         /// <summary>
         /// determine if a polygon contains a point
-        /// </summary>        
+        /// </summary>
         public static bool Contains(Polygon poly, Vector2 p)
         {
-            throw new NotImplementedException();
+            int numVertices = poly.Vertices.Count;
+            float x = p.X;
+            float y = p.Y;
+            bool inside = false;
+
+            var p1 = poly.Vertices[0];
+            var p2 = new Vector2();
+
+            // loop over each polygon edge
+            for (var i = 1; i <= numVertices; i++)
+            {
+                // get the next point in the polygon
+                p2 = poly.Vertices[i % numVertices];
+
+                // check if point is above the min y coord of the edge
+                if (y > MathF.Min(p1.Y, p2.Y))
+                {
+                    // check if point is below the max y coord of the edge
+                    if (y <= MathF.Max(p1.Y, p2.Y))
+                    {
+                        // check if the point is to the left of the max x coord of the edge
+                        if (x <= MathF.Max(p1.X, p2.X))
+                        {
+                            // calculate the x-intersection of the line connecting the point to the edge
+                            // ???
+                            float xIntersection = (y - p1.Y) * (p2.X - p1.X) / (p2.Y - p1.Y) + p1.X;
+
+                            // check if the point is on the same line as the edge or to the left of the x-intersection
+                            if (p1.X == p2.X || x <= xIntersection)
+                            {
+                                inside = !inside;
+                            }
+                        }
+                    }
+                }
+
+                // store the current point as the first point for the next iteration
+                p1 = p2;
+            }
+
+            return inside;
         }
 
         /// <summary>
         /// determine if a ray contains a point
-        /// </summary>        
+        /// </summary>
         public static bool Contains(Ray r, Vector2 p)
         {
             var originPoint = p - r.Origin;
 
             var dot = originPoint.Dot(r.Direction);
-            
+
             // point is behind origin
             if (dot < 0) return false;
 
@@ -118,12 +158,68 @@ namespace Geometry2d.Lib.Utils
 
             // check if projection is same as originPoint
             var x = projection.X - originPoint.X;
-            var y = projection.Y - originPoint.Y;            
+            var y = projection.Y - originPoint.Y;
             var distance = MathF.Sqrt(x * x + y * y);
 
             return distance < Consts.EPSILON;
         }
 
         #endregion [Shape] CONTAINS Point
+
+        #region [Shape] CONTAINS Line
+
+        /// <summary>
+        /// determine if a line contains a line
+        /// </summary>
+        public static bool Contains(Line l, Line other)
+        {
+            return l.Contains(other.Start) && l.Contains(other.End);
+        }
+
+        /// <summary>
+        /// determine if a rectangle contains a line
+        /// </summary>
+        public static bool Contains(Rectangle r, Line other)
+        {
+            return r.Contains(other.Start) && r.Contains(other.End);
+        }
+
+        /// <summary>
+        /// determine if a circle contains a line
+        /// </summary>
+        public static bool Contains(Circle c, Line other)
+        {
+            return c.Contains(other.Start) && c.Contains(other.End);
+        }
+
+        /// <summary>
+        /// determine if a triangle contains a line
+        /// </summary>
+        public static bool Contains(Triangle t, Line other)
+        {
+            return t.Contains(other.Start) && t.Contains(other.End);
+        }
+
+        /// <summary>
+        /// determine if a polygon contains a line
+        /// </summary>
+        public static bool Contains(Polygon p, Line other)
+        {
+            // contains both points and no intersection points
+            var contains = p.Contains(other.Start) && p.Contains(other.End);
+            var intersections = new List<Vector2>(); // TODO p.Intersects(other)
+            
+            return contains && intersections.Count == 0;
+        }
+
+        /// <summary>
+        /// determine if a ray contains a line
+        /// </summary>
+        public static bool Contains(Ray r, Line other)
+        {
+            return r.Contains(other.Start) && r.Contains(other.End);
+        }
+
+        #endregion [Shape] CONTAINS Line
     }
 }

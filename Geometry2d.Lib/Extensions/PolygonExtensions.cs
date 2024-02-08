@@ -6,5 +6,7 @@ namespace Geometry2d.Lib.Extensions
     public static class PolygonExtensions
     {
         public static bool Contains(this Polygon polygon, Vector2 p) => G2d.Contains(polygon, p);
+
+        public static bool Contains(this Polygon polygon, Line l) => G2d.Contains(polygon, l);
     }
 }

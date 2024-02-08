@@ -6,5 +6,7 @@ namespace Geometry2d.Lib.Extensions
     public static class TriangleExtensions
     {
         public static bool Contains(this Triangle triangle, Vector2 p) => G2d.Contains(triangle, p);
+
+        public static bool Contains(this Triangle triangle, Line l) => G2d.Contains(triangle, l);
     }
 }
