@@ -343,7 +343,12 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static bool Contains(Rectangle r, Polygon other)
         {
-            throw new NotImplementedException();
+            for(var i = 0; i < other.Vertices.Count; i++)
+            {
+                if (!r.Contains(other.Vertices[i])) return false;
+            }
+
+            return true;
         }
 
         /// <summary>
@@ -351,7 +356,12 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static bool Contains(Circle c, Polygon other)
         {
-            throw new NotImplementedException();
+            for (var i = 0; i < other.Vertices.Count; i++)
+            {
+                if (!c.Contains(other.Vertices[i])) return false;
+            }
+
+            return true;
         }
 
         /// <summary>
@@ -359,7 +369,12 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static bool Contains(Triangle t, Polygon other)
         {
-            throw new NotImplementedException();
+            for (var i = 0; i < other.Vertices.Count; i++)
+            {
+                if (!t.Contains(other.Vertices[i])) return false;
+            }
+
+            return true;
         }
 
         /// <summary>
@@ -367,7 +382,12 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static bool Contains(Polygon p, Polygon other)
         {
-            throw new NotImplementedException();
+            for (var i = 0; i < other.Vertices.Count; i++)
+            {
+                if (!p.Contains(other.Side(i))) return false;
+            }
+
+            return true;
         }
 
         #endregion [Shape] CONTAINS Polygon

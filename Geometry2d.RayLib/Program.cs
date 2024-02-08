@@ -28,7 +28,7 @@ internal class Program
         //    new Vector2(150.0f, 175.0f),
         //    new Vector2(25.0f, 90.0f));
 
-        var mouse = new Triangle();
+        var mouse = new Polygon();
 
         var p = new Vector2(50.0f, 50.0f);
         var l = new Line(10.0f, 10.0f, 75.0f, 150.0f);
@@ -82,10 +82,10 @@ internal class Program
             // update mouse shape coords                        
             var mx = (Raylib.GetMousePosition().X / screenScale);
             var my = (Raylib.GetMousePosition().Y / screenScale);
-            mouse = new Triangle(
-                mx, my - 10.0f, 
-                mx + 10.0f, my + 10.0f, 
-                mx - 10.0f, my + 10.0f);
+            mouse = new Polygon(
+                new Vector2(mx, my - 10.0f),
+                new Vector2(mx + 10.0f, my + 10.0f),
+                new Vector2(mx - 10.0f, my + 10.0f));
 
 
             //
@@ -97,7 +97,7 @@ internal class Program
             Raylib.BeginTextureMode(target);
             Raylib.ClearBackground(Color.Black);
                                     
-            Gfx.DrawTriangle(mouse, Color.RayWhite);
+            Gfx.DrawPolygon(mouse, Color.RayWhite);
 
             try
             {
