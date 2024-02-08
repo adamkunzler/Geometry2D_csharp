@@ -1,4 +1,6 @@
-﻿namespace Geometry2d.Lib.Primitives
+﻿using Geometry2d.Lib.Utils;
+
+namespace Geometry2d.Lib.Primitives
 {
     public class Line
     {
@@ -29,6 +31,8 @@
         }
 
         #endregion ctor
+
+        #region Line Properties
 
         /// <summary>
         /// returns a vector pointing from Start to End
@@ -127,5 +131,7 @@
         /// returns float.PositiveInfinity if line is vertical
         /// </summary>        
         public Vector2 Coefficients() => Coefficients(this);
-    }
+
+        #endregion Line Properties
+    }       
 }
