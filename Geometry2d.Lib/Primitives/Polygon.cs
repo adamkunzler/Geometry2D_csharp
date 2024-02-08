@@ -25,6 +25,16 @@
             if (!IsValid()) throw new ArgumentException("vertices are not in clockwise order");
         }
 
+        public Polygon(Vector2 center, int numSides, float radius)
+        {
+            BuildRegularPolygon(center, numSides, radius);
+        }
+
+        public Polygon(float centerX, float centerY, int numSides, float radius)
+        {
+            BuildRegularPolygon(new Vector2(centerX, centerY), numSides, radius);
+        }
+
         public override string ToString()
         {
             var asStrings = Vertices.Select(x => x.ToString()).ToArray();
@@ -107,5 +117,24 @@
         public Line Side(int index) => Side(this, index);
 
         #endregion Polygon Properties
+
+        #region Private Methods
+
+        private void BuildRegularPolygon(Vector2 center, int numSides, float radius)
+        {
+            Vertices = new List<Vector2>();
+            
+            for(var i = 0; i < numSides; i++)
+            {
+                var angle = (MathF.PI * 2.0f) * ((float)i / numSides);
+
+                var x = center.X + radius * MathF.Cos(angle);
+                var y = center.Y + radius * MathF.Sin(angle);
+
+                Vertices.Add(new Vector2(x, y));
+            }
+        }
+
+        #endregion Private Methods
     }
 }

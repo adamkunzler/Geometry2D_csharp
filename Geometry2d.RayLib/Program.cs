@@ -82,10 +82,7 @@ internal class Program
             // update mouse shape coords                        
             var mx = (Raylib.GetMousePosition().X / screenScale);
             var my = (Raylib.GetMousePosition().Y / screenScale);
-            mouse = new Polygon(
-                new Vector2(mx, my - 10.0f),
-                new Vector2(mx + 10.0f, my + 10.0f),
-                new Vector2(mx - 10.0f, my + 10.0f));
+            mouse = new Polygon(mx, my, 7, 20.0f);
 
 
             //

@@ -430,7 +430,7 @@
 
         /// <summary>
         /// treat this as polar coordinate (R, Theta), return cartesian equivalent (X, Y)
-        /// Theta is in degrees.
+        /// Theta is in radians.
         /// </summary>
         public static Vector2 ToCartesian(Vector2 a)
         {
