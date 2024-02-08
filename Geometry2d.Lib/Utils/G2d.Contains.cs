@@ -307,7 +307,7 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static bool Contains(Rectangle r, Triangle other)
         {
-            throw new NotImplementedException();
+            return r.Contains(other.Vertices[0]) && r.Contains(other.Vertices[1]) && r.Contains(other.Vertices[2]);
         }
 
         /// <summary>
@@ -315,7 +315,7 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static bool Contains(Circle c, Triangle other)
         {
-            throw new NotImplementedException();
+            return c.Contains(other.Vertices[0]) && c.Contains(other.Vertices[1]) && c.Contains(other.Vertices[2]);
         }
 
         /// <summary>
@@ -323,7 +323,7 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static bool Contains(Triangle t, Triangle other)
         {
-            throw new NotImplementedException();
+            return t.Contains(other.Vertices[0]) && t.Contains(other.Vertices[1]) && t.Contains(other.Vertices[2]);
         }
 
         /// <summary>
@@ -331,7 +331,7 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static bool Contains(Polygon p, Triangle other)
         {
-            throw new NotImplementedException();
+            return p.Contains(other.Side(0)) && p.Contains(other.Side(1)) && p.Contains(other.Side(2));
         }
 
         #endregion [Shape] CONTAINS Triangle
