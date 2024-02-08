@@ -28,7 +28,7 @@ internal class Program
         //    new Vector2(150.0f, 175.0f),
         //    new Vector2(25.0f, 90.0f));
 
-        var mouse = new Line();
+        var mouse = new Rectangle();
 
         var p = new Vector2(50.0f, 50.0f);
         var l = new Line(10.0f, 10.0f, 75.0f, 150.0f);
@@ -80,10 +80,11 @@ internal class Program
             //
 
             // update mouse shape coords
-            mouse.Start.X = Raylib.GetMousePosition().X / screenScale;
-            mouse.Start.Y = Raylib.GetMousePosition().Y / screenScale;
-            mouse.End.X = mouse.Start.X + 35.0f;
-            mouse.End.Y = mouse.Start.Y + 0.0f;
+            mouse.Size.X = 25.0f;
+            mouse.Size.Y = 14.0f;
+            mouse.Position.X = (Raylib.GetMousePosition().X / screenScale) - (mouse.Size.Width / 2.0f);
+            mouse.Position.Y = (Raylib.GetMousePosition().Y / screenScale) - (mouse.Size.Height / 2.0f);
+
 
             //
             // Draw
@@ -94,15 +95,22 @@ internal class Program
             Raylib.BeginTextureMode(target);
             Raylib.ClearBackground(Color.Black);
                                     
-            Gfx.DrawLine(mouse, Color.RayWhite);
+            Gfx.DrawRectangle(mouse, Color.RayWhite);
 
-            //Gfx.DrawPoint(p, p.Contains(mouse) ? Color.Red : Color.RayWhite);
-            Gfx.DrawLine(l, l.Contains(mouse) ? Color.Red : Color.RayWhite);
-            Gfx.DrawRectangle(r, r.Contains(mouse) ? Color.Red : Color.RayWhite);
-            Gfx.DrawCircle(c, c.Contains(mouse) ? Color.Red : Color.RayWhite);
-            Gfx.DrawRay(ray, ray.Contains(mouse) ? Color.Red : Color.RayWhite);
-            Gfx.DrawTriangle(t, t.Contains(mouse) ? Color.Red : Color.RayWhite);
-            Gfx.DrawPolygon(poly, poly.Contains(mouse) ? Color.Red : Color.RayWhite);
+            try
+            {
+                //Gfx.DrawPoint(p, p.Contains(mouse) ? Color.Red : Color.RayWhite);
+                //Gfx.DrawLine(l, l.Contains(mouse) ? Color.Red : Color.RayWhite);
+                Gfx.DrawRectangle(r, r.Contains(mouse) ? Color.Red : Color.RayWhite);
+                Gfx.DrawCircle(c, c.Contains(mouse) ? Color.Red : Color.RayWhite);
+                //Gfx.DrawRay(ray, ray.Contains(mouse) ? Color.Red : Color.RayWhite);
+                Gfx.DrawTriangle(t, t.Contains(mouse) ? Color.Red : Color.RayWhite);
+                Gfx.DrawPolygon(poly, poly.Contains(mouse) ? Color.Red : Color.RayWhite);
+            }
+            catch
+            {
+                Console.WriteLine("oops");
+            }
 
             Raylib.EndTextureMode();
 

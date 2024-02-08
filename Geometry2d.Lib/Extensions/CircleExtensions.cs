@@ -8,5 +8,13 @@ namespace Geometry2d.Lib.Extensions
         public static bool Contains(this Circle circle, Vector2 p) => G2d.Contains(circle, p);
 
         public static bool Contains(this Circle circle, Line l) => G2d.Contains(circle, l);
+
+        public static bool Contains(this Circle circle, Rectangle r) => G2d.Contains(circle, r);
+
+        public static bool Contains(this Circle circle, Circle c) => G2d.Contains(circle, c);
+
+        public static bool Contains(this Circle circle, Triangle t) => G2d.Contains(circle, t);
+
+        public static bool Contains(this Circle circle, Polygon p) => G2d.Contains(circle, p);
     }
 }

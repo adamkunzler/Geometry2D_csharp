@@ -44,6 +44,14 @@
 
         public Line Right => new(new Vector2(Position.X + Size.Width, Position.Y), Position + Size);
 
+        public Vector2 TopLeft => Position;
+
+        public Vector2 TopRight => new(Position.X + Size.Width, Position.Y);
+
+        public Vector2 BottomLeft => new(Position.X, Position.Y + Size.Height);
+
+        public Vector2 BottomRight => new(Position.X + Size.Width, Position.Y + Size.Height);
+
         #endregion Boundaries
 
         #region Rectangle Properties

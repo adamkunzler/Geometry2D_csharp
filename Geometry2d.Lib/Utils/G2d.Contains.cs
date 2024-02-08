@@ -203,12 +203,13 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// determine if a polygon contains a line
         /// </summary>
+        [Obsolete("Polygon CONTAINS Line", false)]
         public static bool Contains(Polygon p, Line other)
         {
             // contains both points and no intersection points
             var contains = p.Contains(other.Start) && p.Contains(other.End);
             var intersections = new List<Vector2>(); // TODO p.Intersects(other)
-            
+
             return contains && intersections.Count == 0;
         }
 
@@ -221,5 +222,154 @@ namespace Geometry2d.Lib.Utils
         }
 
         #endregion [Shape] CONTAINS Line
+
+        #region [Shape] CONTAINS Rectangle
+
+        /// <summary>
+        /// determine if a rectangle contains a rectangle
+        /// </summary>
+        public static bool Contains(Rectangle r, Rectangle other)
+        {
+            return r.Contains(other.TopLeft) && r.Contains(other.TopRight) &&
+                   r.Contains(other.BottomLeft) && r.Contains(other.BottomRight);
+        }
+
+        /// <summary>
+        /// determine if a circle contains a rectangle
+        /// </summary>
+        public static bool Contains(Circle c, Rectangle other)
+        {
+            return c.Contains(other.TopLeft) && c.Contains(other.TopRight) &&
+                   c.Contains(other.BottomLeft) && c.Contains(other.BottomRight);
+        }
+
+        /// <summary>
+        /// determine if a triangle contains a rectangle
+        /// </summary>
+        public static bool Contains(Triangle t, Rectangle other)
+        {
+            return t.Contains(other.TopLeft) && t.Contains(other.TopRight) &&
+                   t.Contains(other.BottomLeft) && t.Contains(other.BottomRight);
+        }
+
+        /// <summary>
+        /// determine if a polygon contains a rectangle
+        /// </summary>
+        public static bool Contains(Polygon p, Rectangle other)
+        {
+            return p.Contains(other.Top) && p.Contains(other.Bottom) &&
+                   p.Contains(other.Left) && p.Contains(other.Right);
+                   
+        }
+
+        #endregion [Shape] CONTAINS Rectangle
+
+        #region [Shape] CONTAINS Circle
+
+        /// <summary>
+        /// determine if a rectangle contains a circle
+        /// </summary>
+        public static bool Contains(Rectangle r, Circle other)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// determine if a circle contains a circle
+        /// </summary>
+        public static bool Contains(Circle c, Circle other)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// determine if a triangle contains a circle
+        /// </summary>
+        public static bool Contains(Triangle t, Circle other)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// determine if a polygon contains a circle
+        /// </summary>
+        public static bool Contains(Polygon p, Circle other)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion [Shape] CONTAINS Circle
+
+        #region [Shape] CONTAINS Triangle
+
+        /// <summary>
+        /// determine if a rectangle contains a triangle
+        /// </summary>
+        public static bool Contains(Rectangle r, Triangle other)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// determine if a circle contains a triangle
+        /// </summary>
+        public static bool Contains(Circle c, Triangle other)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// determine if a triangle contains a triangle
+        /// </summary>
+        public static bool Contains(Triangle t, Triangle other)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// determine if a polygon contains a triangle
+        /// </summary>
+        public static bool Contains(Polygon p, Triangle other)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion [Shape] CONTAINS Triangle
+
+        #region [Shape] CONTAINS Polygon
+
+        /// <summary>
+        /// determine if a rectangle contains a polygon
+        /// </summary>
+        public static bool Contains(Rectangle r, Polygon other)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// determine if a circle contains a polygon
+        /// </summary>
+        public static bool Contains(Circle c, Polygon other)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// determine if a triangle contains a polygon
+        /// </summary>
+        public static bool Contains(Triangle t, Polygon other)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// determine if a polygon contains a polygon
+        /// </summary>
+        public static bool Contains(Polygon p, Polygon other)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion [Shape] CONTAINS Polygon
     }
 }
