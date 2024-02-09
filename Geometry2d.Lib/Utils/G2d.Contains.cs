@@ -208,7 +208,7 @@ namespace Geometry2d.Lib.Utils
         {
             // contains both points and no intersection points
             var contains = p.Contains(other.Start) && p.Contains(other.End);
-            var intersections = new List<Vector2>(); // TODO p.Intersects(other)
+            var intersections = p.Intersects(other);
 
             return contains && intersections.Count == 0;
         }

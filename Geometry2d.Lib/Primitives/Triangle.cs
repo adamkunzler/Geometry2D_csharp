@@ -102,11 +102,13 @@ namespace Geometry2d.Lib.Primitives
         {
             return new Line(t.Vertices[index % 3], t.Vertices[(index + 1) % 3]);
         }
-
+        
         /// <summary>
         /// get a line from an indexed side, starting at top and going clockwise
         /// </summary>        
         public Line Side(int index) => Side(this, index);
+
+        public List<Line> Sides => new List<Line> { Side(0), Side(1), Side(2) };
 
         #endregion Triangle Properties
     }

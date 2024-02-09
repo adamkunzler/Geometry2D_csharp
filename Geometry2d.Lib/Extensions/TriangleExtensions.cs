@@ -16,5 +16,9 @@ namespace Geometry2d.Lib.Extensions
         public static bool Contains(this Triangle triangle, Triangle t) => G2d.Contains(triangle, t);
 
         public static bool Contains(this Triangle triangle, Polygon p) => G2d.Contains(triangle, p);
+
+        public static List<Vector2> Intersects(this Triangle triangle, Vector2 p) => G2d.Intersects(triangle, p);
+
+        public static List<Vector2> Intersects(this Triangle triangle, Line l) => G2d.Intersects(triangle, l);
     }
 }

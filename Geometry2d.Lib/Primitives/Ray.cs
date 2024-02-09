@@ -3,10 +3,16 @@
     public class Ray
     {
         #region ctor
-        
+
+        private Vector2 _direction = new Vector2();
+
         public Vector2 Origin { get; set; }
 
-        public Vector2 Direction { get; set; }
+        public Vector2 Direction 
+        { 
+            get {  return _direction; }
+            set {  _direction = value.Normal(); }
+        }
 
         public Ray()
         {

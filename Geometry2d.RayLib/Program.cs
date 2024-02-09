@@ -28,7 +28,7 @@ internal class Program
         //    new Vector2(150.0f, 175.0f),
         //    new Vector2(25.0f, 90.0f));
 
-        var mouse = new Circle();
+        var mouse = new Line();
 
         var p = new Vector2(50.0f, 50.0f);
         var l = new Line(10.0f, 10.0f, 75.0f, 150.0f);
@@ -82,8 +82,8 @@ internal class Program
             // update mouse shape coords                        
             var mx = (Raylib.GetMousePosition().X / screenScale);
             var my = (Raylib.GetMousePosition().Y / screenScale);
-            mouse = new Circle(mx, my, 10.0f);
-
+            mouse = new Line(mx, my, mx + 135.0f, my + 35.0f);
+            
 
             //
             // Draw
@@ -94,17 +94,41 @@ internal class Program
             Raylib.BeginTextureMode(target);
             Raylib.ClearBackground(Color.Black);
                                     
-            Gfx.DrawCircle(mouse, Color.RayWhite);
+            Gfx.DrawLine(mouse, Color.RayWhite);
 
             try
-            {
-                //Gfx.DrawPoint(p, p.Contains(mouse) ? Color.Red : Color.RayWhite);
-                //Gfx.DrawLine(l, l.Contains(mouse) ? Color.Red : Color.RayWhite);
+            {                
+                Gfx.DrawLine(l, l.Contains(mouse) ? Color.Red : Color.RayWhite);
                 Gfx.DrawRectangle(r, r.Contains(mouse) ? Color.Red : Color.RayWhite);
                 Gfx.DrawCircle(c, c.Contains(mouse) ? Color.Red : Color.RayWhite);
-                //Gfx.DrawRay(ray, ray.Contains(mouse) ? Color.Red : Color.RayWhite);
+                Gfx.DrawRay(ray, ray.Contains(mouse) ? Color.Red : Color.RayWhite);
                 Gfx.DrawTriangle(t, t.Contains(mouse) ? Color.Red : Color.RayWhite);
                 Gfx.DrawPolygon(poly, poly.Contains(mouse) ? Color.Red : Color.RayWhite);
+
+                                
+                var interLine = l.Intersects(mouse);
+                foreach (var intersection in interLine) 
+                    Gfx.DrawCircle(new Circle(intersection, 3), Color.Green);
+
+                var interRect = r.Intersects(mouse);
+                foreach (var intersection in interRect)
+                    Gfx.DrawCircle(new Circle(intersection, 3), Color.Green);
+
+                var interCircle = c.Intersects(mouse);
+                foreach (var intersection in interCircle)
+                    Gfx.DrawCircle(new Circle(intersection, 3), Color.Green);
+
+                var interTriangle = t.Intersects(mouse);
+                foreach (var intersection in interTriangle)
+                    Gfx.DrawCircle(new Circle(intersection, 3), Color.Green);
+
+                var interPoly = poly.Intersects(mouse);
+                foreach (var intersection in interPoly)
+                    Gfx.DrawCircle(new Circle(intersection, 3), Color.Green);
+
+                var interRay = ray.Intersects(mouse);
+                foreach (var intersection in interRay)
+                    Gfx.DrawCircle(new Circle(intersection, 3), Color.Green);
             }
             catch
             {
