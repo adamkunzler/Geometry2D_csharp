@@ -381,5 +381,156 @@ namespace Geometry2d.Lib.Utils
         }
 
         #endregion [Shape] INTERSECTS Rectangle
+
+        #region [Shape] INTERSECTS Circle
+
+        /// <summary>
+        /// return intersection points of a point and a circle
+        /// </summary>
+        public static List<Vector2> Intersects(Vector2 p, Circle other)
+        {
+            return other.Intersects(p);
+        }
+
+        /// <summary>
+        /// return intersection points of a line and a circle
+        /// </summary>
+        public static List<Vector2> Intersects(Line l, Circle other)
+        {
+            return other.Intersects(l);
+        }
+
+        /// <summary>
+        /// return intersection points of a rectangle and a circle
+        /// </summary>
+        public static List<Vector2> Intersects(Rectangle r, Circle other)
+        {
+            var intersections = new List<Vector2>();
+
+            foreach (var side in r.Sides)
+            {
+                intersections.AddRange(other.Intersects(side));
+            }
+
+            return intersections;
+        }
+
+        /// <summary>
+        /// return intersection points of a circle and a circle
+        /// </summary>
+        public static List<Vector2> Intersects(Circle c, Circle other)
+        {
+            var intersections = new List<Vector2>();
+
+            var x1 = c.Position.X;
+            var y1 = c.Position.Y;
+            var r1 = c.Radius;
+            var x2 = other.Position.X;
+            var y2 = other.Position.Y;
+            var r2 = other.Radius;
+
+            var d = MathF.Sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+
+            if (d > r1 + r2 || d < Math.Abs(r1 - r2) || (d == 0 && r1 == r2))
+            {
+                // No intersection or circles are coincident
+                return intersections;
+            }
+
+            var a = (r1 * r1 - r2 * r2 + d * d) / (2 * d);
+            var h = MathF.Sqrt(r1 * r1 - a * a);
+            var x3 = x1 + a * (x2 - x1) / d;
+            var y3 = y1 + a * (y2 - y1) / d;
+
+            var ix1 = x3 + h * (y2 - y1) / d;
+            var iy1 = y3 - h * (x2 - x1) / d;
+            var ix2 = x3 - h * (y2 - y1) / d;
+            var iy2 = y3 + h * (x2 - x1) / d;
+
+            intersections.Add(new Vector2(ix1, iy1));
+            
+            if (h > 0) // Checks if there are two distinct intersection points
+            {
+                intersections.Add(new Vector2(ix2, iy2));
+            }
+
+            return intersections;
+        }
+
+        /// <summary>
+        /// return intersection points of a triangle and a circle
+        /// </summary>
+        public static List<Vector2> Intersects(Triangle t, Circle other)
+        {
+            var intersections = new List<Vector2>();
+            
+            foreach (var triSide in t.Sides)
+            {
+                intersections.AddRange(other.Intersects(triSide));
+            }            
+
+            return intersections;
+        }
+
+        /// <summary>
+        /// return intersection points of a polygon and a circle
+        /// </summary>
+        public static List<Vector2> Intersects(Polygon p, Circle other)
+        {
+            var intersections = new List<Vector2>();
+
+            for(var i = 0; i < p.NumSides(); i++)
+            {
+                intersections.AddRange(other.Intersects(p.Side(i)));
+            }
+
+            return intersections;
+        }
+
+        /// <summary>
+        /// return intersection points of a ray and a circle
+        /// </summary>
+        public static List<Vector2> Intersects(Ray r, Circle other)
+        {
+            var intersections = new List<Vector2>();
+
+            var x0 = r.Origin.X;
+            var y0 = r.Origin.Y;
+            var dx = r.Direction.X;
+            var dy = r.Direction.Y;
+            var h = other.Position.X;
+            var k = other.Position.Y;
+            var radius = other.Radius;
+
+            var a = dx * dx + dy * dy;
+            var b = 2.0f * (dx * (x0 - h) + dy * (y0 - k));
+            var c = (x0 - h) * (x0 - h) + (y0 - k) * (y0 - k) - (radius * radius);
+            var discriminant = b * b - (4.0f * a * c);
+
+            if (discriminant < 0) return intersections;
+
+            var t1 = (-b + MathF.Sqrt(discriminant)) / (2.0f * a);
+            var t2 = (-b - MathF.Sqrt(discriminant)) / (2.0f * a);
+
+            if(t1 >= 0)
+            {
+                var ix1 = x0 + t1 * dx;
+                var iy1 = y0 + t1 * dy;
+                intersections.Add(new Vector2(ix1, iy1));
+            }
+
+            if(t2 >= 0 && discriminant > 0)
+            {
+                var ix2 = x0 + t2 * dx;
+                var iy2 = y0 + t2 * dy;
+                intersections.Add(new Vector2(ix2, iy2));
+            }
+
+            // if discriminant == 0 then ray is tangent to circle
+
+            return intersections;
+        }
+
+        #endregion [Shape] INTERSECTS Circle
     }
 }

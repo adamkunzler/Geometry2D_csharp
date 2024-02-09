@@ -4,7 +4,7 @@
     {
         #region ctor
 
-        public List<Vector2> Vertices;
+        public List<Vector2> Vertices = new List<Vector2>();
 
         public Polygon()
         {
