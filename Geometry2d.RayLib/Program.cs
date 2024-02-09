@@ -28,7 +28,7 @@ internal class Program
         //    new Vector2(150.0f, 175.0f),
         //    new Vector2(25.0f, 90.0f));
 
-        var mouse = new Line();
+        var mouse = new Rectangle();
 
         var p = new Vector2(50.0f, 50.0f);
         var l = new Line(10.0f, 10.0f, 75.0f, 150.0f);
@@ -82,7 +82,7 @@ internal class Program
             // update mouse shape coords                        
             var mx = (Raylib.GetMousePosition().X / screenScale);
             var my = (Raylib.GetMousePosition().Y / screenScale);
-            mouse = new Line(mx, my, mx + 135.0f, my + 35.0f);
+            mouse = new Rectangle(mx - 25.0f, my - 15.0f, 50.0f, 30.0f);
             
 
             //
@@ -94,18 +94,17 @@ internal class Program
             Raylib.BeginTextureMode(target);
             Raylib.ClearBackground(Color.Black);
                                     
-            Gfx.DrawLine(mouse, Color.RayWhite);
+            Gfx.DrawRectangle(mouse, Color.RayWhite);
 
             try
             {                
-                Gfx.DrawLine(l, l.Contains(mouse) ? Color.Red : Color.RayWhite);
+                Gfx.DrawLine(l, Color.RayWhite);
                 Gfx.DrawRectangle(r, r.Contains(mouse) ? Color.Red : Color.RayWhite);
                 Gfx.DrawCircle(c, c.Contains(mouse) ? Color.Red : Color.RayWhite);
-                Gfx.DrawRay(ray, ray.Contains(mouse) ? Color.Red : Color.RayWhite);
+                Gfx.DrawRay(ray, Color.RayWhite);
                 Gfx.DrawTriangle(t, t.Contains(mouse) ? Color.Red : Color.RayWhite);
                 Gfx.DrawPolygon(poly, poly.Contains(mouse) ? Color.Red : Color.RayWhite);
-
-                                
+                
                 var interLine = l.Intersects(mouse);
                 foreach (var intersection in interLine) 
                     Gfx.DrawCircle(new Circle(intersection, 3), Color.Green);

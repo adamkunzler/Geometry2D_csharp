@@ -202,8 +202,7 @@ namespace Geometry2d.Lib.Utils
 
         /// <summary>
         /// determine if a polygon contains a line
-        /// </summary>
-        [Obsolete("Polygon CONTAINS Line", false)]
+        /// </summary>        
         public static bool Contains(Polygon p, Line other)
         {
             // contains both points and no intersection points

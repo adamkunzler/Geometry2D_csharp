@@ -20,5 +20,7 @@ namespace Geometry2d.Lib.Extensions
         public static List<Vector2> Intersects(this Rectangle rectangle, Vector2 p) => G2d.Intersects(rectangle, p);
 
         public static List<Vector2> Intersects(this Rectangle rectangle, Line l) => G2d.Intersects(rectangle, l);
+
+        public static List<Vector2> Intersects(this Rectangle rectangle, Rectangle r) => G2d.Intersects(rectangle, r);
     }
 }

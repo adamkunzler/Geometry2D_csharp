@@ -43,7 +43,7 @@ namespace Geometry2d.Lib.Utils
             {
                 if (side.Contains(other)) intersections.Add(other);
             }
-            
+
             return intersections;
         }
 
@@ -55,7 +55,7 @@ namespace Geometry2d.Lib.Utils
             var intersections = new List<Vector2>();
 
             var distance = new Line(c.Position, other).Length();
-            if((distance >= c.Radius - Consts.EPSILON) && (distance <= c.Radius + Consts.EPSILON))            
+            if ((distance >= c.Radius - Consts.EPSILON) && (distance <= c.Radius + Consts.EPSILON))
                 intersections.Add(other);
 
             return intersections;
@@ -83,7 +83,7 @@ namespace Geometry2d.Lib.Utils
         {
             var intersections = new List<Vector2>();
 
-            for(var i = 0; i < p.NumSides(); i++)
+            for (var i = 0; i < p.NumSides(); i++)
             {
                 if (p.Side(i).Contains(other)) intersections.Add(other);
             }
@@ -98,7 +98,7 @@ namespace Geometry2d.Lib.Utils
         {
             var intersections = new List<Vector2>();
 
-            if(r.Contains(other)) intersections.Add(other);
+            if (r.Contains(other)) intersections.Add(other);
 
             return intersections;
         }
@@ -114,7 +114,7 @@ namespace Geometry2d.Lib.Utils
         {
             var intersections = new List<Vector2>();
 
-            if (other.Contains(p)) intersections.Add(p);            
+            if (other.Contains(p)) intersections.Add(p);
 
             return intersections;
         }
@@ -141,7 +141,7 @@ namespace Geometry2d.Lib.Utils
             var t = ((Cx - Ax) * (Dy - Cy) - (Cy - Ay) * (Dx - Cx)) / determinant;
             var u = ((Cx - Ax) * (By - Ay) - (Cy - Ay) * (Bx - Ax)) / determinant;
 
-            if(t >= 0 && t <= 1 && u>= 0 && u <= 1)
+            if (t >= 0 && t <= 1 && u >= 0 && u <= 1)
             {
                 var x = Ax + t * (Bx - Ax);
                 var y = Ay + t * (By - Ay);
@@ -158,7 +158,7 @@ namespace Geometry2d.Lib.Utils
         {
             var intersections = new List<Vector2>();
 
-            foreach(var side in r.Sides)
+            foreach (var side in r.Sides)
             {
                 intersections.AddRange(side.Intersects(other));
             }
@@ -189,14 +189,14 @@ namespace Geometry2d.Lib.Utils
             // < 0 = no intersections
             // = 0 = 1 intersection
             // >0 = 2 intersections
-            if(discriminant < 0) return intersections; // not intersections
+            if (discriminant < 0) return intersections; // not intersections
 
             // solve quadratic equation to find intersection points
             var t1 = (-b + MathF.Sqrt(discriminant)) / (2.0f * a);
             var t2 = (-b - MathF.Sqrt(discriminant)) / (2.0f * a);
 
             // first intersection
-            if(t1 >= 0 && t1 <= 1)
+            if (t1 >= 0 && t1 <= 1)
             {
                 var ix1 = x1 + t1 * (x2 - x1);
                 var iy1 = y1 + t1 * (y2 - y1);
@@ -204,11 +204,11 @@ namespace Geometry2d.Lib.Utils
             }
 
             // second intersection
-            if(t2 >= 0 && t2 <= 1 && discriminant > 0)
+            if (t2 >= 0 && t2 <= 1 && discriminant > 0)
             {
                 var ix2 = x1 + t2 * (x2 - x1);
                 var iy2 = y1 + t2 * (y2 - y1);
-                intersections.Add(new Vector2( ix2, iy2));
+                intersections.Add(new Vector2(ix2, iy2));
             }
 
             return intersections;
@@ -236,7 +236,7 @@ namespace Geometry2d.Lib.Utils
         {
             var intersections = new List<Vector2>();
 
-            for(var i = 0; i < p.NumSides(); i++)
+            for (var i = 0; i < p.NumSides(); i++)
             {
                 intersections.AddRange(p.Side(i).Intersects(other));
             }
@@ -269,7 +269,7 @@ namespace Geometry2d.Lib.Utils
             var t = tNumerator / denominator;
             var u = uNumerator / denominator;
 
-            if(t >= 0 && t <= 1 && u >= 0)
+            if (t >= 0 && t <= 1 && u >= 0)
             {
                 var x = Ax + t * (Bx - Ax);
                 var y = Ay + t * (By - Ay);
@@ -280,5 +280,106 @@ namespace Geometry2d.Lib.Utils
         }
 
         #endregion [Shape] INTERSECTS Line
+
+        #region [Shape] INTERSECTS Rectangle
+
+        /// <summary>
+        /// return intersection points of a point and a rectangle
+        /// </summary>
+        public static List<Vector2> Intersects(Vector2 p, Rectangle other)
+        {            
+            return other.Intersects(p);
+        }
+
+        /// <summary>
+        /// return intersection points of a line and a rectangle
+        /// </summary>
+        public static List<Vector2> Intersects(Line l, Rectangle other)
+        {
+            return other.Intersects(l);
+        }
+
+        /// <summary>
+        /// return intersection points of a rectangle and a rectangle
+        /// </summary>
+        public static List<Vector2> Intersects(Rectangle r, Rectangle other)
+        {
+            var intersections = new List<Vector2>();
+
+            foreach(var side in r.Sides)
+            {
+                intersections.AddRange(side.Intersects(other));
+            }
+
+            return intersections;
+        }
+
+        /// <summary>
+        /// return intersection points of a circle and a rectangle
+        /// </summary>
+        public static List<Vector2> Intersects(Circle c, Rectangle other)
+        {
+            var intersections = new List<Vector2>();
+
+            foreach (var side in other.Sides)
+            {
+                intersections.AddRange(c.Intersects(side));
+            }
+
+            return intersections;
+        }
+
+        /// <summary>
+        /// return intersection points of a triangle and a rectangle
+        /// </summary>
+        public static List<Vector2> Intersects(Triangle t, Rectangle other)
+        {
+            var intersections = new List<Vector2>();
+
+            foreach (var rectSide in other.Sides)
+            {
+                foreach (var triSide in t.Sides)
+                {
+                    intersections.AddRange(rectSide.Intersects(triSide));
+                }
+            }
+
+            return intersections;
+        }
+
+        /// <summary>
+        /// return intersection points of a polygon and a rectangle
+        /// </summary>
+        public static List<Vector2> Intersects(Polygon p, Rectangle other)
+        {
+            var intersections = new List<Vector2>();
+
+            foreach (var rectSide in other.Sides)
+            {
+                for(var i = 0; i < p.NumSides(); i++)
+                {
+                    intersections.AddRange(rectSide.Intersects(p.Side(i)));
+                }
+            }
+
+            return intersections;
+        }
+
+        /// <summary>
+        /// return intersection points of a ray and a rectangle
+        /// </summary>
+        public static List<Vector2> Intersects(Ray r, Rectangle other)
+        {
+            var intersections = new List<Vector2>();
+
+            foreach (var side in other.Sides)
+            {
+                intersections.AddRange(r.Intersects(side));
+            }
+
+            return intersections;
+        }
+
+        #endregion [Shape] INTERSECTS Rectangle
     }
 }
