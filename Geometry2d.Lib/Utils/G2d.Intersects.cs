@@ -532,5 +532,86 @@ namespace Geometry2d.Lib.Utils
         }
 
         #endregion [Shape] INTERSECTS Circle
+
+        #region [Shape] INTERSECTS Triangle
+
+        /// <summary>
+        /// return intersection points of a point and a triangle
+        /// </summary>
+        public static List<Vector2> Intersects(Vector2 p, Triangle other)
+        {
+            return other.Intersects(p);
+        }
+
+        /// <summary>
+        /// return intersection points of a line and a triangle
+        /// </summary>
+        public static List<Vector2> Intersects(Line l, Triangle other)
+        {
+            return other.Intersects(l);
+        }
+
+        /// <summary>
+        /// return intersection points of a rectangle and a triangle
+        /// </summary>
+        public static List<Vector2> Intersects(Rectangle r, Triangle other)
+        {
+            return other.Intersects(r);
+        }
+
+        /// <summary>
+        /// return intersection points of a circle and a triangle
+        /// </summary>
+        public static List<Vector2> Intersects(Circle c, Triangle other)
+        {
+            return other.Intersects(c);
+        }
+
+        /// <summary>
+        /// return intersection points of a triangle and a triangle
+        /// </summary>
+        public static List<Vector2> Intersects(Triangle t, Triangle other)
+        {
+            var intersections = new List<Vector2>();
+
+            foreach(var side in t.Sides)
+            {
+                intersections.AddRange(side.Intersects(other));
+            }
+
+            return intersections;
+        }
+
+        /// <summary>
+        /// return intersection points of a polygon and a triangle
+        /// </summary>
+        public static List<Vector2> Intersects(Polygon p, Triangle other)
+        {
+            var intersections = new List<Vector2>();
+
+            for(var i = 0; i < p.NumSides(); i++)
+            {
+                intersections.AddRange(p.Side(i).Intersects(other));
+            }
+
+            return intersections;
+        }
+
+        /// <summary>
+        /// return intersection points of a ray and a triangle
+        /// </summary>
+        public static List<Vector2> Intersects(Ray r, Triangle other)
+        {
+            var intersections = new List<Vector2>();
+
+            foreach(var side in other.Sides)
+            {
+                intersections.AddRange(r.Intersects(side));
+            }
+
+            return intersections;
+        }
+
+        #endregion [Shape] INTERSECTS Circle
     }
 }

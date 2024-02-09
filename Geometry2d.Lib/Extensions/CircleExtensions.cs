@@ -24,5 +24,7 @@ namespace Geometry2d.Lib.Extensions
         public static List<Vector2> Intersects(this Circle circle, Rectangle r) => G2d.Intersects(circle, r);
 
         public static List<Vector2> Intersects(this Circle circle, Circle c) => G2d.Intersects(circle, c);
+
+        public static List<Vector2> Intersects(this Circle circle, Triangle t) => G2d.Intersects(circle, t);
     }
 }
