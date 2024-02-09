@@ -690,5 +690,89 @@ namespace Geometry2d.Lib.Utils
         }
 
         #endregion [Shape] INTERSECTS Polygon
+
+        #region [Shape] INTERSECTS Ray
+
+        /// <summary>
+        /// return intersection points of a point and a ray
+        /// </summary>
+        public static List<Vector2> Intersects(Vector2 p, Ray other)
+        {
+            return other.Intersects(p);
+        }
+
+        /// <summary>
+        /// return intersection points of a line and a ray
+        /// </summary>
+        public static List<Vector2> Intersects(Line l, Ray other)
+        {
+            return other.Intersects(l);
+        }
+
+        /// <summary>
+        /// return intersection points of a rectangle and a ray
+        /// </summary>
+        public static List<Vector2> Intersects(Rectangle r, Ray other)
+        {
+            return other.Intersects(r);
+        }
+
+        /// <summary>
+        /// return intersection points of a circle and a ray
+        /// </summary>
+        public static List<Vector2> Intersects(Circle c, Ray other)
+        {
+            return other.Intersects(c);
+        }
+
+        /// <summary>
+        /// return intersection points of a triangle and a ray
+        /// </summary>
+        public static List<Vector2> Intersects(Triangle t, Ray other)
+        {
+            return other.Intersects(t);
+        }
+
+        /// <summary>
+        /// return intersection points of a polygon and a ray
+        /// </summary>
+        public static List<Vector2> Intersects(Polygon p, Ray other)
+        {
+            return other.Intersects(p);            
+        }
+
+        /// <summary>
+        /// return intersection points of a ray and a ray
+        /// </summary>
+        public static List<Vector2> Intersects(Ray r, Ray other)
+        {
+            var intersections = new List<Vector2>();
+
+            var x1 = r.Origin.X;
+            var y1 = r.Origin.Y;
+            var dx1 = r.Direction.X;
+            var dy1 = r.Direction.Y;
+            var x2 = other.Direction.X;
+            var y2 = other.Direction.Y;
+            var dx2 = other.Direction.X;
+            var dy2 = other.Direction.Y;
+
+            var denominator = dx1 * dy2 - dy1 * dx2;
+            if (denominator == 0) return intersections; // rays are parallel or coincident
+
+            var t = ((x2 - x1) * dy2 - (y2 - y1) * dx2) / denominator;
+            var s = ((x2 - x1) * dy1 - (y2 - y1) * dx1) / denominator;
+
+            if(t >= 0 && s >= 0)
+            {
+                var ix = x1 + t * dx1;
+                var iy = y1 + t * dy1;
+                intersections.Add(new Vector2(ix, iy));
+            }
+
+            return intersections;
+        }
+
+        #endregion [Shape] INTERSECTS Ray
     }
 }
