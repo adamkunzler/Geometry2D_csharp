@@ -14,21 +14,8 @@ using Rectangle = Geometry2d.Lib.Primitives.Rectangle;
 internal class Program
 {
     public static void Main()
-    {
-        //var triangle = new Triangle(
-        //    700.0f, 50.0f,
-        //    900.0f, 300.0f,
-        //    550.0f, 450.0f);
-
-        //var poly = new Polygon(
-        //    new Vector2(50.0f, 50.0f),
-        //    new Vector2(200.0f, 100.0f),
-        //    new Vector2(250.0f, 250.0f),
-        //    new Vector2(100.0f, 250.0f),
-        //    new Vector2(150.0f, 175.0f),
-        //    new Vector2(25.0f, 90.0f));
-
-        var mouse = new Triangle();
+    {        
+        var mouse = new Polygon();
 
         var p = new Vector2(50.0f, 50.0f);
         var l = new Line(10.0f, 10.0f, 75.0f, 150.0f);
@@ -89,7 +76,9 @@ internal class Program
             //mouse.Position.Y = my;
             //mouse.Radius = 25.0f;
 
-            mouse = new Triangle(mx, my - 15.0f, mx + 15.0f, my + 15.0f, mx - 15.0f, my + 15.0f);
+            //mouse = new Triangle(mx, my - 15.0f, mx + 15.0f, my + 15.0f, mx - 15.0f, my + 15.0f);
+
+            mouse = new Polygon(mx, my, 5, 25.0f);
             
 
             //
@@ -101,7 +90,7 @@ internal class Program
             Raylib.BeginTextureMode(target);
             Raylib.ClearBackground(Color.Black);
                                     
-            Gfx.DrawTriangle(mouse, Color.RayWhite);
+            Gfx.DrawPolygon(mouse, Color.RayWhite);
 
             try
             {                

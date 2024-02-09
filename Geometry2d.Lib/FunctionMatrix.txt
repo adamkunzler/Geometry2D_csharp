@@ -6,22 +6,11 @@ Collision
 Project (RAY)
 Reflect (RAY)
 
-* = todo
 
-
-A		  B>|	POINT		|	LINE		|	RECTANGLE	|	CIRCLE		|	TRIANGLE	|	POLYGON		|	RAY
+A		  B>|	POINT		|	LINE		|	RECTANGLE	|	CIRCLE		|	TRIANGLE	|	POLYGON		|	RAY			|
 -----------------------------------------------------------------------------------------------------------------------------
-POINT		|	Contains	|				|				|				|				|				|
-			|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|
-			|				|	 			|				|				|				|				|				|
-			|				|	 			|				|				|				|				|				|
-			|				|	 			|				|				|				|				|				|
-			|				|	 			|				|				|				|				|				|
-			|				|	 			|				|				|				|				|				|
-			|				|	 			|				|				|				|				|				|
------------------------------------------------------------------------------------------------------------------------------
-LINE		|	Contains	|	Contains	|				|				|				|
-			|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|				|				|
+POINT		|	Contains	|				|				|				|				|				|				|
+			|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|				|
 			|				|	 			|				|				|				|				|				|
 			|				|	 			|				|				|				|				|				|
 			|				|	 			|				|				|				|				|				|
@@ -29,8 +18,8 @@ LINE		|	Contains	|	Contains	|				|				|				|
 			|				|	 			|				|				|				|				|				|
 			|				|	 			|				|				|				|				|				|
 -----------------------------------------------------------------------------------------------------------------------------
-RECTANGLE	|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|
-			|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|				|				|
+LINE		|	Contains	|	Contains	|				|				|				|				|				|
+			|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|				|
 			|				|	 			|				|				|				|				|				|
 			|				|	 			|				|				|				|				|				|
 			|				|	 			|				|				|				|				|				|
@@ -38,8 +27,8 @@ RECTANGLE	|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|
 			|				|	 			|				|				|				|				|				|
 			|				|	 			|				|				|				|				|				|
 -----------------------------------------------------------------------------------------------------------------------------
-CIRCLE		|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|
-			|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|				|				|
+RECTANGLE	|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|				|
+			|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|				|
 			|				|	 			|				|				|				|				|				|
 			|				|	 			|				|				|				|				|				|
 			|				|	 			|				|				|				|				|				|
@@ -47,8 +36,8 @@ CIRCLE		|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|
 			|				|	 			|				|				|				|				|				|
 			|				|	 			|				|				|				|				|				|
 -----------------------------------------------------------------------------------------------------------------------------
-TRIANGLE	|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|
-			|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|				|				|
+CIRCLE		|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|				|
+			|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|				|
 			|				|	 			|				|				|				|				|				|
 			|				|	 			|				|				|				|				|				|
 			|				|	 			|				|				|				|				|				|
@@ -56,8 +45,8 @@ TRIANGLE	|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|
 			|				|	 			|				|				|				|				|				|
 			|				|	 			|				|				|				|				|				|
 -----------------------------------------------------------------------------------------------------------------------------
-POLYGON		|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|
-			|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|				|				|
+TRIANGLE	|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|				|
+			|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|				|
 			|				|	 			|				|				|				|				|				|
 			|				|	 			|				|				|				|				|				|
 			|				|	 			|				|				|				|				|				|
@@ -65,8 +54,17 @@ POLYGON		|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|
 			|				|	 			|				|				|				|				|				|
 			|				|	 			|				|				|				|				|				|
 -----------------------------------------------------------------------------------------------------------------------------
-RAY			|	Contains	|	Contains	|				|				|				|				|
-			|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|				|				|
+POLYGON		|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|				|
+			|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|				|
+			|				|	 			|				|				|				|				|				|
+			|				|	 			|				|				|				|				|				|
+			|				|	 			|				|				|				|				|				|
+			|				|	 			|				|				|				|				|				|
+			|				|	 			|				|				|				|				|				|
+			|				|	 			|				|				|				|				|				|
+-----------------------------------------------------------------------------------------------------------------------------
+RAY			|	Contains	|	Contains	|				|				|				|				|				|
+			|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|				|
 			|				|	 			|				|				|				|				|				|
 			|				|	 			|				|				|				|				|				|
 			|				|	 			|				|				|				|				|				|

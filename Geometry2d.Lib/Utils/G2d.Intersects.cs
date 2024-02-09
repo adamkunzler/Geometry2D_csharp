@@ -613,5 +613,82 @@ namespace Geometry2d.Lib.Utils
         }
 
         #endregion [Shape] INTERSECTS Circle
+
+        #region [Shape] INTERSECTS Polygon
+
+        /// <summary>
+        /// return intersection points of a point and a polygon
+        /// </summary>
+        public static List<Vector2> Intersects(Vector2 p, Polygon other)
+        {
+            return other.Intersects(p);
+        }
+
+        /// <summary>
+        /// return intersection points of a line and a polygon
+        /// </summary>
+        public static List<Vector2> Intersects(Line l, Polygon other)
+        {
+            return other.Intersects(l);
+        }
+
+        /// <summary>
+        /// return intersection points of a rectangle and a polygon
+        /// </summary>
+        public static List<Vector2> Intersects(Rectangle r, Polygon other)
+        {
+            return other.Intersects(r);
+        }
+
+        /// <summary>
+        /// return intersection points of a circle and a polygon
+        /// </summary>
+        public static List<Vector2> Intersects(Circle c, Polygon other)
+        {
+            return other.Intersects(c);
+        }
+
+        /// <summary>
+        /// return intersection points of a triangle and a polygon
+        /// </summary>
+        public static List<Vector2> Intersects(Triangle t, Polygon other)
+        {
+            return other.Intersects(t);
+        }
+
+        /// <summary>
+        /// return intersection points of a polygon and a polygon
+        /// </summary>
+        public static List<Vector2> Intersects(Polygon p, Polygon other)
+        {
+            var intersections = new List<Vector2>();
+
+            for(int i = 0; i < p.NumSides(); i++)
+            {
+                for(int j = 0; j < other.NumSides(); j++)
+                {
+                    intersections.AddRange(p.Side(i).Intersects(other.Side(j)));
+                }
+            }
+
+            return intersections;
+        }
+
+        /// <summary>
+        /// return intersection points of a ray and a polygon
+        /// </summary>
+        public static List<Vector2> Intersects(Ray r, Polygon other)
+        {
+            var intersections = new List<Vector2>();
+
+            for (int i = 0; i < other.NumSides(); i++)
+            {
+                intersections.AddRange(r.Intersects(other.Side(i)));
+            }
+            
+            return intersections;
+        }
+
+        #endregion [Shape] INTERSECTS Polygon
     }
 }
