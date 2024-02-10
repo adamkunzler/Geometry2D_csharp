@@ -5,22 +5,36 @@ namespace Geometry2d.Lib.Extensions
 {
     public static class RayExtensions
     {
-        public static bool Contains(this Ray ray, Vector2 p) => G2d.Contains(ray, p);
+        public static bool Contains(this Ray lhs, Vector2 rhs) => G2d.Contains(lhs, rhs);
 
-        public static bool Contains(this Ray ray, Line l) => G2d.Contains(ray, l);
+        public static bool Contains(this Ray lhs, Line rhs) => G2d.Contains(lhs, rhs);
 
-        public static List<Vector2> Intersects(this Ray ray, Vector2 p) => G2d.Intersects(ray, p);
+        public static List<Vector2> Intersects(this Ray lhs, Vector2 rhs) => G2d.Intersects(lhs, rhs);
 
-        public static List<Vector2> Intersects(this Ray ray, Line l) => G2d.Intersects(ray, l);
+        public static List<Vector2> Intersects(this Ray lhs, Line rhs) => G2d.Intersects(lhs, rhs);
 
-        public static List<Vector2> Intersects(this Ray ray, Rectangle r) => G2d.Intersects(ray, r);
+        public static List<Vector2> Intersects(this Ray lhs, Rectangle rhs) => G2d.Intersects(lhs, rhs);
 
-        public static List<Vector2> Intersects(this Ray ray, Circle c) => G2d.Intersects(ray, c);
+        public static List<Vector2> Intersects(this Ray lhs, Circle rhs) => G2d.Intersects(lhs, rhs);
 
-        public static List<Vector2> Intersects(this Ray ray, Triangle t) => G2d.Intersects(ray, t);
+        public static List<Vector2> Intersects(this Ray lhs, Triangle rhs) => G2d.Intersects(lhs, rhs);
 
-        public static List<Vector2> Intersects(this Ray ray, Polygon p) => G2d.Intersects(ray, p);
+        public static List<Vector2> Intersects(this Ray lhs, Polygon rhs) => G2d.Intersects(lhs, rhs);
 
-        public static List<Vector2> Intersects(this Ray ray, Ray r) => G2d.Intersects(ray, r);
+        public static List<Vector2> Intersects(this Ray lhs, Ray rhs) => G2d.Intersects(lhs, rhs);
+
+        public static Vector2 Closest(this Ray lhs, Vector2 rhs) => G2d.Closest(lhs, rhs);
+
+        public static Vector2 Closest(this Ray lhs, Line rhs) => G2d.Closest(lhs, rhs);
+
+        public static Vector2 Closest(this Ray lhs, Rectangle rhs) => G2d.Closest(lhs, rhs);
+
+        public static Vector2 Closest(this Ray lhs, Circle rhs) => G2d.Closest(lhs, rhs);
+
+        public static Vector2 Closest(this Ray lhs, Triangle rhs) => G2d.Closest(lhs, rhs);
+
+        public static Vector2 Closest(this Ray lhs, Polygon rhs) => G2d.Closest(lhs, rhs);
+
+        public static Vector2 Closest(this Ray lhs, Ray rhs) => G2d.Closest(lhs, rhs);
     }
 }

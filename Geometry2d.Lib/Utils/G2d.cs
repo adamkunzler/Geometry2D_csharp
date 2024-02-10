@@ -6,7 +6,7 @@ namespace Geometry2d.Lib.Utils
     {
         /// <summary>
         /// Calculate perpendicular distance from a point to a line
-        /// </summary>        
+        /// </summary>
         public static float DistanceTo(Vector2 p, Line l)
         {
             var lx = l.End.X - l.Start.X;
@@ -26,6 +26,27 @@ namespace Geometry2d.Lib.Utils
 
             // get length of perpendicular line projection point to the original point
             return MathF.Sqrt(MathF.Pow(p.X - projX, 2.0f) + MathF.Pow(p.Y - projY, 2.0f));
+        }
+
+        public static (Vector2 Point, Line Line) Closest(Vector2 lhs, List<Line> rhs)
+        {
+            var minDistance = float.MaxValue;
+            Line? closestLine = null;
+            Vector2? closestPoint = null;
+
+            foreach (var line in rhs)
+            {
+                var closestPointOnLine = Closest(lhs, line);
+                var distance = (closestPointOnLine - lhs).Magnitude();
+                if (distance < minDistance)
+                {
+                    minDistance = distance;
+                    closestLine = line;
+                    closestPoint = closestPointOnLine;
+                }
+            }
+
+            return (closestPoint!, closestLine!);
         }
     }
 }

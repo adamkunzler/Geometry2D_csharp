@@ -116,6 +116,18 @@
         /// </summary>
         public Line Side(int index) => Side(this, index);
 
+        public List<Line> Sides()
+        {
+            var sides = new List<Line>();
+
+            for(var i = 0; i < NumSides(); i++)
+            {
+                sides.Add(Side(i));
+            }
+
+            return sides;
+        }
+
         #endregion Polygon Properties
 
         #region Private Methods

@@ -18,47 +18,71 @@ namespace Geometry2d.RayLib
         }
 
         public static void DrawRay(Ray ray, Color color)
-        {
-            var end = ray.Direction * 10000.0f;
-            Raylib.DrawLine((int)ray.Origin.X, (int)ray.Origin.Y, (int)end.X, (int)end.Y, color);
+        {            
+            var end = ray.Origin + ray.Direction * 10000.0f;
+            Raylib.DrawLine((int)ray.Origin.X, (int)ray.Origin.Y, (int)end.X, (int)end.Y, color);            
         }
 
-        public static void DrawRectangle(Rectangle rectangle, Color color)
+        public static void DrawRectangle(Rectangle rectangle, Color color, bool fill = false)
         {
-            Raylib.DrawRectangleLines((int)rectangle.Position.X, (int)rectangle.Position.Y, (int)rectangle.Size.Width, (int)rectangle.Size.Height, color);
-
-            //DrawLine(rectangle.Top, color);
-            //DrawLine(rectangle.Bottom, color);
-            //DrawLine(rectangle.Left, color);
-            //DrawLine(rectangle.Right, color);
-        }
-
-        public static void DrawCircle(Circle circle, Color color)
-        {
-            Raylib.DrawCircleLines((int)circle.Position.X, (int)circle.Position.Y, circle.Radius, color);
-        }
-
-        public static void DrawTriangle(Triangle triangle, Color color)
-        {
-            Raylib.DrawTriangleLines
-            (
-                new System.Numerics.Vector2(triangle.Vertices[0].X, triangle.Vertices[0].Y),
-                new System.Numerics.Vector2(triangle.Vertices[1].X, triangle.Vertices[1].Y),
-                new System.Numerics.Vector2(triangle.Vertices[2].X, triangle.Vertices[2].Y),
-                color
-            );
-        }
-
-        public static void DrawPolygon(Polygon polygon, Color color)
-        {
-            for (var i = 0; i < polygon.Vertices.Count; i++)
+            if (fill)
             {
-                //DrawCircle(
-                //    new Circle(polygon.Vertices[i].X, polygon.Vertices[i].Y, 5.0f),
-                //    color
-                //);
+                Raylib.DrawRectangle((int)rectangle.Position.X, (int)rectangle.Position.Y, (int)rectangle.Size.Width, (int)rectangle.Size.Height, color);
+            }
+            else
+            {
+                Raylib.DrawRectangleLines((int)rectangle.Position.X, (int)rectangle.Position.Y, (int)rectangle.Size.Width, (int)rectangle.Size.Height, color);
+            }
+        }
 
-                DrawLine(polygon.Side(i), color);
+        public static void DrawCircle(Circle circle, Color color, bool fill = false)
+        {
+            if (fill)
+            {
+                Raylib.DrawCircle((int)circle.Position.X, (int)circle.Position.Y, circle.Radius, color);
+            }
+            else
+            {
+                Raylib.DrawCircleLines((int)circle.Position.X, (int)circle.Position.Y, circle.Radius, color);
+            }
+        }
+
+        public static void DrawTriangle(Triangle triangle, Color color, bool fill = false)
+        {
+            if (fill)
+            {
+                Raylib.DrawTriangle
+                (
+                    new System.Numerics.Vector2(triangle.Vertices[0].X, triangle.Vertices[0].Y),
+                    new System.Numerics.Vector2(triangle.Vertices[1].X, triangle.Vertices[1].Y),
+                    new System.Numerics.Vector2(triangle.Vertices[2].X, triangle.Vertices[2].Y),
+                    color
+                );
+            }
+            else
+            {
+                Raylib.DrawTriangleLines
+                (
+                    new System.Numerics.Vector2(triangle.Vertices[0].X, triangle.Vertices[0].Y),
+                    new System.Numerics.Vector2(triangle.Vertices[1].X, triangle.Vertices[1].Y),
+                    new System.Numerics.Vector2(triangle.Vertices[2].X, triangle.Vertices[2].Y),
+                    color
+                );
+            }
+        }
+
+        public static void DrawPolygon(Polygon polygon, Color color, bool fill = false)
+        {
+            if (fill)
+            {
+                throw new NotImplementedException("DrawPolygon fill=true not implemented");
+            }
+            else
+            {
+                for (var i = 0; i < polygon.Vertices.Count; i++)
+                {
+                    DrawLine(polygon.Side(i), color);
+                }                
             }
         }
     }
