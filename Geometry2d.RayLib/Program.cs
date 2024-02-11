@@ -7,6 +7,7 @@ using Geometry2d.Lib.Primitives;
 using Geometry2d.Lib.Utils;
 using Geometry2d.RayLib;
 using Raylib_cs;
+using System.Drawing;
 using Color = Raylib_cs.Color;
 using Ray = Geometry2d.Lib.Primitives.Ray;
 using Rectangle = Geometry2d.Lib.Primitives.Rectangle;
@@ -15,14 +16,13 @@ internal class Program
 {
     public static void Main()
     {        
-        var mouse = new Polygon();
+        IShape mouse = new Vector2();
         var mousePoint = new Vector2();
 
         var p = new Vector2(50.0f, 50.0f);
         var l = new Line(10.0f, 10.0f, 75.0f, 150.0f);
         var r = new Rectangle(20.0f, 20.0f, 200.0f, 80.0f);
-        var c = new Circle(200.0f, 200.0f, 35.0f);
-        var ray = new Ray(new Vector2(0.0f, 0.0f), new Vector2(0.0f, 0.0f).Normal());
+        var c = new Circle(200.0f, 200.0f, 35.0f);        
         var t = new Triangle(130.0f, 150.0f, 160.0f, 240.0f, 25.0f, 245.0f);
         var poly = new Polygon
         (
@@ -57,36 +57,50 @@ internal class Program
             // Process Inputs
             //
 
+            #region Keyboard Input
+
             if (Raylib.IsKeyPressed(KeyboardKey.Space))
             {
                 // do something...
                 Console.WriteLine($"mouse: {mouse}");
             }
+            else if(Raylib.IsKeyPressed(KeyboardKey.One))
+            {
+                mouse = new Vector2();
+            }
+            else if (Raylib.IsKeyPressed(KeyboardKey.Two))
+            {
+                mouse = new Line();
+            }
+            else if (Raylib.IsKeyPressed(KeyboardKey.Three))
+            {
+                mouse = new Rectangle();
+            }
+            else if (Raylib.IsKeyPressed(KeyboardKey.Four))
+            {
+                mouse = new Circle();
+            }
+            else if (Raylib.IsKeyPressed(KeyboardKey.Five))
+            {
+                mouse = new Triangle();
+            }
+            else if (Raylib.IsKeyPressed(KeyboardKey.Six))
+            {
+                mouse = new Polygon(0.0f, 0.0f, 5, 25.0f);
+            }
+            else if (Raylib.IsKeyPressed(KeyboardKey.Seven))
+            {
+                mouse = new Ray();
+            }
+
+            #endregion Keyboard Input
 
             //
             // Update
             //
 
-            // update mouse shape coords                        
-            var mx = (Raylib.GetMousePosition().X / screenScale);
-            var my = (Raylib.GetMousePosition().Y / screenScale);
-            //mouse = new Rectangle(mx - 25.0f, my - 15.0f, 50.0f, 30.0f);
-
-            mousePoint.X = mx;
-            mousePoint.Y = my;
-
-            ray.Direction = new Vector2(mx, my).Normal();
-
-            // circle
-            //mouse.Position.X = mx;
-            //mouse.Position.Y = my;
-            //mouse.Radius = 25.0f;
-
-            //mouse = new Triangle(mx, my - 15.0f, mx + 15.0f, my + 15.0f, mx - 15.0f, my + 15.0f);
-
-            mouse = new Polygon(mx, my, 5, 25.0f);
+            UpdateMouse(Raylib.GetMousePosition(), mousePoint, mouse, screenScale);
             
-
             //
             // Draw
             //
@@ -95,37 +109,48 @@ internal class Program
 
             Raylib.BeginTextureMode(target);
             Raylib.ClearBackground(Color.Black);
-                                    
-            Gfx.DrawPolygon(mouse, Color.RayWhite);
+                                                
+            Gfx.DrawShape(mouse, Color.RayWhite);
 
             try
-            {                
+            {
+                #region Draw Static Shapes
+
                 Gfx.DrawLine(l, Color.RayWhite);
-                Gfx.DrawRectangle(r, r.Contains(mouse) ? Color.Gold : Color.RayWhite);
-                Gfx.DrawCircle(c, c.Contains(mouse) ? Color.Gold : Color.RayWhite);
-                Gfx.DrawRay(ray, Color.RayWhite);
-                Gfx.DrawTriangle(t, t.Contains(mouse) ? Color.Gold : Color.RayWhite);
-                Gfx.DrawPolygon(poly, poly.Contains(mouse) ? Color.Gold : Color.RayWhite);
+                
+                Gfx.DrawRectangle(r, G2d.Contains(r, mouse) ? Color.Gold : Color.RayWhite);
+                Gfx.DrawPoint(r.Middle, Color.RayWhite);
+
+                Gfx.DrawCircle(c, G2d.Contains(c, mouse) ? Color.Gold : Color.RayWhite);
+                Gfx.DrawPoint(c.Position, Color.RayWhite);
+                                
+                Gfx.DrawTriangle(t, G2d.Contains(t, mouse) ? Color.Gold : Color.RayWhite);
+                Gfx.DrawPoint(t.Center(), Color.RayWhite);
+                
+                Gfx.DrawPolygon(poly, G2d.Contains(poly, mouse) ? Color.Gold : Color.RayWhite);
+                Gfx.DrawPoint(poly.Center(), Color.RayWhite);
+
+                #endregion Draw Static Shapes
 
                 #region Mouse Shape Intersections
 
-                var interLine = l.Intersects(mouse);
-                foreach (var intersection in interLine) 
+                var interLine = G2d.Intersects(l, mouse);
+                foreach (var intersection in interLine)
                     Gfx.DrawCircle(new Circle(intersection, 3), Color.Green);
 
-                var interRect = r.Intersects(mouse);
+                var interRect = G2d.Intersects(r, mouse);
                 foreach (var intersection in interRect)
                     Gfx.DrawCircle(new Circle(intersection, 3), Color.Green);
 
-                var interCircle = c.Intersects(mouse);
+                var interCircle = G2d.Intersects(c, mouse);
                 foreach (var intersection in interCircle)
                     Gfx.DrawCircle(new Circle(intersection, 3), Color.Green);
 
-                var interTriangle = t.Intersects(mouse);
+                var interTriangle = G2d.Intersects(t, mouse);
                 foreach (var intersection in interTriangle)
                     Gfx.DrawCircle(new Circle(intersection, 3), Color.Green);
 
-                var interPoly = poly.Intersects(mouse);
+                var interPoly = G2d.Intersects(poly, mouse);
                 foreach (var intersection in interPoly)
                     Gfx.DrawCircle(new Circle(intersection, 3), Color.Green);
 
@@ -133,39 +158,42 @@ internal class Program
 
                 #region Ray Intersections
 
-                var rayInterLine = ray.Intersects(l);
-                foreach (var intersection in rayInterLine)
-                    Gfx.DrawCircle(new Circle(intersection, 3), Color.Blue);
+                if (mouse is Ray ray)
+                {
+                    Gfx.DrawRay(ray, Color.RayWhite);
 
-                var rayInterRect = ray.Intersects(r);
-                foreach (var intersection in rayInterRect)
-                    Gfx.DrawCircle(new Circle(intersection, 3), Color.Blue);
+                    var rayInterLine = ray.Intersects(l);
+                    foreach (var intersection in rayInterLine)
+                        Gfx.DrawCircle(new Circle(intersection, 3), Color.Green);
 
-                var rayInterCircle = ray.Intersects(c);
-                foreach (var intersection in rayInterCircle)
-                    Gfx.DrawCircle(new Circle(intersection, 3), Color.Blue);
+                    var rayInterRect = ray.Intersects(r);
+                    foreach (var intersection in rayInterRect)
+                        Gfx.DrawCircle(new Circle(intersection, 3), Color.Green);
 
-                var rayInterTriangle = ray.Intersects(t);
-                foreach (var intersection in rayInterTriangle)
-                    Gfx.DrawCircle(new Circle(intersection, 3), Color.Blue);
+                    var rayInterCircle = ray.Intersects(c);
+                    foreach (var intersection in rayInterCircle)
+                        Gfx.DrawCircle(new Circle(intersection, 3), Color.Green);
 
-                var rayInterPoly = ray.Intersects(poly);
-                foreach (var intersection in rayInterPoly)
-                    Gfx.DrawCircle(new Circle(intersection, 3), Color.Blue);
+                    var rayInterTriangle = ray.Intersects(t);
+                    foreach (var intersection in rayInterTriangle)
+                        Gfx.DrawCircle(new Circle(intersection, 3), Color.Green);
+
+                    var rayInterPoly = ray.Intersects(poly);
+                    foreach (var intersection in rayInterPoly)
+                        Gfx.DrawCircle(new Circle(intersection, 3), Color.Green);
+                }
 
                 #endregion Ray Intersections
 
-                #region Mouse Shape Closest
+                #region Mouse Point Closest
 
                 Gfx.DrawCircle(new Circle(G2d.Closest(mousePoint, l), 2), Color.Red, true);
                 Gfx.DrawCircle(new Circle(G2d.Closest(mousePoint, r), 2), Color.Red, true);                
                 Gfx.DrawCircle(new Circle(G2d.Closest(mousePoint, t), 2), Color.Red, true);
-                Gfx.DrawCircle(new Circle(G2d.Closest(mousePoint, poly), 2), Color.Red, true);
-                //Gfx.DrawCircle(new Circle(G2d.Closest(mousePoint, ray), 2), Color.Red, true);
+                Gfx.DrawCircle(new Circle(G2d.Closest(mousePoint, poly), 2), Color.Red, true);                
                 Gfx.DrawCircle(new Circle(G2d.Closest(mousePoint, c), 2), Color.Red, true);
 
-
-                #endregion Mouse Shape Closest
+                #endregion Mouse Point Closest
             }
             catch
             {
@@ -201,5 +229,55 @@ internal class Program
         //
 
         Raylib.CloseWindow();        // Close window and OpenGL context
+    }
+
+    private static void UpdateMouse(System.Numerics.Vector2 mouse, Vector2 mousePoint, IShape mouseShape, int screenScale)
+    {                
+        var mx = (mouse.X / screenScale);
+        var my = (mouse.Y / screenScale);
+
+        mousePoint.X = mx;
+        mousePoint.Y = my;
+
+        switch (mouseShape)
+        {
+            case Vector2 v:                
+                v.X = mx;
+                v.Y = my;
+                break;
+            case Line l:                
+                l.Start.X = mx;
+                l.Start.Y = my;
+                l.End.X = mx + 50.0f;
+                l.End.Y = my + 35.0f;
+                break;
+            case Rectangle r:
+                r.Position.X = mx - 25.0f;
+                r.Position.Y = my - 15.0f;
+                r.Size.X = 50.0f;
+                r.Size.Y = 30.0f;                
+                break;
+            case Circle c:
+                c.Position.X = mx;
+                c.Position.Y = my;
+                c.Radius = 25.0f;                
+                break;
+            case Triangle t:                                
+                t.Vertices[0].X = mx;
+                t.Vertices[0].Y = my - 15.0f;
+                t.Vertices[1].X = mx + 15.0f;
+                t.Vertices[1].Y = my + 15.0f;
+                t.Vertices[2].X = mx - 15.0f;
+                t.Vertices[2].Y = my + 15.0f;
+                break;
+            case Polygon poly:
+                poly.BuildRegularPolygon(new Vector2(mx, my), 5, 25.0f);
+                break;
+            case Ray ray:                
+                ray.Origin.X = 0;
+                ray.Origin.Y = 0;
+                ray.Direction = new Vector2(mx, my).Normal();
+                break;
+        }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Geometry2d.Lib.Primitives
 {
-    public class Circle
+    public class Circle : IShape
     {
         #region ctor
 

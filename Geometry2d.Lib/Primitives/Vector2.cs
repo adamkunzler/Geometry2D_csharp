@@ -1,6 +1,9 @@
 ﻿namespace Geometry2d.Lib.Primitives
-{    
-    public class Vector2
+{
+    public interface IShape { }
+
+
+    public class Vector2 : IShape
     {
         #region ctor
 

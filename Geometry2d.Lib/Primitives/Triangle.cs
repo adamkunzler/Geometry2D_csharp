@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Geometry2d.Lib.Primitives
 {
-    public class Triangle
+    public class Triangle : IShape
     {
         #region ctor
 
@@ -109,6 +109,14 @@ namespace Geometry2d.Lib.Primitives
         public Line Side(int index) => Side(this, index);
 
         public List<Line> Sides => new List<Line> { Side(0), Side(1), Side(2) };
+
+        public static Vector2 Center(Triangle t)
+        {
+            var center = (t.Vertices[0] + t.Vertices[1] + t.Vertices[2]) / 3.0f;
+            return center;
+        }
+
+        public Vector2 Center() => Center(this);
 
         #endregion Triangle Properties
     }

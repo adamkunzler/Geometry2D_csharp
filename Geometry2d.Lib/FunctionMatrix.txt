@@ -2,9 +2,12 @@ Contains	- returns true if the first object wholly contains the second object
 Intersects 	- return list of intersection points between two objects
 Closest 	- returns closest point of the second object to the first object
 Overlaps	- returns true if the first object overlaps the second object in any way
-Collision
-Project (RAY)
+Collision	- returns the point and normal where a ray collides with shape
+Project
 Reflect (RAY)
+
+BoundingBox
+BoundingCircle
 
 A => lhs
 B => rhs

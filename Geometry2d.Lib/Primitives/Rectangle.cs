@@ -1,6 +1,6 @@
 ﻿namespace Geometry2d.Lib.Primitives
 {
-    public class Rectangle
+    public class Rectangle : IShape
     {
         #region ctor
 

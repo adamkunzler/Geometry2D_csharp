@@ -2,7 +2,7 @@
 
 namespace Geometry2d.Lib.Primitives
 {
-    public class Line
+    public class Line : IShape
     {
         #region ctor
 

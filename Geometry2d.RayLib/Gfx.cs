@@ -7,6 +7,20 @@ namespace Geometry2d.RayLib
 {
     public static class Gfx
     {
+        public static void DrawShape(IShape shape, Color color, bool fill = false)
+        {
+            switch (shape)
+            {
+                case Vector2 v: DrawPoint(v, color); break;
+                case Line l: DrawLine(l, color); break;
+                case Rectangle r: DrawRectangle(r, color, fill); break;
+                case Circle c: DrawCircle(c, color, fill); break;
+                case Triangle t: DrawTriangle(t, color, fill); break;
+                case Polygon poly: DrawPolygon(poly, color, fill); break;
+                case Ray ray: DrawRay(ray, color); break;                
+            }
+        }
+
         public static void DrawPoint(Vector2 p, Color color)
         {
             Raylib.DrawPixel((int)p.X, (int)p.Y, color);

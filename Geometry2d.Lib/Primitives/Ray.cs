@@ -1,6 +1,6 @@
 ﻿namespace Geometry2d.Lib.Primitives
 {
-    public class Ray
+    public class Ray : IShape
     {
         #region ctor
 

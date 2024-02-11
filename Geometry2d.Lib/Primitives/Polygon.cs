@@ -1,6 +1,6 @@
 ﻿namespace Geometry2d.Lib.Primitives
 {
-    public class Polygon
+    public class Polygon : IShape
     {
         #region ctor
 
@@ -128,11 +128,27 @@
             return sides;
         }
 
+        public static Vector2 Center(Polygon p)
+        {
+            var center = new Vector2();
+
+            for(var i =0; i < p.NumSides(); i++)
+            {
+                center += p.Vertices[i];
+            }
+
+            center /= p.NumSides();
+
+            return center;
+        }
+
+        public Vector2 Center() => Center(this);
+
         #endregion Polygon Properties
 
         #region Private Methods
 
-        private void BuildRegularPolygon(Vector2 center, int numSides, float radius)
+        public void BuildRegularPolygon(Vector2 center, int numSides, float radius)
         {
             Vertices = new List<Vector2>();
             

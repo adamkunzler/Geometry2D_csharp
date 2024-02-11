@@ -82,9 +82,8 @@ namespace Geometry2d.Lib.Utils
             if (t < 0) return rhs.Start;
             if (t > 1) return rhs.End;
 
-            var closestX = rhs.Start.X + t * ab.X;
-            var closestY = rhs.Start.Y + t * ab.Y;
-            return new Vector2(closestX, closestY);
+            var closest = rhs.Start + (t * ab);            
+            return closest;
         }
 
         /// <summary>
@@ -108,6 +107,7 @@ namespace Geometry2d.Lib.Utils
         /// </summary>        
         public static Vector2 Closest(Circle lhs, Line rhs)
         {
+            // 937
             throw new NotImplementedException();
         }
 
@@ -215,6 +215,7 @@ namespace Geometry2d.Lib.Utils
         /// </summary>        
         public static Vector2 Closest(Line lhs, Circle rhs)
         {
+            //914
             throw new NotImplementedException();
         }
 

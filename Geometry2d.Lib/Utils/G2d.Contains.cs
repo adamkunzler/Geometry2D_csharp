@@ -5,6 +5,105 @@ namespace Geometry2d.Lib.Utils
 {
     public static partial class G2d
     {
+        public static bool Contains(IShape lhs, IShape rhs)
+        {
+            switch (lhs)
+            {
+                case Vector2 v:
+                    switch (rhs)
+                    {
+                        case Vector2 v2: return Contains(v, v2);
+                        //case Line l2: return Contains(v, l2);
+                        //case Rectangle r2: return Contains(v, r2);
+                        //case Circle c2: return Contains(v, c2);
+                        //case Triangle t2: return Contains(v, t2);
+                        //case Polygon poly2: return Contains(v, poly2);
+                        //case Ray ray2: return Contains(v, ray2);
+                        default: return false;
+                    }                    
+                    
+                case Line l:
+                    switch (rhs)
+                    {
+                        case Vector2 v2: return Contains(l, v2);
+                        case Line l2: return Contains(l, l2);
+                        //case Rectangle r2: return Contains(l, r2);
+                        //case Circle c2: return Contains(l, c2);
+                        //case Triangle t2: return Contains(l, t2);
+                        //case Polygon poly2: return Contains(l, poly2);
+                        //case Ray ray2: return Contains(l, ray2);
+                        default: return false;
+                    }
+
+                case Rectangle r:
+                    switch (rhs)
+                    {
+                        case Vector2 v2: return Contains(r, v2);
+                        case Line l2: return Contains(r, l2);
+                        case Rectangle r2: return Contains(r, r2);
+                        case Circle c2: return Contains(r, c2);
+                        case Triangle t2: return Contains(r, t2);
+                        case Polygon poly2: return Contains(r, poly2);
+                        //case Ray ray2: return Contains(r, ray2);
+                        default: return false;
+                    }
+
+                case Circle c:
+                    switch (rhs)
+                    {
+                        case Vector2 v2: return Contains(c, v2);
+                        case Line l2: return Contains(c, l2);
+                        case Rectangle r2: return Contains(c, r2);
+                        case Circle c2: return Contains(c, c2);
+                        case Triangle t2: return Contains(c, t2);
+                        case Polygon poly2: return Contains(c, poly2);
+                        //case Ray ray2: return Contains(c, ray2);
+                        default: return false;
+                    }
+
+                case Triangle t:
+                    switch (rhs)
+                    {
+                        case Vector2 v2: return Contains(t, v2);
+                        case Line l2: return Contains(t, l2);
+                        case Rectangle r2: return Contains(t, r2);
+                        case Circle c2: return Contains(t, c2);
+                        case Triangle t2: return Contains(t, t2);
+                        case Polygon poly2: return Contains(t, poly2);
+                        //case Ray ray2: return Contains(t, ray2);
+                        default: return false;
+                    }
+
+                case Polygon poly:
+                    switch (rhs)
+                    {
+                        case Vector2 v2: return Contains(poly, v2);
+                        case Line l2: return Contains(poly, l2);
+                        case Rectangle r2: return Contains(poly, r2);
+                        case Circle c2: return Contains(poly, c2);
+                        case Triangle t2: return Contains(poly, t2);
+                        case Polygon poly2: return Contains(poly, poly2);
+                        //case Ray ray2: return Contains(poly, ray2);
+                        default: return false;
+                    }
+
+                case Ray ray:
+                    switch (rhs)
+                    {
+                        case Vector2 v2: return Contains(ray, v2);
+                        case Line l2: return Contains(ray, l2);
+                        //case Rectangle r2: return Contains(ray, r2);
+                        //case Circle c2: return Contains(ray, c2);
+                        //case Triangle t2: return Contains(ray, t2);
+                        //case Polygon poly2: return Contains(ray, poly2);
+                        //case Ray ray2: return Contains(ray, ray2);
+                        default: return false;
+                    }
+                default:
+                    return false;
+            }            
+        }
+
         #region [Shape] CONTAINS Point
 
         /// <summary>
