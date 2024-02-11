@@ -43,27 +43,12 @@
 
         #region Equality
 
-        public static bool operator ==(Vector2 a, Vector2 b)
+        public static bool AreEqual(Vector2 lhs, Vector2 rhs)
         {
-            return a.X == b.X && a.Y == b.Y;
+            return (lhs.X == rhs.X && lhs.Y == rhs.Y);
         }
 
-        public static bool operator !=(Vector2 a, Vector2 b)
-        {
-            return a.X != b.X || a.Y != b.Y;
-        }
-
-        public override bool Equals(object? obj)
-        {
-            if (obj == null) return false;
-
-            return this == (obj as Vector2)!;
-        }
-
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
+        public bool AreEqual(Vector2 rhs) => AreEqual(this, rhs);
 
         #endregion Equality
 

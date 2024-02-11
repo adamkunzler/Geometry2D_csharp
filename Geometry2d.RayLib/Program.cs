@@ -19,7 +19,7 @@ internal class Program
         var mousePoint = new Vector2();
 
         var p = new Vector2(50.0f, 50.0f);
-        var l = new Line(10.0f, 10.0f, 75.0f, 150.0f);
+        var l = new Line(23.0f, 120.0f, 103.0f, 157.0f);
         var r = new Rectangle(20.0f, 20.0f, 200.0f, 80.0f);
         var c = new Circle(200.0f, 200.0f, 35.0f);        
         var t = new Triangle(130.0f, 150.0f, 160.0f, 240.0f, 25.0f, 245.0f);
@@ -157,8 +157,11 @@ internal class Program
 
                 #region Mouse Shape Closest
 
-                if(mouse is Line ml)
-                    Gfx.DrawCircle(new Circle(G2d.Closest(ml, l), 3), Color.Blue);
+                Gfx.DrawCircle(new Circle(G2d.Closest(mouse, l), 3), Color.Blue);
+                Gfx.DrawCircle(new Circle(G2d.Closest(mouse, r), 3), Color.Blue);
+                Gfx.DrawCircle(new Circle(G2d.Closest(mouse, c), 3), Color.Blue);
+                Gfx.DrawCircle(new Circle(G2d.Closest(mouse, t), 3), Color.Blue);
+                Gfx.DrawCircle(new Circle(G2d.Closest(mouse, poly), 3), Color.Blue);
 
                 #endregion Mouse Shape Closest
 
@@ -168,23 +171,23 @@ internal class Program
                 {
                     Gfx.DrawRay(ray, Color.RayWhite);
 
-                    var rayInterLine = ray.Intersects(l);
+                    var rayInterLine = G2d.Intersects(ray, l);
                     foreach (var intersection in rayInterLine)
                         Gfx.DrawCircle(new Circle(intersection, 3), Color.Green);
 
-                    var rayInterRect = ray.Intersects(r);
+                    var rayInterRect = G2d.Intersects(ray, r);
                     foreach (var intersection in rayInterRect)
                         Gfx.DrawCircle(new Circle(intersection, 3), Color.Green);
 
-                    var rayInterCircle = ray.Intersects(c);
+                    var rayInterCircle = G2d.Intersects(ray, c);
                     foreach (var intersection in rayInterCircle)
                         Gfx.DrawCircle(new Circle(intersection, 3), Color.Green);
 
-                    var rayInterTriangle = ray.Intersects(t);
+                    var rayInterTriangle = G2d.Intersects(ray, t);
                     foreach (var intersection in rayInterTriangle)
                         Gfx.DrawCircle(new Circle(intersection, 3), Color.Green);
 
-                    var rayInterPoly = ray.Intersects(poly);
+                    var rayInterPoly = G2d.Intersects(ray, poly);
                     foreach (var intersection in rayInterPoly)
                         Gfx.DrawCircle(new Circle(intersection, 3), Color.Green);
                 }

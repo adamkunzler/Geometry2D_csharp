@@ -8,101 +8,87 @@ namespace Geometry2d.Lib.Utils
 
         public static List<Vector2> Intersects(IShape lhs, IShape rhs)
         {
-            switch (lhs)
+            return lhs switch
             {
-                case Vector2 v:
-                    switch (rhs)
-                    {
-                        case Vector2 v2: return Intersects(v, v2);
-                        case Line l2: return Intersects(v, l2);
-                        case Rectangle r2: return Intersects(v, r2);
-                        case Circle c2: return Intersects(v, c2);
-                        case Triangle t2: return Intersects(v, t2);
-                        case Polygon poly2: return Intersects(v, poly2);
-                        case Ray ray2: return Intersects(v, ray2);
-                        default: return new List<Vector2>();
-                    }
-
-                case Line l:
-                    switch (rhs)
-                    {
-                        case Vector2 v2: return Intersects(l, v2);
-                        case Line l2: return Intersects(l, l2);
-                        case Rectangle r2: return Intersects(l, r2);
-                        case Circle c2: return Intersects(l, c2);
-                        case Triangle t2: return Intersects(l, t2);
-                        case Polygon poly2: return Intersects(l, poly2);
-                        case Ray ray2: return Intersects(l, ray2);
-                        default: return new List<Vector2>();
-                    }
-
-                case Rectangle r:
-                    switch (rhs)
-                    {
-                        case Vector2 v2: return Intersects(r, v2);
-                        case Line l2: return Intersects(r, l2);
-                        case Rectangle r2: return Intersects(r, r2);
-                        case Circle c2: return Intersects(r, c2);
-                        case Triangle t2: return Intersects(r, t2);
-                        case Polygon poly2: return Intersects(r, poly2);
-                        case Ray ray2: return Intersects(r, ray2);
-                        default: return new List<Vector2>();
-                    }
-
-                case Circle c:
-                    switch (rhs)
-                    {
-                        case Vector2 v2: return Intersects(c, v2);
-                        case Line l2: return Intersects(c, l2);
-                        case Rectangle r2: return Intersects(c, r2);
-                        case Circle c2: return Intersects(c, c2);
-                        case Triangle t2: return Intersects(c, t2);
-                        case Polygon poly2: return Intersects(c, poly2);
-                        case Ray ray2: return Intersects(c, ray2);
-                        default: return new List<Vector2>();
-                    }
-
-                case Triangle t:
-                    switch (rhs)
-                    {
-                        case Vector2 v2: return Intersects(t, v2);
-                        case Line l2: return Intersects(t, l2);
-                        case Rectangle r2: return Intersects(t, r2);
-                        case Circle c2: return Intersects(t, c2);
-                        case Triangle t2: return Intersects(t, t2);
-                        case Polygon poly2: return Intersects(t, poly2);
-                        case Ray ray2: return Intersects(t, ray2);
-                        default: return new List<Vector2>();
-                    }
-
-                case Polygon poly:
-                    switch (rhs)
-                    {
-                        case Vector2 v2: return Intersects(poly, v2);
-                        case Line l2: return Intersects(poly, l2);
-                        case Rectangle r2: return Intersects(poly, r2);
-                        case Circle c2: return Intersects(poly, c2);
-                        case Triangle t2: return Intersects(poly, t2);
-                        case Polygon poly2: return Intersects(poly, poly2);
-                        case Ray ray2: return Intersects(poly, ray2);
-                        default: return new List<Vector2>();
-                    }
-
-                case Ray ray:
-                    switch (rhs)
-                    {
-                        case Vector2 v2: return Intersects(ray, v2);
-                        case Line l2: return Intersects(ray, l2);
-                        case Rectangle r2: return Intersects(ray, r2);
-                        case Circle c2: return Intersects(ray, c2);
-                        case Triangle t2: return Intersects(ray, t2);
-                        case Polygon poly2: return Intersects(ray, poly2);
-                        case Ray ray2: return Intersects(ray, ray2);
-                        default: return new List<Vector2>();
-                    }
-                default:
-                    return new List<Vector2>();
-            }
+                Vector2 v => rhs switch
+                {
+                    Vector2 v2 => Intersects(v, v2),
+                    Line l2 => Intersects(v, l2),
+                    Rectangle r2 => Intersects(v, r2),
+                    Circle c2 => Intersects(v, c2),
+                    Triangle t2 => Intersects(v, t2),
+                    Polygon poly2 => Intersects(v, poly2),
+                    Ray ray2 => Intersects(v, ray2),
+                    _ => new List<Vector2>(),
+                },
+                Line l => rhs switch
+                {
+                    Vector2 v2 => Intersects(l, v2),
+                    Line l2 => Intersects(l, l2),
+                    Rectangle r2 => Intersects(l, r2),
+                    Circle c2 => Intersects(l, c2),
+                    Triangle t2 => Intersects(l, t2),
+                    Polygon poly2 => Intersects(l, poly2),
+                    Ray ray2 => Intersects(l, ray2),
+                    _ => new List<Vector2>(),
+                },
+                Rectangle r => rhs switch
+                {
+                    Vector2 v2 => Intersects(r, v2),
+                    Line l2 => Intersects(r, l2),
+                    Rectangle r2 => Intersects(r, r2),
+                    Circle c2 => Intersects(r, c2),
+                    Triangle t2 => Intersects(r, t2),
+                    Polygon poly2 => Intersects(r, poly2),
+                    Ray ray2 => Intersects(r, ray2),
+                    _ => new List<Vector2>(),
+                },
+                Circle c => rhs switch
+                {
+                    Vector2 v2 => Intersects(c, v2),
+                    Line l2 => Intersects(c, l2),
+                    Rectangle r2 => Intersects(c, r2),
+                    Circle c2 => Intersects(c, c2),
+                    Triangle t2 => Intersects(c, t2),
+                    Polygon poly2 => Intersects(c, poly2),
+                    Ray ray2 => Intersects(c, ray2),
+                    _ => new List<Vector2>(),
+                },
+                Triangle t => rhs switch
+                {
+                    Vector2 v2 => Intersects(t, v2),
+                    Line l2 => Intersects(t, l2),
+                    Rectangle r2 => Intersects(t, r2),
+                    Circle c2 => Intersects(t, c2),
+                    Triangle t2 => Intersects(t, t2),
+                    Polygon poly2 => Intersects(t, poly2),
+                    Ray ray2 => Intersects(t, ray2),
+                    _ => new List<Vector2>(),
+                },
+                Polygon poly => rhs switch
+                {
+                    Vector2 v2 => Intersects(poly, v2),
+                    Line l2 => Intersects(poly, l2),
+                    Rectangle r2 => Intersects(poly, r2),
+                    Circle c2 => Intersects(poly, c2),
+                    Triangle t2 => Intersects(poly, t2),
+                    Polygon poly2 => Intersects(poly, poly2),
+                    Ray ray2 => Intersects(poly, ray2),
+                    _ => new List<Vector2>(),
+                },
+                Ray ray => rhs switch
+                {
+                    Vector2 v2 => Intersects(ray, v2),
+                    Line l2 => Intersects(ray, l2),
+                    Rectangle r2 => Intersects(ray, r2),
+                    Circle c2 => Intersects(ray, c2),
+                    Triangle t2 => Intersects(ray, t2),
+                    Polygon poly2 => Intersects(ray, poly2),
+                    Ray ray2 => Intersects(ray, ray2),
+                    _ => new List<Vector2>(),
+                },
+                _ => new List<Vector2>(),
+            };
         }
 
         #endregion IShape INTERSECTS IShape

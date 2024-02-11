@@ -30,6 +30,14 @@ namespace Geometry2d.Lib.Primitives
             return $"[{Start}, {End}]";
         }
 
+        public static bool AreEqual(Line lhs, Line rhs)
+        {
+            return (Vector2.AreEqual(lhs.Start, rhs.Start) && Vector2.AreEqual(lhs.End, rhs.End)) ||
+                   (Vector2.AreEqual(lhs.Start, rhs.End) && Vector2.AreEqual(lhs.End, rhs.Start));
+        }
+
+        public bool AreEqual(Line rhs) => AreEqual(this, rhs);
+
         #endregion ctor
 
         #region Line Properties
@@ -131,6 +139,10 @@ namespace Geometry2d.Lib.Primitives
         /// returns float.PositiveInfinity if line is vertical
         /// </summary>        
         public Vector2 Coefficients() => Coefficients(this);
+
+        public static List<Vector2> Endpoints(Line line) => new List<Vector2>{ line.Start, line.End };
+
+        public List<Vector2> Endpoints() => Endpoints(this);
 
         #endregion Line Properties
     }       
