@@ -2,7 +2,6 @@
 // https://github.com/ChrisDill/Raylib-cs
 // dotnet add package Raylib-cs
 
-using Geometry2d.Lib.Extensions;
 using Geometry2d.Lib.Primitives;
 using Geometry2d.Lib.Utils;
 using Geometry2d.RayLib;
@@ -156,6 +155,13 @@ internal class Program
 
                 #endregion Mouse Shape Intersections
 
+                #region Mouse Shape Closest
+
+                if(mouse is Line ml)
+                    Gfx.DrawCircle(new Circle(G2d.Closest(ml, l), 3), Color.Blue);
+
+                #endregion Mouse Shape Closest
+
                 #region Ray Intersections
 
                 if (mouse is Ray ray)
@@ -246,10 +252,10 @@ internal class Program
                 v.Y = my;
                 break;
             case Line l:                
-                l.Start.X = mx;
-                l.Start.Y = my;
-                l.End.X = mx + 50.0f;
-                l.End.Y = my + 35.0f;
+                l.Start.X = mx - 25.0f;
+                l.Start.Y = my - 17.5f;
+                l.End.X = mx + 25.0f;
+                l.End.Y = my + 17.5f;
                 break;
             case Rectangle r:
                 r.Position.X = mx - 25.0f;

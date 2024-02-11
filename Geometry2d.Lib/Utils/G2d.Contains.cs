@@ -1,10 +1,11 @@
-﻿using Geometry2d.Lib.Extensions;
-using Geometry2d.Lib.Primitives;
+﻿using Geometry2d.Lib.Primitives;
 
 namespace Geometry2d.Lib.Utils
 {
     public static partial class G2d
     {
+        #region IShape CONTAINS IShape
+
         public static bool Contains(IShape lhs, IShape rhs)
         {
             switch (lhs)
@@ -103,6 +104,8 @@ namespace Geometry2d.Lib.Utils
                     return false;
             }            
         }
+
+        #endregion IShape CONTAINS IShape
 
         #region [Shape] CONTAINS Point
 
@@ -272,7 +275,7 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static bool Contains(Line l, Line other)
         {
-            return l.Contains(other.Start) && l.Contains(other.End);
+            return Contains(l, other.Start) && Contains(l, other.End);
         }
 
         /// <summary>
@@ -280,7 +283,7 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static bool Contains(Rectangle r, Line other)
         {
-            return r.Contains(other.Start) && r.Contains(other.End);
+            return Contains(r, other.Start) && Contains(r, other.End);
         }
 
         /// <summary>
@@ -288,7 +291,7 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static bool Contains(Circle c, Line other)
         {
-            return c.Contains(other.Start) && c.Contains(other.End);
+            return Contains(c, other.Start) && Contains(c, other.End);
         }
 
         /// <summary>
@@ -296,7 +299,7 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static bool Contains(Triangle t, Line other)
         {
-            return t.Contains(other.Start) && t.Contains(other.End);
+            return Contains(t, other.Start) && Contains(t, other.End);
         }
 
         /// <summary>
@@ -305,8 +308,8 @@ namespace Geometry2d.Lib.Utils
         public static bool Contains(Polygon p, Line other)
         {
             // contains both points and no intersection points
-            var contains = p.Contains(other.Start) && p.Contains(other.End);
-            var intersections = p.Intersects(other);
+            var contains = Contains(p, other.Start) && Contains(p, other.End);
+            var intersections = Intersects(p, other);
 
             return contains && intersections.Count == 0;
         }
@@ -316,7 +319,7 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static bool Contains(Ray r, Line other)
         {
-            return r.Contains(other.Start) && r.Contains(other.End);
+            return Contains(r, other.Start) && Contains(r, other.End);
         }
 
         #endregion [Shape] CONTAINS Line
@@ -328,8 +331,8 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static bool Contains(Rectangle r, Rectangle other)
         {
-            return r.Contains(other.TopLeft) && r.Contains(other.TopRight) &&
-                   r.Contains(other.BottomLeft) && r.Contains(other.BottomRight);
+            return Contains(r, other.TopLeft) && Contains(r, other.TopRight) &&
+                   Contains(r, other.BottomLeft) && Contains(r, other.BottomRight);
         }
 
         /// <summary>
@@ -337,8 +340,8 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static bool Contains(Circle c, Rectangle other)
         {
-            return c.Contains(other.TopLeft) && c.Contains(other.TopRight) &&
-                   c.Contains(other.BottomLeft) && c.Contains(other.BottomRight);
+            return Contains(c, other.TopLeft) && Contains(c, other.TopRight) &&
+                   Contains(c, other.BottomLeft) && Contains(c, other.BottomRight);
         }
 
         /// <summary>
@@ -346,8 +349,8 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static bool Contains(Triangle t, Rectangle other)
         {
-            return t.Contains(other.TopLeft) && t.Contains(other.TopRight) &&
-                   t.Contains(other.BottomLeft) && t.Contains(other.BottomRight);
+            return Contains(t, other.TopLeft) && Contains(t, other.TopRight) &&
+                   Contains(t, other.BottomLeft) && Contains(t, other.BottomRight);
         }
 
         /// <summary>
@@ -355,8 +358,8 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static bool Contains(Polygon p, Rectangle other)
         {
-            return p.Contains(other.Top) && p.Contains(other.Bottom) &&
-                   p.Contains(other.Left) && p.Contains(other.Right);
+            return Contains(p, other.Top) && Contains(p, other.Bottom) &&
+                   Contains(p, other.Left) && Contains(p, other.Right);
                    
         }
 
@@ -394,7 +397,7 @@ namespace Geometry2d.Lib.Utils
         public static bool Contains(Triangle t, Circle other)
         {
             // check if center is in triangle
-            var isCenterContained = t.Contains(other.Position);
+            var isCenterContained = Contains(t, other.Position);
             if (!isCenterContained) return false;
 
             // check if distance from center to each side of triangle is greater than the radius
@@ -411,7 +414,7 @@ namespace Geometry2d.Lib.Utils
         public static bool Contains(Polygon p, Circle other)
         {
             // check if center is in polygon
-            var isCenterContained = p.Contains(other.Position);
+            var isCenterContained = Contains(p, other.Position);
             if(!isCenterContained) return false;
 
             // check if distance from center to each side of polygon is greater than the radius
@@ -433,7 +436,7 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static bool Contains(Rectangle r, Triangle other)
         {
-            return r.Contains(other.Vertices[0]) && r.Contains(other.Vertices[1]) && r.Contains(other.Vertices[2]);
+            return Contains(r, other.Vertices[0]) && Contains(r, other.Vertices[1]) && Contains(r, other.Vertices[2]);
         }
 
         /// <summary>
@@ -441,7 +444,7 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static bool Contains(Circle c, Triangle other)
         {
-            return c.Contains(other.Vertices[0]) && c.Contains(other.Vertices[1]) && c.Contains(other.Vertices[2]);
+            return Contains(c, other.Vertices[0]) && Contains(c, other.Vertices[1]) && Contains(c, other.Vertices[2]);
         }
 
         /// <summary>
@@ -449,7 +452,7 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static bool Contains(Triangle t, Triangle other)
         {
-            return t.Contains(other.Vertices[0]) && t.Contains(other.Vertices[1]) && t.Contains(other.Vertices[2]);
+            return Contains(t, other.Vertices[0]) && Contains(t, other.Vertices[1]) && Contains(t, other.Vertices[2]);
         }
 
         /// <summary>
@@ -457,7 +460,7 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static bool Contains(Polygon p, Triangle other)
         {
-            return p.Contains(other.Side(0)) && p.Contains(other.Side(1)) && p.Contains(other.Side(2));
+            return Contains(p, other.Side(0)) && Contains(p, other.Side(1)) && Contains(p, other.Side(2));
         }
 
         #endregion [Shape] CONTAINS Triangle
@@ -471,7 +474,7 @@ namespace Geometry2d.Lib.Utils
         {
             for(var i = 0; i < other.Vertices.Count; i++)
             {
-                if (!r.Contains(other.Vertices[i])) return false;
+                if (!Contains(r, other.Vertices[i])) return false;
             }
 
             return true;
@@ -484,7 +487,7 @@ namespace Geometry2d.Lib.Utils
         {
             for (var i = 0; i < other.Vertices.Count; i++)
             {
-                if (!c.Contains(other.Vertices[i])) return false;
+                if (!Contains(c, other.Vertices[i])) return false;
             }
 
             return true;
@@ -497,7 +500,7 @@ namespace Geometry2d.Lib.Utils
         {
             for (var i = 0; i < other.Vertices.Count; i++)
             {
-                if (!t.Contains(other.Vertices[i])) return false;
+                if (!Contains(t, other.Vertices[i])) return false;
             }
 
             return true;
@@ -510,7 +513,7 @@ namespace Geometry2d.Lib.Utils
         {
             for (var i = 0; i < other.Vertices.Count; i++)
             {
-                if (!p.Contains(other.Side(i))) return false;
+                if (!Contains(p, other.Side(i))) return false;
             }
 
             return true;

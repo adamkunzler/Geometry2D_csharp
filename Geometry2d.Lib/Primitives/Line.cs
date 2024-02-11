@@ -84,7 +84,7 @@ namespace Geometry2d.Lib.Primitives
         public float Length2() => Length2(this);
 
         /// <summary>
-        /// given a real distance, get a point along the line
+        /// given a real distance, get a point along the line (distance is percent along the line, e.g. 0.5 would be middle)
         /// </summary>        
         public static Vector2 RealPoint(Line line, float distance)
         {
@@ -97,7 +97,7 @@ namespace Geometry2d.Lib.Primitives
         public Vector2 RealPoint(float distance) => RealPoint(this, distance);
 
         /// <summary>
-        /// given a unit distance, get a point along the line
+        /// given a unit distance, get a point along the line (1 unit = length of line)
         /// </summary>        
         public static Vector2 UnitPoint(Line line, float distance)
         {

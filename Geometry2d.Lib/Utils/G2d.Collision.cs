@@ -1,5 +1,4 @@
-﻿using Geometry2d.Lib.Extensions;
-using Geometry2d.Lib.Primitives;
+﻿using Geometry2d.Lib.Primitives;
 
 namespace Geometry2d.Lib.Utils
 {

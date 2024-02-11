@@ -1,5 +1,4 @@
-﻿using Geometry2d.Lib.Extensions;
-using Geometry2d.Lib.Primitives;
+﻿using Geometry2d.Lib.Primitives;
 
 namespace Geometry2d.Lib.Utils
 {
@@ -87,11 +86,27 @@ namespace Geometry2d.Lib.Utils
         }
 
         /// <summary>
-        /// Return the closest point on a Line to a line
+        /// Return the closest point on a Line (rhs) to a line (lhs)
         /// </summary>        
         public static Vector2 Closest(Line lhs, Line rhs)
         {
-            throw new NotImplementedException();
+            // check for intersection
+            var intersections = Intersects(lhs, rhs);
+            if(intersections.Any()) return intersections[0];
+
+            // get closest point on line to start and end 
+            var p1 = Closest(lhs.Start, rhs);
+            var p2 = Closest(lhs.End, rhs);
+            
+            // calculate lenghths of closest point with the start and end
+            var d1 = (lhs.Start - p1).Magnitude();
+            var d2 = (lhs.End - p2).Magnitude();
+            
+            // return the closest one
+            var min = MathF.Min(d1, d2);
+            var closest = min == d1 ? p1 : p2;
+                          
+            return closest;
         }
 
         /// <summary>

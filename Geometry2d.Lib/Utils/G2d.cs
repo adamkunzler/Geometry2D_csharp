@@ -28,6 +28,9 @@ namespace Geometry2d.Lib.Utils
             return MathF.Sqrt(MathF.Pow(p.X - projX, 2.0f) + MathF.Pow(p.Y - projY, 2.0f));
         }
 
+        /// <summary>
+        /// Return the closest point on a line and closest line to a point (lhs) from a list of lines (rhs)
+        /// </summary>        
         public static (Vector2 Point, Line Line) Closest(Vector2 lhs, List<Line> rhs)
         {
             var minDistance = float.MaxValue;

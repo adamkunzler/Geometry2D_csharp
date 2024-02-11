@@ -1,10 +1,11 @@
-﻿using Geometry2d.Lib.Extensions;
-using Geometry2d.Lib.Primitives;
+﻿using Geometry2d.Lib.Primitives;
 
 namespace Geometry2d.Lib.Utils
 {
     public static partial class G2d
     {
+        #region IShape INTERSECTS IShape
+
         public static List<Vector2> Intersects(IShape lhs, IShape rhs)
         {
             switch (lhs)
@@ -104,6 +105,8 @@ namespace Geometry2d.Lib.Utils
             }
         }
 
+        #endregion IShape INTERSECTS IShape
+
         #region [Shape] INTERSECTS Point
 
         /// <summary>
@@ -113,7 +116,7 @@ namespace Geometry2d.Lib.Utils
         {
             var intersections = new List<Vector2>();
 
-            if (p.Contains(other)) intersections.Add(p);
+            if (Contains(p, other)) intersections.Add(p);
 
             return intersections;
         }
@@ -125,7 +128,7 @@ namespace Geometry2d.Lib.Utils
         {
             var intersections = new List<Vector2>();
 
-            if (l.Contains(other)) intersections.Add(other);
+            if (Contains(l, other)) intersections.Add(other);
 
             return intersections;
         }
@@ -139,7 +142,7 @@ namespace Geometry2d.Lib.Utils
 
             foreach (var side in r.Sides)
             {
-                if (side.Contains(other)) intersections.Add(other);
+                if (Contains(side, other)) intersections.Add(other);
             }
 
             return intersections;
@@ -168,7 +171,7 @@ namespace Geometry2d.Lib.Utils
 
             for (var i = 0; i < 3; i++)
             {
-                if (t.Side(i).Contains(other)) intersections.Add(other);
+                if (Contains(t.Side(i), other)) intersections.Add(other);
             }
 
             return intersections;
@@ -183,7 +186,7 @@ namespace Geometry2d.Lib.Utils
 
             for (var i = 0; i < p.NumSides(); i++)
             {
-                if (p.Side(i).Contains(other)) intersections.Add(other);
+                if (Contains(p.Side(i), other)) intersections.Add(other);
             }
 
             return intersections;
@@ -196,7 +199,7 @@ namespace Geometry2d.Lib.Utils
         {
             var intersections = new List<Vector2>();
 
-            if (r.Contains(other)) intersections.Add(other);
+            if (Contains(r, other)) intersections.Add(other);
 
             return intersections;
         }
@@ -212,7 +215,7 @@ namespace Geometry2d.Lib.Utils
         {
             var intersections = new List<Vector2>();
 
-            if (other.Contains(p)) intersections.Add(p);
+            if (Contains(other, p)) intersections.Add(p);
 
             return intersections;
         }
@@ -258,7 +261,7 @@ namespace Geometry2d.Lib.Utils
 
             foreach (var side in r.Sides)
             {
-                intersections.AddRange(side.Intersects(other));
+                intersections.AddRange(Intersects(side, other));
             }
 
             return intersections;
@@ -321,7 +324,7 @@ namespace Geometry2d.Lib.Utils
 
             foreach (var side in t.Sides)
             {
-                intersections.AddRange(side.Intersects(other));
+                intersections.AddRange(Intersects(side, other));
             }
 
             return intersections;
@@ -336,7 +339,7 @@ namespace Geometry2d.Lib.Utils
 
             for (var i = 0; i < p.NumSides(); i++)
             {
-                intersections.AddRange(p.Side(i).Intersects(other));
+                intersections.AddRange(Intersects(p.Side(i), other));
             }
 
             return intersections;
@@ -386,7 +389,7 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static List<Vector2> Intersects(Vector2 p, Rectangle other)
         {            
-            return other.Intersects(p);
+            return Intersects(other, p);
         }
 
         /// <summary>
@@ -394,7 +397,7 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static List<Vector2> Intersects(Line l, Rectangle other)
         {
-            return other.Intersects(l);
+            return Intersects(other, l);
         }
 
         /// <summary>
@@ -406,7 +409,7 @@ namespace Geometry2d.Lib.Utils
 
             foreach(var side in r.Sides)
             {
-                intersections.AddRange(side.Intersects(other));
+                intersections.AddRange(Intersects(side, other));
             }
 
             return intersections;
@@ -421,7 +424,7 @@ namespace Geometry2d.Lib.Utils
 
             foreach (var side in other.Sides)
             {
-                intersections.AddRange(c.Intersects(side));
+                intersections.AddRange(Intersects(c, side));
             }
 
             return intersections;
@@ -438,7 +441,7 @@ namespace Geometry2d.Lib.Utils
             {
                 foreach (var triSide in t.Sides)
                 {
-                    intersections.AddRange(rectSide.Intersects(triSide));
+                    intersections.AddRange(Intersects(rectSide, triSide));
                 }
             }
 
@@ -456,7 +459,7 @@ namespace Geometry2d.Lib.Utils
             {
                 for(var i = 0; i < p.NumSides(); i++)
                 {
-                    intersections.AddRange(rectSide.Intersects(p.Side(i)));
+                    intersections.AddRange(Intersects(rectSide, p.Side(i)));
                 }
             }
 
@@ -472,7 +475,7 @@ namespace Geometry2d.Lib.Utils
 
             foreach (var side in other.Sides)
             {
-                intersections.AddRange(r.Intersects(side));
+                intersections.AddRange(Intersects(r, side));
             }
 
             return intersections;
@@ -487,7 +490,7 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static List<Vector2> Intersects(Vector2 p, Circle other)
         {
-            return other.Intersects(p);
+            return Intersects(other, p);
         }
 
         /// <summary>
@@ -495,7 +498,7 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static List<Vector2> Intersects(Line l, Circle other)
         {
-            return other.Intersects(l);
+            return Intersects(other, l);
         }
 
         /// <summary>
@@ -507,7 +510,7 @@ namespace Geometry2d.Lib.Utils
 
             foreach (var side in r.Sides)
             {
-                intersections.AddRange(other.Intersects(side));
+                intersections.AddRange(Intersects(other, side));
             }
 
             return intersections;
@@ -564,7 +567,7 @@ namespace Geometry2d.Lib.Utils
             
             foreach (var triSide in t.Sides)
             {
-                intersections.AddRange(other.Intersects(triSide));
+                intersections.AddRange(Intersects(other, triSide));
             }            
 
             return intersections;
@@ -579,7 +582,7 @@ namespace Geometry2d.Lib.Utils
 
             for(var i = 0; i < p.NumSides(); i++)
             {
-                intersections.AddRange(other.Intersects(p.Side(i)));
+                intersections.AddRange(Intersects(other, p.Side(i)));
             }
 
             return intersections;
@@ -638,7 +641,7 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static List<Vector2> Intersects(Vector2 p, Triangle other)
         {
-            return other.Intersects(p);
+            return Intersects(other, p);
         }
 
         /// <summary>
@@ -646,7 +649,7 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static List<Vector2> Intersects(Line l, Triangle other)
         {
-            return other.Intersects(l);
+            return Intersects(other, l);
         }
 
         /// <summary>
@@ -654,7 +657,7 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static List<Vector2> Intersects(Rectangle r, Triangle other)
         {
-            return other.Intersects(r);
+            return Intersects(other, r);
         }
 
         /// <summary>
@@ -662,7 +665,7 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static List<Vector2> Intersects(Circle c, Triangle other)
         {
-            return other.Intersects(c);
+            return Intersects(other, c);
         }
 
         /// <summary>
@@ -674,7 +677,7 @@ namespace Geometry2d.Lib.Utils
 
             foreach(var side in t.Sides)
             {
-                intersections.AddRange(side.Intersects(other));
+                intersections.AddRange(Intersects(side, other));
             }
 
             return intersections;
@@ -689,7 +692,7 @@ namespace Geometry2d.Lib.Utils
 
             for(var i = 0; i < p.NumSides(); i++)
             {
-                intersections.AddRange(p.Side(i).Intersects(other));
+                intersections.AddRange(Intersects(p.Side(i), other));
             }
 
             return intersections;
@@ -704,7 +707,7 @@ namespace Geometry2d.Lib.Utils
 
             foreach(var side in other.Sides)
             {
-                intersections.AddRange(r.Intersects(side));
+                intersections.AddRange(Intersects(r, side));
             }
 
             return intersections;
@@ -719,7 +722,7 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static List<Vector2> Intersects(Vector2 p, Polygon other)
         {
-            return other.Intersects(p);
+            return Intersects(other, p);
         }
 
         /// <summary>
@@ -727,7 +730,7 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static List<Vector2> Intersects(Line l, Polygon other)
         {
-            return other.Intersects(l);
+            return Intersects(other, l);
         }
 
         /// <summary>
@@ -735,7 +738,7 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static List<Vector2> Intersects(Rectangle r, Polygon other)
         {
-            return other.Intersects(r);
+            return Intersects(other, r);
         }
 
         /// <summary>
@@ -743,7 +746,7 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static List<Vector2> Intersects(Circle c, Polygon other)
         {
-            return other.Intersects(c);
+            return Intersects(other, c);
         }
 
         /// <summary>
@@ -751,7 +754,7 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static List<Vector2> Intersects(Triangle t, Polygon other)
         {
-            return other.Intersects(t);
+            return Intersects(other, t);
         }
 
         /// <summary>
@@ -765,7 +768,7 @@ namespace Geometry2d.Lib.Utils
             {
                 for(int j = 0; j < other.NumSides(); j++)
                 {
-                    intersections.AddRange(p.Side(i).Intersects(other.Side(j)));
+                    intersections.AddRange(Intersects(p.Side(i), other.Side(j)));
                 }
             }
 
@@ -781,7 +784,7 @@ namespace Geometry2d.Lib.Utils
 
             for (int i = 0; i < other.NumSides(); i++)
             {
-                intersections.AddRange(r.Intersects(other.Side(i)));
+                intersections.AddRange(Intersects(r, other.Side(i)));
             }
             
             return intersections;
@@ -796,7 +799,7 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static List<Vector2> Intersects(Vector2 p, Ray other)
         {
-            return other.Intersects(p);
+            return Intersects(other, p);
         }
 
         /// <summary>
@@ -804,7 +807,7 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static List<Vector2> Intersects(Line l, Ray other)
         {
-            return other.Intersects(l);
+            return Intersects(other, l);
         }
 
         /// <summary>
@@ -812,7 +815,7 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static List<Vector2> Intersects(Rectangle r, Ray other)
         {
-            return other.Intersects(r);
+            return Intersects(other, r);
         }
 
         /// <summary>
@@ -820,7 +823,7 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static List<Vector2> Intersects(Circle c, Ray other)
         {
-            return other.Intersects(c);
+            return Intersects(other, c);
         }
 
         /// <summary>
@@ -828,7 +831,7 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static List<Vector2> Intersects(Triangle t, Ray other)
         {
-            return other.Intersects(t);
+            return Intersects(other, t);
         }
 
         /// <summary>
@@ -836,7 +839,7 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static List<Vector2> Intersects(Polygon p, Ray other)
         {
-            return other.Intersects(p);            
+            return Intersects(other, p);            
         }
 
         /// <summary>
