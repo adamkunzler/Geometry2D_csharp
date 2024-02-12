@@ -30,7 +30,7 @@ namespace Geometry2d.Lib.Utils
                     Circle c2 => Closest(l, c2),
                     Triangle t2 => Closest(l, t2),
                     Polygon poly2 => Closest(l, poly2),
-                    //case Ray ray2: return Closest(l, ray2);
+                    Ray ray2 => Closest(l, ray2),
                     _ => new Vector2(),
                 },
                 Rectangle r => rhs switch
@@ -80,7 +80,7 @@ namespace Geometry2d.Lib.Utils
                 Ray ray => rhs switch
                 {
                     Vector2 v2 => Closest(ray, v2),
-                    //case Line l2: return Closest(ray, l2);
+                    //Line l2 => Closest(ray, l2),
                     //case Rectangle r2: return Closest(ray, r2);
                     //case Circle c2: return Closest(ray, c2);
                     //case Triangle t2: return Closest(ray, t2);
@@ -656,7 +656,22 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static Vector2 Closest(Line lhs, Ray rhs)
         {
-            throw new NotImplementedException();
+            var intersections = Intersects(lhs, rhs);
+            if (intersections.Count != 0) return intersections.First();
+
+            var start = Closest(lhs.Start, rhs);
+            var startDist = (lhs.Start - start).Magnitude();
+
+            var end = Closest(lhs.End, rhs);
+            var endDist = (lhs.End - end).Magnitude();
+
+            var side = Closest(rhs.Origin, lhs);
+            var sideDist = (side - rhs.Origin).Magnitude();
+
+            var min = MathF.Min(startDist, MathF.Min(endDist, sideDist));
+            var closest = min == startDist ? start : 
+                          min == endDist ? end : rhs.Origin;
+            return closest;
         }
 
         /// <summary>

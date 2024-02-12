@@ -23,6 +23,7 @@ internal class Program
         var r = new Rectangle(120.0f, 120.0f, 200.0f, 80.0f);
         var c = new Circle(300.0f, 300.0f, 35.0f);        
         var t = new Triangle(130.0f, 235.0f, 212.0f, 338.0f, 66.0f, 306.0f);
+        var ray = new Ray(new Vector2(192.0f, 192.0f), new Vector2(1.0f, 0.5f));
         var poly = new Polygon
         (
             new Vector2(218.0f, 18.0f),
@@ -116,7 +117,7 @@ internal class Program
             {
                 #region Draw Static Shapes
 
-                Gfx.DrawLine(l, Color.RayWhite);
+                Gfx.DrawLine(l, G2d.Contains(l, mouse) ? Color.Gold : Color.RayWhite);
                 
                 Gfx.DrawRectangle(r, G2d.Contains(r, mouse) ? Color.Gold : Color.RayWhite);
                 Gfx.DrawPoint(r.Middle, Color.RayWhite);
@@ -129,6 +130,8 @@ internal class Program
                 
                 Gfx.DrawPolygon(poly, G2d.Contains(poly, mouse) ? Color.Gold : Color.RayWhite);
                 Gfx.DrawPoint(poly.Center(), Color.RayWhite);
+
+                Gfx.DrawRay(ray, G2d.Contains(ray, mouse) ? Color.Gold : Color.RayWhite);
 
                 #endregion Draw Static Shapes
 
@@ -154,56 +157,22 @@ internal class Program
                 foreach (var intersection in interPoly)
                     Gfx.DrawCircle(new Circle(intersection, 3), Color.Green);
 
+                var interRay = G2d.Intersects(ray, mouse);
+                foreach (var intersection in interRay)
+                    Gfx.DrawCircle(new Circle(intersection, 3), Color.Green);
+
                 #endregion Mouse Shape Intersections
 
                 #region Mouse Shape Closest
 
-                Gfx.DrawCircle(new Circle(G2d.Closest(mouse, l), 3), Color.Blue);
-                Gfx.DrawCircle(new Circle(G2d.Closest(mouse, r), 3), Color.Blue);
-                Gfx.DrawCircle(new Circle(G2d.Closest(mouse, c), 3), Color.Blue);
-                Gfx.DrawCircle(new Circle(G2d.Closest(mouse, t), 3), Color.Blue);
-                Gfx.DrawCircle(new Circle(G2d.Closest(mouse, poly), 3), Color.Blue);
+                Gfx.DrawCircle(new Circle(G2d.Closest(mouse, l), 2), Color.Blue, true);
+                Gfx.DrawCircle(new Circle(G2d.Closest(mouse, r), 2), Color.Blue, true);
+                Gfx.DrawCircle(new Circle(G2d.Closest(mouse, c), 2), Color.Blue, true);
+                Gfx.DrawCircle(new Circle(G2d.Closest(mouse, t), 2), Color.Blue, true);
+                Gfx.DrawCircle(new Circle(G2d.Closest(mouse, poly), 2), Color.Blue, true);
+                Gfx.DrawCircle(new Circle(G2d.Closest(mouse, ray), 2), Color.Blue, true);
 
-                #endregion Mouse Shape Closest
-
-                #region Ray Intersections
-
-                if (mouse is Ray ray)
-                {
-                    Gfx.DrawRay(ray, Color.RayWhite);
-
-                    var rayInterLine = G2d.Intersects(ray, l);
-                    foreach (var intersection in rayInterLine)
-                        Gfx.DrawCircle(new Circle(intersection, 3), Color.Green);
-
-                    var rayInterRect = G2d.Intersects(ray, r);
-                    foreach (var intersection in rayInterRect)
-                        Gfx.DrawCircle(new Circle(intersection, 3), Color.Green);
-
-                    var rayInterCircle = G2d.Intersects(ray, c);
-                    foreach (var intersection in rayInterCircle)
-                        Gfx.DrawCircle(new Circle(intersection, 3), Color.Green);
-
-                    var rayInterTriangle = G2d.Intersects(ray, t);
-                    foreach (var intersection in rayInterTriangle)
-                        Gfx.DrawCircle(new Circle(intersection, 3), Color.Green);
-
-                    var rayInterPoly = G2d.Intersects(ray, poly);
-                    foreach (var intersection in rayInterPoly)
-                        Gfx.DrawCircle(new Circle(intersection, 3), Color.Green);
-                }
-
-                #endregion Ray Intersections
-
-                #region Mouse Point Closest
-
-                Gfx.DrawCircle(new Circle(G2d.Closest(mousePoint, l), 2), Color.Red, true);
-                Gfx.DrawCircle(new Circle(G2d.Closest(mousePoint, r), 2), Color.Red, true);                
-                Gfx.DrawCircle(new Circle(G2d.Closest(mousePoint, t), 2), Color.Red, true);
-                Gfx.DrawCircle(new Circle(G2d.Closest(mousePoint, poly), 2), Color.Red, true);                
-                Gfx.DrawCircle(new Circle(G2d.Closest(mousePoint, c), 2), Color.Red, true);
-
-                #endregion Mouse Point Closest
+                #endregion Mouse Shape Closest                
             }
             catch
             {
