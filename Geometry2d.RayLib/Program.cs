@@ -18,28 +18,29 @@ internal class Program
         IShape mouse = new Vector2();
         var mousePoint = new Vector2();
 
-        var p = new Vector2(50.0f, 50.0f);
-        var l = new Line(23.0f, 120.0f, 103.0f, 157.0f);
-        var r = new Rectangle(20.0f, 20.0f, 200.0f, 80.0f);
-        var c = new Circle(200.0f, 200.0f, 35.0f);        
-        var t = new Triangle(130.0f, 150.0f, 160.0f, 240.0f, 25.0f, 245.0f);
+        var p = new Vector2(150.0f, 150.0f);
+        var l = new Line(63.0f, 204.0f, 172.0f, 232.0f);
+        var r = new Rectangle(120.0f, 120.0f, 200.0f, 80.0f);
+        var c = new Circle(300.0f, 300.0f, 35.0f);        
+        var t = new Triangle(130.0f, 235.0f, 212.0f, 338.0f, 66.0f, 306.0f);
         var poly = new Polygon
         (
-            new Vector2(195.0f, 109.0f),
-            new Vector2(216.0f, 125.0f),
-            new Vector2(210.0f, 145.0f),
-            new Vector2(195.0f, 135.0f),
-            new Vector2(169.0f, 148.0f),
-            new Vector2(146.0f, 132.0f),
-            new Vector2(147.0f, 110.0f),
-            new Vector2(163.0f, 119.0f)
+            new Vector2(218.0f, 18.0f),
+            new Vector2(265.0f, 52.0f),
+            new Vector2(229.0f, 97.0f),
+            new Vector2(199.0f, 70.0f),
+            new Vector2(170.0f, 96.0f),
+            new Vector2(108.0f, 77.0f),
+            new Vector2(100.0f, 35.0f),
+            new Vector2(140.0f, 22.0f),
+            new Vector2(179.0f, 46.0f)
         );
 
         //
         // Initialization
         //
-        const int screenWidth = 1024;
-        const int screenHeight = 1024;
+        const int screenWidth = 1536;
+        const int screenHeight = 1536;
         const int screenScale = 4;
 
         Raylib.InitWindow(screenWidth, screenHeight, ".: Geometry 2D :.");

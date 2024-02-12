@@ -1,10 +1,11 @@
 ﻿using Geometry2d.Lib.Primitives;
+using System.Net;
 
 namespace Geometry2d.Lib.Utils
 {
     public static partial class G2d
     {
-        #region IShape INTERSECTS IShape
+        #region IShape CLOSEST IShape
 
         public static Vector2 Closest(IShape lhs, IShape rhs)
         {
@@ -25,10 +26,10 @@ namespace Geometry2d.Lib.Utils
                 {
                     Vector2 v2 => Closest(l, v2),
                     Line l2 => Closest(l, l2),
-                    //case Rectangle r2: return Closest(l, r2);
+                    Rectangle r2 => Closest(l, r2),
                     Circle c2 => Closest(l, c2),
-                    //case Triangle t2: return Closest(l, t2);
-                    //case Polygon poly2: return Closest(l, poly2);
+                    Triangle t2 => Closest(l, t2),
+                    Polygon poly2 => Closest(l, poly2),
                     //case Ray ray2: return Closest(l, ray2);
                     _ => new Vector2(),
                 },
@@ -187,13 +188,21 @@ namespace Geometry2d.Lib.Utils
             var p1 = Closest(lhs.Start, rhs);
             var p2 = Closest(lhs.End, rhs);
 
+            var p3 = rhs.Start;
+            var p4 = rhs.End;
+
             // calculate lenghths of closest point with the start and end
             var d1 = (lhs.Start - p1).Magnitude();
             var d2 = (lhs.End - p2).Magnitude();
 
+            var d3 = DistanceTo(p3, lhs);
+            var d4 = DistanceTo(p4, lhs);
+
             // return the closest one
-            var min = MathF.Min(d1, d2);
-            var closest = min == d1 ? p1 : p2;
+            var min = MathF.Min(MathF.Min(d1, d2), MathF.Min(d3, d4));
+            var closest = min == d1 ? p1 :
+                          min == d2 ? p2 :
+                          min == d3 ? p3 : p4;
 
             return closest;
         }
@@ -209,32 +218,32 @@ namespace Geometry2d.Lib.Utils
 
             // check intersections
             var intersections = Intersects(lhs, rhs);
-            if(intersections.Any()) return intersections.First();
+            if (intersections.Any()) return intersections.First();
 
             var minDistance = float.MaxValue;
             var closestPoint = new Vector2();
 
             // calculate the closest points from the rectangles corners to the line
-            foreach(var corner in lhs.Vertices)
+            foreach (var corner in lhs.Vertices)
             {
                 var point = Closest(corner, rhs);
                 var dist = (point - corner).Magnitude();
-                if(dist < minDistance)
+                if (dist < minDistance)
                 {
-                    minDistance = dist; 
+                    minDistance = dist;
                     closestPoint = point;
                 }
             }
 
             // check if the line's endpoints are closer to the rectangle
-            foreach(var endpoint in rhs.Endpoints())
+            foreach (var endpoint in rhs.Endpoints())
             {
                 var dist = MathF.Min
-                (                    
+                (
                     MathF.Min(DistanceTo(endpoint, lhs.Top), DistanceTo(endpoint, lhs.Right)),
                     MathF.Min(DistanceTo(endpoint, lhs.Bottom), DistanceTo(endpoint, lhs.Left))
                 );
-                if(dist < minDistance)
+                if (dist < minDistance)
                 {
                     minDistance = dist;
                     closestPoint = endpoint;
@@ -295,7 +304,39 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static Vector2 Closest(Line lhs, Rectangle rhs)
         {
-            throw new NotImplementedException();
+            // check for intersections
+            var intersections = Intersects(lhs, rhs);
+            if (intersections.Count != 0) return intersections.First();
+
+            var closestPoint = new Vector2();
+            var min = float.MaxValue;
+
+            foreach (var endpoint in lhs.Endpoints())
+            {
+                foreach (var side in rhs.Sides)
+                {
+                    var closest = Closest(endpoint, side);
+                    var dist = DistanceTo(endpoint, side);
+                    if (dist < min)
+                    {
+                        min = dist;
+                        closestPoint = closest;
+                    }
+                }                
+            }
+
+
+            foreach (var corner in rhs.Vertices)
+            {
+                var dist = DistanceTo(corner, lhs);
+                if (dist < min)
+                {
+                    min = dist;
+                    closestPoint = corner;
+                }
+            }
+
+            return closestPoint;
         }
 
         /// <summary>
@@ -422,7 +463,38 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static Vector2 Closest(Line lhs, Triangle rhs)
         {
-            throw new NotImplementedException();
+            // check intersections
+            var intersections = Intersects(lhs, rhs);
+            if (intersections.Count != 0) return intersections.First();
+
+            var closestPoint = new Vector2();
+            var min = float.MaxValue;
+
+            foreach (var side in rhs.Sides)
+            {
+                foreach (var endpoint in lhs.Endpoints())
+                {
+                    var closest = Closest(endpoint, side);
+                    var dist = DistanceTo(endpoint, side);
+                    if (dist < min)
+                    {
+                        min = dist;
+                        closestPoint = closest;
+                    }
+                }
+            }
+
+            foreach (var corner in rhs.Vertices)
+            {
+                var dist = DistanceTo(corner, lhs);
+                if (dist < min)
+                {
+                    min = dist;
+                    closestPoint = corner;
+                }
+            }
+
+            return closestPoint;
         }
 
         /// <summary>
@@ -483,7 +555,38 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static Vector2 Closest(Line lhs, Polygon rhs)
         {
-            throw new NotImplementedException();
+            // check intersections
+            var intersections = Intersects(lhs, rhs);
+            if (intersections.Count != 0) return intersections.First();
+
+            var closestPoint = new Vector2();
+            var min = float.MaxValue;
+
+            foreach (var side in rhs.Sides())
+            {
+                foreach (var endpoint in lhs.Endpoints())
+                {
+                    var closest = Closest(endpoint, side);
+                    var dist = DistanceTo(endpoint, side);
+                    if (dist < min)
+                    {
+                        min = dist;
+                        closestPoint = closest;
+                    }
+                }
+            }
+
+            foreach (var corner in rhs.Vertices)
+            {
+                var dist = DistanceTo(corner, lhs);
+                if (dist < min)
+                {
+                    min = dist;
+                    closestPoint = corner;
+                }
+            }
+
+            return closestPoint;
         }
 
         /// <summary>
