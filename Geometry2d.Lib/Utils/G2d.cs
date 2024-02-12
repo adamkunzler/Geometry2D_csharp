@@ -9,23 +9,19 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static float DistanceTo(Vector2 p, Line l)
         {
-            var lx = l.End.X - l.Start.X;
-            var ly = l.End.Y - l.Start.Y;
-
-            var plx = p.X - l.Start.X;
-            var ply = p.Y - l.Start.Y;
-
+            var vLine = l.End - l.Start;
+            var vPointLine = p - l.Start;
+            
             // length of the line is 0, return distance from point to line start
-            var lengthSquared = lx * lx + ly * ly;
-            if (lengthSquared == 0) return MathF.Sqrt(plx * plx + ply * ply);
+            var lengthSquared = vLine.Magnitude2();
+            if (lengthSquared == 0) return vPointLine.Magnitude();
 
-            // create the perpendicular line projection point
-            var t = MathF.Max(0, MathF.Min(1, ((plx) * (lx) + (ply) * (ly)) / lengthSquared));
-            var projX = l.Start.X + t * lx;
-            var projY = l.Start.Y + t * ly;
+            // create the perpendicular line projection point            
+            var t = MathF.Max(0, MathF.Min(1, (vPointLine.Dot(vLine)) / lengthSquared));            
+            var proj = l.Start + (t * vLine);
 
             // get length of perpendicular line projection point to the original point
-            return MathF.Sqrt(MathF.Pow(p.X - projX, 2.0f) + MathF.Pow(p.Y - projY, 2.0f));
+            return (p - proj).Magnitude();
         }
 
         /// <summary>

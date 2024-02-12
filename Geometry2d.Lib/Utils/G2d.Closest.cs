@@ -37,7 +37,7 @@ namespace Geometry2d.Lib.Utils
                 {
                     Vector2 v2 => Closest(r, v2),
                     Line l2 => Closest(r, l2),
-                    //case Rectangle r2: return Closest(r, r2);
+                    Rectangle r2 => Closest(r, r2),
                     //case Circle c2: return Closest(r, c2);
                     //case Triangle t2: return Closest(r, t2);
                     //case Polygon poly2: return Closest(r, poly2);
@@ -344,7 +344,28 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static Vector2 Closest(Rectangle lhs, Rectangle rhs)
         {
-            throw new NotImplementedException();
+            var intersections = Intersects(lhs, rhs);
+            if(intersections.Count != 0) return intersections.First();
+            
+            var min = float.MaxValue;
+            var closestPoint = new Vector2();
+            
+            foreach (var s1 in lhs.Sides)
+            {
+                foreach (var s2 in rhs.Sides)
+                {
+                    var point = Closest(s1, s2);
+                    var dist = DistanceTo(point, s1);
+                    if (dist < min)
+                    {
+                        min = dist;
+                        closestPoint = point;
+                    }
+                }
+            }
+
+
+            return closestPoint;
         }
 
         /// <summary>
