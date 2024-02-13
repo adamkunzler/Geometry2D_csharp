@@ -48,10 +48,10 @@ namespace Geometry2d.Lib.Utils
                     Vector2 v2 => Closest(c, v2),
                     Line l2 => Closest(c, l2),
                     Rectangle r2 => Closest(c, r2),
-                    //case Circle c2: return Closest(c, c2);
-                    //Triangle t2=>Closest(c, t2),
-                    //case Polygon poly2: return Closest(c, poly2);
-                    //case Ray ray2: return Closest(c, ray2);
+                    Circle c2 => Closest(c, c2),
+                    Triangle t2=>Closest(c, t2),
+                    Polygon poly2 => Closest(c, poly2),
+                    Ray ray2 => Closest(c, ray2),
                     _ => new Vector2(),
                 },
                 Triangle t => rhs switch
@@ -80,11 +80,11 @@ namespace Geometry2d.Lib.Utils
                 {
                     Vector2 v2 => Closest(ray, v2),
                     Line l2 => Closest(ray, l2),
-                    //case Rectangle r2: return Closest(ray, r2);
-                    //case Circle c2: return Closest(ray, c2);
-                    //case Triangle t2: return Closest(ray, t2);
-                    //case Polygon poly2: return Closest(ray, poly2);
-                    //case Ray ray2: return Closest(ray, ray2);
+                    //Rectangle r2 => Closest(ray, r2),
+                    //Circle c2 => Closest(ray, c2),
+                    //Triangle t2 => Closest(ray, t2),
+                    //Polygon poly2 => Closest(ray, poly2),
+                    //Ray ray2 => Closest(ray, ray2),
                     _ => new Vector2(),
                 },
                 _ => new Vector2(),
@@ -438,7 +438,10 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static Vector2 Closest(Circle lhs, Circle rhs)
         {
-            throw new NotImplementedException();
+            var intersections = Intersects(lhs, rhs);
+            if (intersections.Count != 0) return intersections.First();
+
+            return Closest(lhs.Origin, rhs);
         }
 
         /// <summary>
@@ -530,7 +533,10 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static Vector2 Closest(Circle lhs, Triangle rhs)
         {
-            throw new NotImplementedException();
+            var intersections = Intersects(lhs, rhs);
+            if (intersections.Count != 0) return intersections.First();
+
+            return Closest(lhs.Origin, rhs);
         }
 
         /// <summary>
@@ -622,7 +628,10 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static Vector2 Closest(Circle lhs, Polygon rhs)
         {
-            throw new NotImplementedException();
+            var intersections = Intersects(lhs, rhs);
+            if (intersections.Count != 0) return intersections.First();
+
+            return Closest(lhs.Origin, rhs);
         }
 
         /// <summary>
@@ -707,7 +716,10 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static Vector2 Closest(Circle lhs, Ray rhs)
         {
-            throw new NotImplementedException();
+            var intersections = Intersects(lhs, rhs);
+            if (intersections.Count != 0) return intersections.First();
+
+            return Closest(lhs.Origin, rhs);
         }
 
         /// <summary>
