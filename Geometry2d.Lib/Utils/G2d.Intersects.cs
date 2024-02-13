@@ -141,7 +141,7 @@ namespace Geometry2d.Lib.Utils
         {
             var intersections = new List<Vector2>();
 
-            var distance = new Line(c.Position, other).Length();
+            var distance = new Line(c.Origin, other).Length();
             if ((distance >= c.Radius - Consts.EPSILON) && (distance <= c.Radius + Consts.EPSILON))
                 intersections.Add(other);
 
@@ -260,8 +260,8 @@ namespace Geometry2d.Lib.Utils
         {
             var intersections = new List<Vector2>();
 
-            var h = circle.Position.X;
-            var k = circle.Position.Y;
+            var h = circle.Origin.X;
+            var k = circle.Origin.Y;
             var r = circle.Radius;
             var x1 = other.Start.X;
             var y1 = other.Start.Y;
@@ -509,11 +509,11 @@ namespace Geometry2d.Lib.Utils
         {
             var intersections = new List<Vector2>();
 
-            var x1 = c.Position.X;
-            var y1 = c.Position.Y;
+            var x1 = c.Origin.X;
+            var y1 = c.Origin.Y;
             var r1 = c.Radius;
-            var x2 = other.Position.X;
-            var y2 = other.Position.Y;
+            var x2 = other.Origin.X;
+            var y2 = other.Origin.Y;
             var r2 = other.Radius;
 
             var d = MathF.Sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
@@ -585,8 +585,8 @@ namespace Geometry2d.Lib.Utils
             var y0 = r.Origin.Y;
             var dx = r.Direction.X;
             var dy = r.Direction.Y;
-            var h = other.Position.X;
-            var k = other.Position.Y;
+            var h = other.Origin.X;
+            var k = other.Origin.Y;
             var radius = other.Radius;
 
             var a = dx * dx + dy * dy;

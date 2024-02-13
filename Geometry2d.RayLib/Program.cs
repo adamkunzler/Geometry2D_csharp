@@ -87,7 +87,7 @@ internal class Program
             }
             else if (Raylib.IsKeyPressed(KeyboardKey.Six))
             {
-                mouse = new Polygon(0.0f, 0.0f, 5, 25.0f);
+                mouse = new Polygon(0.0f, 0.0f, 4, 25.0f);
             }
             else if (Raylib.IsKeyPressed(KeyboardKey.Seven))
             {
@@ -123,7 +123,7 @@ internal class Program
                 Gfx.DrawPoint(r.Middle, Color.RayWhite);
 
                 Gfx.DrawCircle(c, G2d.Contains(c, mouse) ? Color.Gold : Color.RayWhite);
-                Gfx.DrawPoint(c.Position, Color.RayWhite);
+                Gfx.DrawPoint(c.Origin, Color.RayWhite);
                                 
                 Gfx.DrawTriangle(t, G2d.Contains(t, mouse) ? Color.Gold : Color.RayWhite);
                 Gfx.DrawPoint(t.Center(), Color.RayWhite);
@@ -237,8 +237,8 @@ internal class Program
                 r.Size.Y = 30.0f;                
                 break;
             case Circle c:
-                c.Position.X = mx;
-                c.Position.Y = my;
+                c.Origin.X = mx;
+                c.Origin.Y = my;
                 c.Radius = 25.0f;                
                 break;
             case Triangle t:                                

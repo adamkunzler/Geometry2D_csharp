@@ -53,11 +53,11 @@ namespace Geometry2d.RayLib
         {
             if (fill)
             {
-                Raylib.DrawCircle((int)circle.Position.X, (int)circle.Position.Y, circle.Radius, color);
+                Raylib.DrawCircle((int)circle.Origin.X, (int)circle.Origin.Y, circle.Radius, color);
             }
             else
             {
-                Raylib.DrawCircleLines((int)circle.Position.X, (int)circle.Position.Y, circle.Radius, color);
+                Raylib.DrawCircleLines((int)circle.Origin.X, (int)circle.Origin.Y, circle.Radius, color);
             }
         }
 

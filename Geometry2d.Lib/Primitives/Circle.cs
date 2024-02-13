@@ -4,31 +4,31 @@
     {
         #region ctor
 
-        public Vector2 Position { get; set; }
+        public Vector2 Origin { get; set; }
 
         public float Radius { get; set; }
 
         public Circle()
         {
-            Position = new Vector2();
+            Origin = new Vector2();
             Radius = 0.0f;
         }
 
         public Circle(Vector2 position, float radius)
         {
-            Position = position;
+            Origin = position;
             Radius = radius;
         }
 
         public Circle(float x, float y, float radius)
         {
-            Position = new Vector2(x, y);
+            Origin = new Vector2(x, y);
             Radius = radius;
         }
 
         public override string ToString()
         {
-            return $"[{Position}, {Radius}]";
+            return $"[{Origin}, {Radius}]";
         }
 
         #endregion ctor

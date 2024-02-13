@@ -47,5 +47,54 @@ namespace Geometry2d.Lib.Utils
 
             return (closestPoint!, closestLine!);
         }
+
+        /// <summary>
+        /// Returns the closest point on shape RHS to shape LHS
+        /// </summary>        
+        public static Vector2 Closest(IShape lhs, IShape rhs, List<Line> lhsSides, List<Line> rhsSides)
+        {
+            var intersections = Intersects(lhs, rhs);
+            if (intersections.Count != 0) return intersections.First();
+
+            var min = float.MaxValue;
+            var closestPoint = new Vector2();
+
+            foreach (var s1 in lhsSides)
+            {
+                foreach (var s2 in rhsSides)
+                {
+                    var point = Closest(s1, s2);
+                    var dist = DistanceTo(point, s1);
+                    if (dist < min)
+                    {
+                        min = dist;
+                        closestPoint = point;
+                    }
+                }
+            }
+
+            return closestPoint;
+        }
+
+        public static Vector2 Closest(IShape lhs, Line rhs, List<Line> lhsSides)
+        {
+            var intersections = Intersects(lhs, rhs);
+            if (intersections.Count != 0) return intersections.First();
+
+            var min = float.MaxValue;
+            var closestPoint = new Vector2();
+            foreach (var s1 in lhsSides)
+            {
+                var point = Closest(s1, rhs);
+                var dist = DistanceTo(point, s1);
+                if (dist < min)
+                {
+                    min = dist;
+                    closestPoint = point;
+                }
+            }
+
+            return closestPoint;
+        }
     }
 }

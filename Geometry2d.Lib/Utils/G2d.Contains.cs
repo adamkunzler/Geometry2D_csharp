@@ -151,7 +151,7 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static bool Contains(Circle c, Vector2 p)
         {
-            var mag2 = (p - c.Position).Magnitude2();
+            var mag2 = (p - c.Origin).Magnitude2();
             return mag2 < (c.Radius * c.Radius);
         }
 
@@ -358,10 +358,10 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static bool Contains(Rectangle r, Circle other)
         {
-            bool leftEdgeCheck = r.Position.X <= other.Position.X - other.Radius;
-            bool rightEdgeCheck = r.Position.X + r.Size.Width >= other.Position.X + other.Radius;
-            bool topEdgeCheck = r.Position.Y <= other.Position.Y - other.Radius;
-            bool bottomEdgeCheck = r.Position.Y + r.Size.Height >= other.Position.Y + other.Radius;
+            bool leftEdgeCheck = r.Position.X <= other.Origin.X - other.Radius;
+            bool rightEdgeCheck = r.Position.X + r.Size.Width >= other.Origin.X + other.Radius;
+            bool topEdgeCheck = r.Position.Y <= other.Origin.Y - other.Radius;
+            bool bottomEdgeCheck = r.Position.Y + r.Size.Height >= other.Origin.Y + other.Radius;
 
             return leftEdgeCheck && rightEdgeCheck && topEdgeCheck && bottomEdgeCheck;
         }
@@ -371,8 +371,8 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static bool Contains(Circle c, Circle other)
         {
-            var x = other.Position.X - c.Position.X;
-            var y = other.Position.Y - c.Position.Y;
+            var x = other.Origin.X - c.Origin.X;
+            var y = other.Origin.Y - c.Origin.Y;
             var centerDistance = MathF.Sqrt(x * x + y * y);
             return centerDistance + other.Radius <= c.Radius && c.Radius > other.Radius;
         }
@@ -383,13 +383,13 @@ namespace Geometry2d.Lib.Utils
         public static bool Contains(Triangle t, Circle other)
         {
             // check if center is in triangle
-            var isCenterContained = Contains(t, other.Position);
+            var isCenterContained = Contains(t, other.Origin);
             if (!isCenterContained) return false;
 
             // check if distance from center to each side of triangle is greater than the radius
-            var distance1 = DistanceTo(other.Position, t.Side(0));
-            var distance2 = DistanceTo(other.Position, t.Side(1));
-            var distance3 = DistanceTo(other.Position, t.Side(2));
+            var distance1 = DistanceTo(other.Origin, t.Side(0));
+            var distance2 = DistanceTo(other.Origin, t.Side(1));
+            var distance3 = DistanceTo(other.Origin, t.Side(2));
 
             return distance1 >= other.Radius && distance2 >= other.Radius && distance3 >= other.Radius;
         }
@@ -400,13 +400,13 @@ namespace Geometry2d.Lib.Utils
         public static bool Contains(Polygon p, Circle other)
         {
             // check if center is in polygon
-            var isCenterContained = Contains(p, other.Position);
+            var isCenterContained = Contains(p, other.Origin);
             if(!isCenterContained) return false;
 
             // check if distance from center to each side of polygon is greater than the radius
             for(var i = 0; i < p.NumSides(); i++)
             {
-                var distance = DistanceTo(other.Position, p.Side(i));
+                var distance = DistanceTo(other.Origin, p.Side(i));
                 if(distance < other.Radius) return false;
             }
 
