@@ -22,7 +22,7 @@ A		  B>|	POINT		|	LINE		|	RECTANGLE	|	CIRCLE		|	TRIANGLE	|	POLYGON		|	RAY			|
 POINT		|	Contains	|				|				|				|				|				|				|
 			|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|
 			|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|
-			|				|	 			|				|				|				|				|				|
+			|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|
 			|				|	 			|				|				|				|				|				|
 			|				|	 			|				|				|				|				|				|
 			|				|	 			|				|				|				|				|				|
@@ -31,7 +31,7 @@ POINT		|	Contains	|				|				|				|				|				|				|
 LINE		|	Contains	|	Contains	|				|				|				|				|				|
 			|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|
 			|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|
-			|				|	 			|				|				|				|				|				|
+			|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|
 			|				|	 			|				|				|				|				|				|
 			|				|	 			|				|				|				|				|				|
 			|				|	 			|				|				|				|				|				|
@@ -40,7 +40,7 @@ LINE		|	Contains	|	Contains	|				|				|				|				|				|
 RECTANGLE	|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|				|
 			|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|
 			|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|
-			|				|	 			|				|				|				|				|				|
+			|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|
 			|				|	 			|				|				|				|				|				|
 			|				|	 			|				|				|				|				|				|
 			|				|	 			|				|				|				|				|				|
@@ -49,7 +49,7 @@ RECTANGLE	|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|			
 CIRCLE		|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|				|
 			|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|
 			|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|
-			|				|	 			|				|				|				|				|				|
+			|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|
 			|				|	 			|				|				|				|				|				|
 			|				|	 			|				|				|				|				|				|
 			|				|	 			|				|				|				|				|				|
@@ -58,7 +58,7 @@ CIRCLE		|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|				|
 TRIANGLE	|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|				|
 			|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|
 			|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|
-			|				|	 			|				|				|				|				|				|
+			|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|
 			|				|	 			|				|				|				|				|				|
 			|				|	 			|				|				|				|				|				|
 			|				|	 			|				|				|				|				|				|
@@ -67,7 +67,7 @@ TRIANGLE	|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|				
 POLYGON		|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|				|
 			|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|
 			|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|
-			|				|	 			|				|				|				|				|				|
+			|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|
 			|				|	 			|				|				|				|				|				|
 			|				|	 			|				|				|				|				|				|
 			|				|	 			|				|				|				|				|				|
@@ -76,7 +76,7 @@ POLYGON		|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|				
 RAY			|	Contains	|	Contains	|				|				|				|				|				|
 			|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|
 			|	Closest		|	Closest		|				|				|				|				|				|
-			|				|	 			|				|				|				|				|				|
+			|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|
 			|				|	 			|				|				|				|				|				|
 			|				|	 			|				|				|				|				|				|
 			|				|	 			|				|				|				|				|				|
