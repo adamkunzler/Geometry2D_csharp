@@ -48,7 +48,7 @@ RECTANGLE	|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|			
 -----------------------------------------------------------------------------------------------------------------------------
 CIRCLE		|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|				|
 			|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|
-			|	Closest		|	Closest		|	Closest		|				|				|				|				|
+			|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|
 			|				|	 			|				|				|				|				|				|
 			|				|	 			|				|				|				|				|				|
 			|				|	 			|				|				|				|				|				|

@@ -75,7 +75,7 @@
                 int nextIndex = (i + 1) % n; // Ensures the polygon closes by connecting the last vertex to the first
                 area += p.Vertices[i].X * p.Vertices[nextIndex].Y - p.Vertices[nextIndex].X * p.Vertices[i].Y;
             }
-            
+
             return MathF.Abs(area) / 2.0f;
         }
 
@@ -116,17 +116,19 @@
         /// </summary>
         public Line Side(int index) => Side(this, index);
 
-        public List<Line> Sides()
+        public static List<Line> Sides(Polygon p)
         {
             var sides = new List<Line>();
 
-            for(var i = 0; i < NumSides(); i++)
+            for (var i = 0; i < p.NumSides(); i++)
             {
-                sides.Add(Side(i));
+                sides.Add(p.Side(i));
             }
 
             return sides;
         }
+
+        public List<Line> Sides() => Sides(this);
 
         public static Vector2 Center(Polygon p)
         {
