@@ -76,17 +76,71 @@ namespace Geometry2d.Lib.Utils
             return closestPoint;
         }
 
-        public static Vector2 Closest(IShape lhs, Line rhs, List<Line> lhsSides)
+        /// <summary>
+        /// Returns the closest point on a line to a IShape lhs
+        /// </summary>        
+        public static Vector2 Closest(IShape lhs, List<Line> lhsSides, Line rhs)
         {
             var intersections = Intersects(lhs, rhs);
             if (intersections.Count != 0) return intersections.First();
 
             var min = float.MaxValue;
             var closestPoint = new Vector2();
+
             foreach (var s1 in lhsSides)
             {
                 var point = Closest(s1, rhs);
                 var dist = DistanceTo(point, s1);
+                if (dist < min)
+                {
+                    min = dist;
+                    closestPoint = point;
+                }
+            }
+
+            return closestPoint;
+        }
+
+        /// <summary>
+        /// Returns the closest point on a circle to a IShape lhs
+        /// </summary>        
+        public static Vector2 Closest(IShape lhs, List<Line> lhsSides, Circle rhs)
+        {
+            var intersections = Intersects(lhs, rhs);
+            if (intersections.Count != 0) return intersections.First();
+
+            var min = float.MaxValue;
+            var closestPoint = new Vector2();
+
+            foreach (var side in lhsSides)
+            {
+                var point = Closest(side, rhs);
+                var dist = DistanceTo(point, side);
+                if (dist < min)
+                {
+                    min = dist;
+                    closestPoint = point;
+                }
+            }
+
+            return closestPoint;
+        }
+
+        /// <summary>
+        /// Returns the closest point on a ray to a IShape lhs
+        /// </summary>        
+        public static Vector2 Closest(IShape lhs, List<Line> lhsSides, Ray rhs)
+        {
+            var intersections = Intersects(lhs, rhs);
+            if (intersections.Count != 0) return intersections.First();
+
+            var min = float.MaxValue;
+            var closestPoint = new Vector2();
+
+            foreach (var side in lhsSides)
+            {
+                var point = Closest(side, rhs);
+                var dist = DistanceTo(point, side);
                 if (dist < min)
                 {
                     min = dist;

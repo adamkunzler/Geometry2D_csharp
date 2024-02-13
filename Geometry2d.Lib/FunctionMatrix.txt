@@ -9,6 +9,10 @@ Reflect (RAY)
 BoundingBox
 BoundingCircle
 
+Explode
+Collapse
+
+
 A => lhs
 B => rhs
 
@@ -26,7 +30,7 @@ POINT		|	Contains	|				|				|				|				|				|				|
 -----------------------------------------------------------------------------------------------------------------------------
 LINE		|	Contains	|	Contains	|				|				|				|				|				|
 			|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|
-			|	Closest		|	Closest		|				|				|				|				|				|
+			|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|
 			|				|	 			|				|				|				|				|				|
 			|				|	 			|				|				|				|				|				|
 			|				|	 			|				|				|				|				|				|
@@ -35,7 +39,7 @@ LINE		|	Contains	|	Contains	|				|				|				|				|				|
 -----------------------------------------------------------------------------------------------------------------------------
 RECTANGLE	|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|				|
 			|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|
-			|	Closest		|	 			|				|				|				|				|				|
+			|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|
 			|				|	 			|				|				|				|				|				|
 			|				|	 			|				|				|				|				|				|
 			|				|	 			|				|				|				|				|				|
@@ -44,7 +48,7 @@ RECTANGLE	|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|			
 -----------------------------------------------------------------------------------------------------------------------------
 CIRCLE		|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|				|
 			|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|
-			|	Closest		|	 			|				|				|				|				|				|
+			|	Closest		|	Closest		|	Closest		|				|				|				|				|
 			|				|	 			|				|				|				|				|				|
 			|				|	 			|				|				|				|				|				|
 			|				|	 			|				|				|				|				|				|
@@ -53,7 +57,7 @@ CIRCLE		|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|				|
 -----------------------------------------------------------------------------------------------------------------------------
 TRIANGLE	|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|				|
 			|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|
-			|	Closest		|	 			|				|				|				|				|				|
+			|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|
 			|				|	 			|				|				|				|				|				|
 			|				|	 			|				|				|				|				|				|
 			|				|	 			|				|				|				|				|				|
@@ -62,7 +66,7 @@ TRIANGLE	|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|				
 -----------------------------------------------------------------------------------------------------------------------------
 POLYGON		|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|				|
 			|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|
-			|	Closest		|	 			|				|				|				|				|				|
+			|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|
 			|				|	 			|				|				|				|				|				|
 			|				|	 			|				|				|				|				|				|
 			|				|	 			|				|				|				|				|				|
@@ -71,7 +75,7 @@ POLYGON		|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|				
 -----------------------------------------------------------------------------------------------------------------------------
 RAY			|	Contains	|	Contains	|				|				|				|				|				|
 			|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|
-			|	Closest		|	 			|				|				|				|				|				|
+			|	Closest		|	Closest		|				|				|				|				|				|
 			|				|	 			|				|				|				|				|				|
 			|				|	 			|				|				|				|				|				|
 			|				|	 			|				|				|				|				|				|

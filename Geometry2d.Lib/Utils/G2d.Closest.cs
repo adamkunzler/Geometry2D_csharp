@@ -1,5 +1,4 @@
 ﻿using Geometry2d.Lib.Primitives;
-using System.Reflection.Metadata.Ecma335;
 
 namespace Geometry2d.Lib.Utils
 {
@@ -38,10 +37,10 @@ namespace Geometry2d.Lib.Utils
                     Vector2 v2 => Closest(r, v2),
                     Line l2 => Closest(r, l2),
                     Rectangle r2 => Closest(r, r2),
-                    //case Circle c2: return Closest(r, c2);
+                    Circle c2 => Closest(r, c2),
                     Triangle t2 => Closest(r, t2),
                     Polygon poly2 => Closest(r, poly2),
-                    //case Ray ray2: return Closest(r, ray2);
+                    Ray ray2 => Closest(r, ray2),
                     _ => new Vector2(),
                 },
                 Circle c => rhs switch
@@ -60,10 +59,10 @@ namespace Geometry2d.Lib.Utils
                     Vector2 v2 => Closest(t, v2),
                     Line l2 => Closest(t, l2),
                     Rectangle r2 => Closest(t, r2),
-                    //case Circle c2: return Closest(t, c2);
+                    Circle c2 => Closest(t, c2),
                     Triangle t2 => Closest(t, t2),
                     Polygon poly2 => Closest(t, poly2),
-                    //case Ray ray2: return Closest(t, ray2);
+                    Ray ray2=>Closest(t, ray2),
                     _ => new Vector2(),
                 },
                 Polygon poly => rhs switch
@@ -71,10 +70,10 @@ namespace Geometry2d.Lib.Utils
                     Vector2 v2 => Closest(poly, v2),
                     Line l2 => Closest(poly, l2),
                     Rectangle r2 => Closest(poly, r2),
-                    //case Circle c2: return Closest(poly, c2);
+                    Circle c2 => Closest(poly, c2),
                     Triangle t2 => Closest(poly, t2),
                     Polygon poly2 => Closest(poly, poly2),
-                    //case Ray ray2: return Closest(poly, ray2);
+                    Ray ray2=>Closest(poly, ray2),
                     _ => new Vector2(),
                 },
                 Ray ray => rhs switch
@@ -267,7 +266,7 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static Vector2 Closest(Triangle lhs, Line rhs)
         {
-            return Closest(lhs, rhs, lhs.Sides);
+            return Closest(lhs, lhs.Sides, rhs);
         }
 
         /// <summary>
@@ -275,7 +274,7 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static Vector2 Closest(Polygon lhs, Line rhs)
         {
-            return Closest(lhs, rhs, lhs.Sides());
+            return Closest(lhs, lhs.Sides(), rhs);
         }
 
         /// <summary>
@@ -300,7 +299,7 @@ namespace Geometry2d.Lib.Utils
             // compare distances
             var min = MathF.Min(d1, MathF.Min(d2, d3));
             var closest = min == d1 ? p1 :
-                          min == d2 ? rhs.Start : rhs.End;     
+                          min == d2 ? rhs.Start : rhs.End;
 
             return closest;
         }
@@ -420,7 +419,7 @@ namespace Geometry2d.Lib.Utils
         public static Vector2 Closest(Line lhs, Circle rhs)
         {
             var intersections = Intersects(lhs, rhs);
-            if (intersections.Any()) return intersections.First();
+            if (intersections.Count != 0) return intersections.First();
 
             var point = Closest(rhs.Origin, lhs);
             return rhs.Origin + ((point - rhs.Origin).Normal() * rhs.Radius);
@@ -431,7 +430,7 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static Vector2 Closest(Rectangle lhs, Circle rhs)
         {
-            throw new NotImplementedException();
+            return Closest(lhs, lhs.Sides, rhs);
         }
 
         /// <summary>
@@ -447,7 +446,7 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static Vector2 Closest(Triangle lhs, Circle rhs)
         {
-            throw new NotImplementedException();
+            return Closest(lhs, lhs.Sides, rhs);
         }
 
         /// <summary>
@@ -455,7 +454,7 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static Vector2 Closest(Polygon lhs, Circle rhs)
         {
-            throw new NotImplementedException();
+            return Closest(lhs, lhs.Sides(), rhs);
         }
 
         /// <summary>
@@ -700,7 +699,7 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static Vector2 Closest(Rectangle lhs, Ray rhs)
         {
-            throw new NotImplementedException();
+            return Closest(lhs, lhs.Sides, rhs);
         }
 
         /// <summary>
@@ -716,7 +715,7 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static Vector2 Closest(Triangle lhs, Ray rhs)
         {
-            throw new NotImplementedException();
+            return Closest(lhs, lhs.Sides, rhs);
         }
 
         /// <summary>
@@ -724,7 +723,7 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static Vector2 Closest(Polygon lhs, Ray rhs)
         {
-            throw new NotImplementedException();
+            return Closest(lhs, lhs.Sides(), rhs);
         }
 
         /// <summary>
