@@ -485,6 +485,22 @@
             return Lerp(this, other, t);
         }
 
+        /// <summary>
+        /// return the angle between two vectors in radians
+        /// </summary>        
+        public static float AngleBetween(Vector2 a, Vector2 b)
+        {
+            var dot = Dot(a, b);
+            var cosTheta = dot / (a.Magnitude() * b.Magnitude());
+            var angle = MathF.Acos(cosTheta);
+            return angle;
+        }
+
+        /// <summary>
+        /// return the angle between two vectors in radians
+        /// </summary>        
+        public float AngleBetwen(Vector2 rhs) => AngleBetween(this, rhs);
+
         #endregion Misc
     }
 }

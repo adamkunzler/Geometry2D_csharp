@@ -134,7 +134,7 @@ internal class Program
                 Gfx.DrawTriangle(t, G2d.Contains(t, mouse) 
                     ? Color.Gold 
                     : G2d.Overlaps(t, mouse) ? Color.Purple : Color.RayWhite);
-                Gfx.DrawPoint(t.Center(), Color.RayWhite);
+                Gfx.DrawPoint(t.Centroid(), Color.RayWhite);
 
                 Gfx.DrawPolygon(poly, G2d.Contains(poly, mouse) 
                     ? Color.Gold 
@@ -185,6 +185,29 @@ internal class Program
                 Gfx.DrawCircle(new Circle(G2d.Closest(mouse, ray), 2), Color.Blue, true);
 
                 #endregion Mouse Shape Closest                               
+
+                #region Draw AABB
+
+                // triangle centers
+                Gfx.DrawCircle(new Circle(t.Centroid(), 2), Color.Red, true);
+                Gfx.DrawCircle(new Circle(t.Circumcenter(), 2), Color.Purple, true);
+                Gfx.DrawCircle(new Circle(t.Incenter(), 2), Color.Green, true);
+                Gfx.DrawCircle(new Circle(t.Orthocenter(), 2), Color.Blue, true);                
+                Gfx.DrawCircle(t.Incircle(), Color.Green);
+
+                Gfx.DrawRectangle(G2d.AABB(l), Color.DarkGray);
+                Gfx.DrawRectangle(G2d.AABB(r), Color.DarkGray);
+                Gfx.DrawRectangle(G2d.AABB(c), Color.DarkGray);
+                Gfx.DrawRectangle(G2d.AABB(t), Color.DarkGray);
+                Gfx.DrawRectangle(G2d.AABB(poly), Color.DarkGray);
+
+                Gfx.DrawCircle(G2d.BoundingCircle(l), Color.DarkGray);
+                Gfx.DrawCircle(G2d.BoundingCircle(r), Color.DarkGray);
+                Gfx.DrawCircle(G2d.BoundingCircle(c), Color.DarkGray);
+                Gfx.DrawCircle(G2d.BoundingCircle(t), Color.DarkGray);
+                Gfx.DrawCircle(G2d.BoundingCircle(poly), Color.DarkGray);
+
+                #endregion Draw AABB
             }
             catch
             {
@@ -213,6 +236,8 @@ internal class Program
             Raylib.EndDrawing();
 
             #endregion Draw Target Texture to Window
+
+            
         }
 
         //

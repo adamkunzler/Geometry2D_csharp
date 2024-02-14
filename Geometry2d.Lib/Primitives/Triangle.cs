@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Geometry2d.Lib.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -108,16 +109,158 @@ namespace Geometry2d.Lib.Primitives
         /// </summary>        
         public Line Side(int index) => Side(this, index);
 
+        /// <summary>
+        /// Return all the sides of the triangle as a list of lines
+        /// </summary>
         public List<Line> Sides => new List<Line> { Side(0), Side(1), Side(2) };
 
-        public static Vector2 Center(Triangle t)
+        #endregion Triangle Properties
+
+        #region Triangle Centers
+
+        /// <summary>
+        /// Calculates the center of a triangle (the point where the triangle's three medians intersect). Also the center of gravity of the triangle.
+        /// </summary>        
+        public static Vector2 Centroid(Triangle t)
         {
             var center = (t.Vertices[0] + t.Vertices[1] + t.Vertices[2]) / 3.0f;
             return center;
         }
 
-        public Vector2 Center() => Center(this);
+        /// <summary>
+        /// Calculates the center of a triangle (the point where the triangle's three medians intersect). Also the center of gravity of the triangle.
+        /// </summary>        
+        public Vector2 Centroid() => Centroid(this);
 
-        #endregion Triangle Properties
+        /// <summary>
+        /// Calculates the intersection of the perpendicular bisectors of the sides.
+        /// </summary>        
+        public static Vector2 Circumcenter(Triangle t)
+        {
+            var x1 = t.Vertices[0].X;
+            var y1 = t.Vertices[0].Y;
+            var x2 = t.Vertices[1].X;
+            var y2 = t.Vertices[1].Y;
+            var x3 = t.Vertices[2].X;
+            var y3 = t.Vertices[2].Y;
+
+            var ab = t.Vertices[1] - t.Vertices[0];
+            var ac = t.Vertices[2] - t.Vertices[0];
+
+            var ba = t.Vertices[0] - t.Vertices[1];
+            var bc = t.Vertices[2] - t.Vertices[1];
+
+            var ca = t.Vertices[0] - t.Vertices[2];
+            var cb = t.Vertices[1] - t.Vertices[2];
+
+            var a = Vector2.AngleBetween(ab, ac);
+            var b = Vector2.AngleBetween(ba, bc);
+            var c = Vector2.AngleBetween(ca, cb);
+
+            var xNumerator = x1 * MathF.Sin(2.0f * a) + x2 * MathF.Sin(2.0f * b) + x3 * MathF.Sin(2.0f * c);
+            var xDenominator = MathF.Sin(2.0f * a) + MathF.Sin(2.0f * b) + MathF.Sin(2.0f * c);
+            var x = xNumerator / xDenominator;
+
+            var yNumerator = y1 * MathF.Sin(2.0f * a) + y2 * MathF.Sin(2.0f * b) + y3 * MathF.Sin(2.0f * c);
+            var yDenominator = MathF.Sin(2.0f * a) + MathF.Sin(2.0f * b) + MathF.Sin(2.0f * c);
+            var y = yNumerator / yDenominator;
+            
+            return new Vector2(x, y);
+        }
+
+        /// <summary>
+        /// Calculates the intersection of the perpendicular bisectors of the sides.
+        /// </summary>        
+        public Vector2 Circumcenter() => Circumcenter(this);
+
+        /// <summary>
+        /// Calculate the circumcircle of a triangle. A circle that passes through all three vertices of the triangle.
+        /// </summary>        
+        public static Circle Circumcircle(Triangle t)
+        {
+            var a = t.Side(0).Length();
+            var b = t.Side(1).Length();
+            var c = t.Side(2).Length();
+
+            var d1 = a + b + c;
+            var d2 = b + c - a;
+            var d3 = c + a - b;
+            var d4 = a + b - c;
+
+            var numerator = a * b * c;
+            var denominator = MathF.Sqrt(d1 * d2 * d3 * d4);
+
+            var radius = numerator / denominator;
+
+            return new Circle(t.Circumcenter(), radius);
+        }
+
+        /// <summary>
+        /// Calculate the circumcircle of a triangle. A circle that passes through all three vertices of the triangle.
+        /// </summary>        
+        public Circle Circumcircle() => Circumcircle(this);
+
+        /// <summary>
+        /// Calculate the incenter of a triangle. Located at the intersection of the angle bisectors.
+        /// </summary>        
+        public static Vector2 Incenter(Triangle t)
+        {
+            var a = t.Vertices[0];
+            var b = t.Vertices[1];
+            var c = t.Vertices[2];
+
+            var lenA = (c - b).Magnitude();
+            var lenB = (c - a).Magnitude();
+            var lenC = (b - a).Magnitude();
+
+            var p = t.Perimeter();
+
+            var x = (lenA * a.X + lenB * b.X + lenC * c.X) / p;
+            var y = (lenA * a.Y + lenB * b.Y + lenC * c.Y) / p;
+
+            return new Vector2(x, y);
+        }
+
+        /// <summary>
+        /// Calculate the incenter of a triangle. Located at the intersection of the angle bisectors.
+        /// </summary>        
+        public Vector2 Incenter() => Incenter(this);
+
+        /// <summary>
+        /// Calculate the incircle of a triangle. The largest circle that will fit in a triangle.
+        /// </summary>        
+        public static Circle Incircle(Triangle t)
+        {
+            var incenter = t.Incenter();
+            var radius = G2d.DistanceTo(incenter, t.Side(0));
+            
+            return new Circle(incenter, radius);
+        }
+
+        /// <summary>
+        /// Calculate the incircle of a triangle. The largest circle that will fit in a triangle.
+        /// </summary>        
+        public Circle Incircle() => Incircle(this);
+
+        /// <summary>
+        /// Calculate the orthocenter of a triangle. Located at the intersection of the altitudes.
+        /// </summary>        
+        public static Vector2 Orthocenter(Triangle t)
+        {
+            var cc = t.Circumcenter();
+            var ct = t.Centroid();
+
+            var ox = 3.0f * ct.X - 2.0f * cc.X;
+            var oy = 3.0f * ct.Y - 2.0f * cc.Y;
+
+            return new Vector2(ox, oy);
+        }
+
+        /// <summary>
+        /// Calculate the orthocenter of a triangle. Located at the intersection of the altitudes.
+        /// </summary>        
+        public Vector2 Orthocenter() => Orthocenter(this);
+
+        #endregion Triangle Centers
     }
 }
