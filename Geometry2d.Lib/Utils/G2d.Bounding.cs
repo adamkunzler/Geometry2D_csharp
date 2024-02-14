@@ -22,7 +22,7 @@ namespace Geometry2d.Lib.Utils
 
         /// <summary>
         /// Returns an AABB for a point
-        /// </summary>        
+        /// </summary>
         public static Rectangle AABB(Vector2 lhs)
         {
             return new Rectangle(lhs.X, lhs.Y, 1.0f, 1.0f);
@@ -30,15 +30,15 @@ namespace Geometry2d.Lib.Utils
 
         /// <summary>
         /// Returns an AABB for a line
-        /// </summary>        
+        /// </summary>
         public static Rectangle AABB(Line lhs)
         {
-            return AABB(lhs.Endpoints());            
+            return AABB(lhs.Endpoints());
         }
-        
+
         /// <summary>
         /// Returns an AABB for a rectangle
-        /// </summary>        
+        /// </summary>
         public static Rectangle AABB(Rectangle lhs)
         {
             return lhs;
@@ -46,7 +46,7 @@ namespace Geometry2d.Lib.Utils
 
         /// <summary>
         /// Returns an AABB for a circle
-        /// </summary>        
+        /// </summary>
         public static Rectangle AABB(Circle lhs)
         {
             return new Rectangle(lhs.Origin.X - lhs.Radius, lhs.Origin.Y - lhs.Radius, lhs.Radius * 2.0f, lhs.Radius * 2.0f);
@@ -54,7 +54,7 @@ namespace Geometry2d.Lib.Utils
 
         /// <summary>
         /// Returns an AABB for a triangle
-        /// </summary>        
+        /// </summary>
         public static Rectangle AABB(Triangle lhs)
         {
             return AABB(lhs.Vertices);
@@ -62,7 +62,7 @@ namespace Geometry2d.Lib.Utils
 
         /// <summary>
         /// Returns an AABB for a polygon
-        /// </summary>        
+        /// </summary>
         public static Rectangle AABB(Polygon lhs)
         {
             return AABB(lhs.Vertices);
@@ -70,7 +70,7 @@ namespace Geometry2d.Lib.Utils
 
         /// <summary>
         /// Returns an AABB for the given set of vertices
-        /// </summary>        
+        /// </summary>
         private static Rectangle AABB(IEnumerable<Vector2> vertices)
         {
             var minX = float.MaxValue;
@@ -112,7 +112,7 @@ namespace Geometry2d.Lib.Utils
 
         /// <summary>
         /// Returns an BoundingCircle for a point
-        /// </summary>        
+        /// </summary>
         public static Circle BoundingCircle(Vector2 lhs)
         {
             return new Circle(lhs.X, lhs.Y, 1.0f);
@@ -120,7 +120,7 @@ namespace Geometry2d.Lib.Utils
 
         /// <summary>
         /// Returns an BoundingCircle for a line
-        /// </summary>        
+        /// </summary>
         public static Circle BoundingCircle(Line lhs)
         {
             var minX = MathF.Min(lhs.Start.X, lhs.End.X);
@@ -141,7 +141,7 @@ namespace Geometry2d.Lib.Utils
 
         /// <summary>
         /// Returns an BoundingCircle for a rectangle
-        /// </summary>        
+        /// </summary>
         public static Circle BoundingCircle(Rectangle lhs)
         {
             return BoundingCircle(lhs.Middle, lhs.Vertices);
@@ -149,7 +149,7 @@ namespace Geometry2d.Lib.Utils
 
         /// <summary>
         /// Returns an BoundingCircle for a circle
-        /// </summary>        
+        /// </summary>
         public static Circle BoundingCircle(Circle lhs)
         {
             return lhs;
@@ -157,32 +157,60 @@ namespace Geometry2d.Lib.Utils
 
         /// <summary>
         /// Returns an BoundingCircle for a triangle
-        /// </summary>        
+        /// </summary>
         public static Circle BoundingCircle(Triangle lhs)
         {
             return lhs.Circumcircle();
         }
 
         /// <summary>
-        /// Returns an BoundingCircle for a polygon
-        /// </summary>        
+        /// Returns an BoundingCircle for a polygon using Ritter's bounding circle algorithm
+        /// </summary>
         public static Circle BoundingCircle(Polygon lhs)
         {
-            return BoundingCircle(lhs.Center(), lhs.Vertices);
+            if(lhs is RegularPolygon rp)
+            {
+                return new Circle(rp.Center(), rp.Radius);
+            }
+
+            // Initial points A and B for the diameter of the initial circle
+            var A = lhs.Vertices.First();
+            var B = lhs.Vertices.Aggregate((currentFarthest, next) => (A - next).Magnitude() > (A - currentFarthest).Magnitude() ? next : currentFarthest);
+
+            // Initial circle defined by A and B
+            var center = new Vector2((A.X + B.X) / 2, (A.Y + B.Y) / 2);
+            var radius = (A - B).Magnitude() / 2;
+
+            // Check and adjust the circle to include all points
+            foreach (var point in lhs.Vertices)
+            {
+                if ((center - point).Magnitude() > radius)
+                {
+                    // Adjust the circle to include the new point
+                    var d = (center - point).Magnitude();
+                    radius = (radius + d) / 2;
+                    var direction = new Vector2(point.X - center.X, point.Y - center.Y);
+                    var norm = MathF.Sqrt(direction.X * direction.X + direction.Y * direction.Y);
+                    direction = new Vector2(direction.X / norm, direction.Y / norm);
+                    center = new Vector2(center.X + direction.X * (d - radius), center.Y + direction.Y * (d - radius));
+                }
+            }
+            
+            return new Circle(center, radius);
         }
 
         /// <summary>
         /// Returns an BoundingCircle for the given set of vertices
-        /// </summary>        
+        /// </summary>
         private static Circle BoundingCircle(Vector2 middle, IEnumerable<Vector2> vertices)
         {
             var max = float.MinValue;
-            
+
             foreach (var vertice in vertices)
             {
                 var dist = (vertice - middle).Magnitude();
-                if (dist > max) max = dist;                
-            }                        
+                if (dist > max) max = dist;
+            }
 
             return new Circle(middle, max);
         }

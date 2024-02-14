@@ -87,7 +87,7 @@ internal class Program
             }
             else if (Raylib.IsKeyPressed(KeyboardKey.Six))
             {
-                mouse = new Polygon(0.0f, 0.0f, 4, 25.0f);
+                mouse = new RegularPolygon(0.0f, 0.0f, 4, 25.0f);
             }
             else if (Raylib.IsKeyPressed(KeyboardKey.Seven))
             {
@@ -195,15 +195,15 @@ internal class Program
                 Gfx.DrawCircle(new Circle(t.Orthocenter(), 2), Color.Blue, true);                
                 Gfx.DrawCircle(t.Incircle(), Color.Green);
 
-                Gfx.DrawRectangle(G2d.AABB(l), Color.DarkGray);
-                Gfx.DrawRectangle(G2d.AABB(r), Color.DarkGray);
-                Gfx.DrawRectangle(G2d.AABB(c), Color.DarkGray);
-                Gfx.DrawRectangle(G2d.AABB(t), Color.DarkGray);
-                Gfx.DrawRectangle(G2d.AABB(poly), Color.DarkGray);
+                //Gfx.DrawRectangle(G2d.AABB(l), Color.DarkGray);
+                //Gfx.DrawRectangle(G2d.AABB(r), Color.DarkGray);
+                //Gfx.DrawRectangle(G2d.AABB(c), Color.DarkGray);
+                //Gfx.DrawRectangle(G2d.AABB(t), Color.DarkGray);
+                //Gfx.DrawRectangle(G2d.AABB(poly), Color.DarkGray);
 
-                Gfx.DrawCircle(G2d.BoundingCircle(l), Color.DarkGray);
-                Gfx.DrawCircle(G2d.BoundingCircle(r), Color.DarkGray);
-                Gfx.DrawCircle(G2d.BoundingCircle(c), Color.DarkGray);
+                //Gfx.DrawCircle(G2d.BoundingCircle(l), Color.DarkGray);
+                //Gfx.DrawCircle(G2d.BoundingCircle(r), Color.DarkGray);
+                //Gfx.DrawCircle(G2d.BoundingCircle(c), Color.DarkGray);
                 Gfx.DrawCircle(G2d.BoundingCircle(t), Color.DarkGray);
                 Gfx.DrawCircle(G2d.BoundingCircle(poly), Color.DarkGray);
 
@@ -291,7 +291,7 @@ internal class Program
                 t.Vertices[2].Y = my + 15.0f;
                 break;
 
-            case Polygon poly:
+            case RegularPolygon poly:
                 poly.BuildRegularPolygon(new Vector2(mx, my), 5, 25.0f);
                 break;
 
