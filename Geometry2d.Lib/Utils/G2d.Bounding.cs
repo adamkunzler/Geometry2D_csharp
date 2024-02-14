@@ -173,26 +173,26 @@ namespace Geometry2d.Lib.Utils
                 return new Circle(rp.Center(), rp.Radius);
             }
 
-            // Initial points A and B for the diameter of the initial circle
+            // Initial points A and B (furthest point from point[0]) for the diameter of the initial circle
             var A = lhs.Vertices.First();
             var B = lhs.Vertices.Aggregate((currentFarthest, next) => (A - next).Magnitude() > (A - currentFarthest).Magnitude() ? next : currentFarthest);
 
             // Initial circle defined by A and B
-            var center = new Vector2((A.X + B.X) / 2, (A.Y + B.Y) / 2);
+            var center = (A + B) / 2.0f;
             var radius = (A - B).Magnitude() / 2;
 
             // Check and adjust the circle to include all points
             foreach (var point in lhs.Vertices)
             {
-                if ((center - point).Magnitude() > radius)
+                var d = (center - point).Magnitude();
+                if (d > radius)
                 {
-                    // Adjust the circle to include the new point
-                    var d = (center - point).Magnitude();
+                    // Adjust the circle to include the new point                    
                     radius = (radius + d) / 2;
-                    var direction = new Vector2(point.X - center.X, point.Y - center.Y);
-                    var norm = MathF.Sqrt(direction.X * direction.X + direction.Y * direction.Y);
-                    direction = new Vector2(direction.X / norm, direction.Y / norm);
-                    center = new Vector2(center.X + direction.X * (d - radius), center.Y + direction.Y * (d - radius));
+                    var direction = point - center;
+                    var norm = MathF.Sqrt(direction.Dot(direction));
+                    direction /= norm;                    
+                    center += direction * (d - radius);
                 }
             }
             
