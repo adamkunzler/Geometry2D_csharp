@@ -18,6 +18,8 @@ internal class Program
         IShape mouse = new Vector2();
         var mousePoint = new Vector2();
 
+        var shapes = new List<IShape>();
+
         var p = new Vector2(150.0f, 150.0f);
         var l = new Line(63.0f, 204.0f, 172.0f, 232.0f);
         var r = new Rectangle(120.0f, 120.0f, 200.0f, 80.0f);
@@ -36,7 +38,17 @@ internal class Program
             new Vector2(140.0f, 22.0f),
             new Vector2(179.0f, 46.0f)
         );
-        var polyRect = new PolyRectangle(20.0f, 80.0f, 55.0f, 70.0f);        
+        var polyRect = new PolyRectangle(20.0f, 80.0f, 55.0f, 70.0f);
+
+        shapes.Add(p);
+        shapes.Add(l);
+        shapes.Add(r);
+        shapes.Add(c);
+        shapes.Add(t);
+        shapes.Add(ray);
+        shapes.Add(poly);
+        shapes.Add(polyRect);
+
 
         //
         // Initialization
@@ -96,22 +108,39 @@ internal class Program
             }
             else if (Raylib.IsKeyPressed(KeyboardKey.Right))
             {
-                G2d.Translate(c, new Vector2(10.0f, 0.0f));
+                G2d.Translate(poly, new Vector2(10.0f, 0.0f));
             }
             else if (Raylib.IsKeyPressed(KeyboardKey.Left))
             {
-                G2d.Translate(c, new Vector2(-10.0f, 0.0f));
+                G2d.Translate(poly, new Vector2(-10.0f, 0.0f));
             }
             else if (Raylib.IsKeyPressed(KeyboardKey.Up))
             {
-                G2d.Translate(c, new Vector2(0.0f, -10.0f));
+                G2d.Translate(poly, new Vector2(0.0f, -10.0f));
             }
             else if (Raylib.IsKeyPressed(KeyboardKey.Down))
             {
-                G2d.Translate(c, new Vector2(0.0f, 10.0f));
+                G2d.Translate(poly, new Vector2(0.0f, 10.0f));
             }
 
             #endregion Keyboard Input
+
+            if(Raylib.IsMouseButtonDown(MouseButton.Left))
+            {
+                // get shape that contains mouse
+                IShape shape = new Vector2();
+                foreach(var s in shapes)
+                {
+                    if(G2d.Contains(s, mouse))
+                    {
+                        shape = s;
+                        break;
+                    }
+                }
+
+                var delta = Raylib.GetMouseDelta();
+                G2d.Translate(shape, new Vector2(delta.X / screenScale, delta.Y / screenScale));
+            }
 
             //
             // Update
