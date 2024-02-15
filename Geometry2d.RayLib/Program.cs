@@ -36,6 +36,7 @@ internal class Program
             new Vector2(140.0f, 22.0f),
             new Vector2(179.0f, 46.0f)
         );
+        var polyRect = new PolyRectangle(20.0f, 80.0f, 55.0f, 70.0f);        
 
         //
         // Initialization
@@ -93,6 +94,22 @@ internal class Program
             {
                 mouse = new Ray();
             }
+            else if (Raylib.IsKeyPressed(KeyboardKey.Right))
+            {
+                G2d.Translate(c, new Vector2(10.0f, 0.0f));
+            }
+            else if (Raylib.IsKeyPressed(KeyboardKey.Left))
+            {
+                G2d.Translate(c, new Vector2(-10.0f, 0.0f));
+            }
+            else if (Raylib.IsKeyPressed(KeyboardKey.Up))
+            {
+                G2d.Translate(c, new Vector2(0.0f, -10.0f));
+            }
+            else if (Raylib.IsKeyPressed(KeyboardKey.Down))
+            {
+                G2d.Translate(c, new Vector2(0.0f, 10.0f));
+            }
 
             #endregion Keyboard Input
 
@@ -145,6 +162,11 @@ internal class Program
                     ? Color.Gold 
                     : G2d.Overlaps(ray, mouse) ? Color.Purple : Color.RayWhite);
 
+                Gfx.DrawPolygon(polyRect, G2d.Contains(polyRect, mouse)
+                    ? Color.Gold
+                    : G2d.Overlaps(polyRect, mouse) ? Color.Purple : Color.RayWhite);
+                Gfx.DrawPoint(polyRect.Center(), Color.RayWhite);
+
                 #endregion Draw Static Shapes
 
                 #region Mouse Shape Intersections
@@ -173,6 +195,10 @@ internal class Program
                 foreach (var intersection in interRay)
                     Gfx.DrawCircle(new Circle(intersection, 3), Color.Green);
 
+                var interPolyRect = G2d.Intersects(polyRect, mouse);
+                foreach (var intersection in interPolyRect)
+                    Gfx.DrawCircle(new Circle(intersection, 3), Color.Green);
+
                 #endregion Mouse Shape Intersections
 
                 #region Mouse Shape Closest
@@ -183,6 +209,7 @@ internal class Program
                 Gfx.DrawCircle(new Circle(G2d.Closest(mouse, t), 2), Color.Blue, true);
                 Gfx.DrawCircle(new Circle(G2d.Closest(mouse, poly), 2), Color.Blue, true);
                 Gfx.DrawCircle(new Circle(G2d.Closest(mouse, ray), 2), Color.Blue, true);
+                Gfx.DrawCircle(new Circle(G2d.Closest(mouse, polyRect), 2), Color.Blue, true);
 
                 #endregion Mouse Shape Closest                               
 
@@ -208,6 +235,12 @@ internal class Program
                 Gfx.DrawCircle(G2d.BoundingCircle(poly), Color.DarkGray);
 
                 #endregion Draw AABB
+
+                #region Transformation
+
+                
+
+                #endregion Transformation
             }
             catch
             {
