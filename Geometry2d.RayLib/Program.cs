@@ -53,7 +53,7 @@ internal class Program
         var theta = 0.0f;
         var rayTheta = 0.0f;
 
-        var doRotate = true;
+        var doRotate = false;
 
         //
         // Initialization
@@ -271,7 +271,7 @@ internal class Program
                     }
                 }
 
-                G2d.Rotate(l, new Vector2(middleX, middleY), theta);
+                G2d.Rotate(poly, new Vector2(middleX, middleY), theta, true);
 
                 #endregion Transformation
             }

@@ -173,16 +173,19 @@ namespace Geometry2d.Lib.Utils
 
         #region ROTATE around arbitrary origin
 
-        public static void Rotate(IShape lhs, Vector2 origin, float theta)
+        /// <summary>
+        /// Rotate a shape around an origin. if counterRotate is true, rotate the shape -theta around the shape center.
+        /// </summary>        
+        public static void Rotate(IShape lhs, Vector2 origin, float theta, bool counterRotate)
         {
             switch (lhs)
             {
                 case Vector2 x: Rotate(x, origin, theta); break;
-                case Line x: Rotate(x, origin, theta); break;
+                case Line x: Rotate(x, origin, theta, counterRotate); break;
                 case Rectangle x: Rotate(x, origin, theta); break;
                 case Circle x: Rotate(x, origin, theta); break;
-                case Triangle x: Rotate(x, origin, theta); break;
-                case Polygon x: Rotate(x, origin, theta); break;
+                case Triangle x: Rotate(x, origin, theta, counterRotate); break;
+                case Polygon x: Rotate(x, origin, theta, counterRotate); break;
                 case Ray x: Rotate(x, origin, theta); break;
 
             };
@@ -197,12 +200,14 @@ namespace Geometry2d.Lib.Utils
         }
 
         /// <summary>
-        /// rotate a line around an origin
+        /// rotate a line around an origin. if counterRotate is true, rotate the shape -theta around the shape center.
         /// </summary>        
-        public static void Rotate(Line lhs, Vector2 origin, float theta)
+        public static void Rotate(Line lhs, Vector2 origin, float theta, bool counterRotate)
         {
             lhs.Start = RotatePoint(lhs.Start, origin, theta);
             lhs.End = RotatePoint(lhs.End, origin, theta);
+
+            if(counterRotate) Rotate(lhs, -theta);
         }
 
         /// <summary>
@@ -222,21 +227,25 @@ namespace Geometry2d.Lib.Utils
         }
 
         /// <summary>
-        /// rotate a triangle around an origin
+        /// rotate a triangle around an origin. if counterRotate is true, rotate the shape -theta around the shape center.
         /// </summary>        
-        public static void Rotate(Triangle lhs, Vector2 origin, float theta)
+        public static void Rotate(Triangle lhs, Vector2 origin, float theta, bool counterRotate)
         {            
             lhs.Vertices[0] = RotatePoint(lhs.Vertices[0], origin, theta);
             lhs.Vertices[1] = RotatePoint(lhs.Vertices[1], origin, theta);
             lhs.Vertices[2] = RotatePoint(lhs.Vertices[2], origin, theta);
+
+            if (counterRotate) Rotate(lhs, -theta);
         }
 
         /// <summary>
-        /// rotate a polygon around an origin
+        /// rotate a polygon around an origin. if counterRotate is true, rotate the shape -theta around the shape center.
         /// </summary>        
-        public static void Rotate(Polygon lhs, Vector2 origin, float theta)
+        public static void Rotate(Polygon lhs, Vector2 origin, float theta, bool counterRotate)
         {
             RotatePoints(lhs.Vertices, origin, theta);
+
+            if (counterRotate) Rotate(lhs, -theta);
         }
 
         /// <summary>
