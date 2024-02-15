@@ -94,7 +94,7 @@ COMPOSITE	|				|				|				|				|				|				|				|				|
 			|	AABB		|	AABB		|	AABB		|	AABB		|	AABB		|	AABB		|				|				|
 			|	AABBCircle	|	AABBCircle	|	AABBCircle	|	AABBCircle	|	AABBCircle	|	AABBCircle	|				|				|
 			|	Translate	|	Translate	|	Translate	|	Translate	|	Translate	|	Translate	|	Translate	|				|
-			|	Rotate		|	Rotate		|				|	Rotate		|	Rotate		|	Rotate		|	Rotate		|				|
+			|	Rotate		|	Rotate		|	Rotate		|	Rotate		|	Rotate		|	Rotate		|	Rotate		|				|
 			|	Scale		|	Scale		|	Scale		|	Scale		|	Scale		|	Scale		|				|				|
 			|				|	 			|				|				|				|				|				|				|
 			|				|	 			|				|				|				|				|				|				|

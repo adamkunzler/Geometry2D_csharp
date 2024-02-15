@@ -116,19 +116,25 @@ internal class Program
             }
             else if (Raylib.IsKeyPressed(KeyboardKey.Right))
             {
-                
+
             }
             else if (Raylib.IsKeyPressed(KeyboardKey.Left))
             {
-                
+
             }
             else if (Raylib.IsKeyPressed(KeyboardKey.Up))
             {
-                
+                foreach (var shape in shapes)
+                {
+                    G2d.Scale(shape, new Vector2(1.1f, 1.1f));
+                }
             }
             else if (Raylib.IsKeyPressed(KeyboardKey.Down))
             {
-                
+                foreach (var shape in shapes)
+                {
+                    G2d.Scale(shape, new Vector2(0.75f, 0.75f));
+                }
             }
             else if (Raylib.IsKeyPressed(KeyboardKey.R))
             {
@@ -146,9 +152,9 @@ internal class Program
             {
                 // get shape that contains mouse
                 IShape shape = new Vector2();
-                foreach(var s in shapes)
+                foreach (var s in shapes)
                 {
-                    if(G2d.Contains(s, mouse))
+                    if (G2d.Contains(s, mouse))
                     {
                         shape = s;
                         break;
@@ -167,9 +173,12 @@ internal class Program
 
             UpdateMouse(Raylib.GetMousePosition(), mousePoint, mouse, screenScale);
 
-            theta = G2d.DegreesToRadians(1);
-            rayTheta += theta;
-            if (rayTheta > MathF.PI * 2.0f) rayTheta = 0.0f;
+            if (doRotate)
+            {
+                theta = G2d.DegreesToRadians(1);
+                rayTheta += theta;
+                if (rayTheta > MathF.PI * 2.0f) rayTheta = 0.0f;
+            }
             
             //
             // Draw

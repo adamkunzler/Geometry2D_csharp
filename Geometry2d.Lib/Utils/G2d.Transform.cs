@@ -260,47 +260,90 @@ namespace Geometry2d.Lib.Utils
 
         #region SCALE
 
-        public static void Scale(IShape lhs)
+        public static void Scale(IShape lhs, Vector2 amount)
         {
             switch (lhs)
             {
-                case Vector2 x: Scale(x); break;
-                case Line x: Scale(x); break;
-                case Rectangle x: Scale(x); break;
-                case Circle x: Scale(x); break;
-                case Triangle x: Scale(x); break;
-                case Polygon x: Scale(x); break;               
+                case Vector2 x: Scale(x, amount); break;
+                case Line x: Scale(x, amount); break;
+                case Rectangle x: Scale(x, amount); break;
+                case Circle x: Scale(x, amount); break;
+                case Triangle x: Scale(x, amount); break;
+                case Polygon x: Scale(x, amount); break;               
             };
         }
 
-        public static void Scale(Vector2 lhs)
+        /// <summary>
+        /// doesn't do anything
+        /// </summary>        
+        public static void Scale(Vector2 lhs, Vector2 amount)
         {
-
+            // do nothing
         }
 
-        public static void Scale(Line lhs)
+        /// <summary>
+        /// scale a line
+        /// </summary>        
+        public static void Scale(Line lhs, Vector2 amount)
         {
-
+            var middle = lhs.Middle();
+            lhs.Start = ScalePoint(lhs.Start, middle, amount);
+            lhs.End = ScalePoint(lhs.End, middle, amount);
         }
 
-        public static void Scale(Rectangle lhs)
+        /// <summary>
+        /// scale a rectangle
+        /// </summary>        
+        public static void Scale(Rectangle lhs, Vector2 amount)
         {
+            // scale top-left corner 
+            lhs.Position = ScalePoint(lhs.Position, lhs.Middle, amount);
 
+            // scale width/height
+            lhs.Size *= amount;
         }
 
-        public static void Scale(Circle lhs)
-        {
 
+        /// <summary>
+        /// scale a circle's radius (uses amount.X)
+        /// </summary>        
+        public static void Scale(Circle lhs, Vector2 amount)
+        {
+            lhs.Radius *= amount.X;
         }
 
-        public static void Scale(Triangle lhs)
+        /// <summary>
+        /// scale a triangle
+        /// </summary>        
+        public static void Scale(Triangle lhs, Vector2 amount)
         {
-
+            lhs.Vertices[0] = ScalePoint(lhs.Vertices[0], lhs.Centroid(), amount);
+            lhs.Vertices[1] = ScalePoint(lhs.Vertices[1], lhs.Centroid(), amount);
+            lhs.Vertices[2] = ScalePoint(lhs.Vertices[2], lhs.Centroid(), amount);
         }
 
-        public static void Scale(Polygon lhs)
+        /// <summary>
+        /// scale a polygon
+        /// </summary>        
+        public static void Scale(Polygon lhs, Vector2 amount)
         {
+            ScalePoints(lhs.Vertices, lhs.Center(), amount);
+        }
 
+        private static void ScalePoints(List<Vector2> points, Vector2 origin, Vector2 amount)
+        {
+            for(var i = 0; i < points.Count; i++)
+            {
+                points[i] = ScalePoint(points[i], origin, amount);
+            }
+        }
+
+        private static Vector2 ScalePoint(Vector2 point, Vector2 origin, Vector2 amount)
+        {
+            var translated = point - origin;
+            var scaled = translated * amount;
+            var finalPoint = scaled + origin;
+            return finalPoint;
         }
 
         #endregion SCALE
