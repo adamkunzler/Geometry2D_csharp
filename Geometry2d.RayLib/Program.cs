@@ -40,7 +40,7 @@ internal class Program
         );
         var polyRect = new PolyRectangle(20.0f, 80.0f, 55.0f, 70.0f);
 
-        shapes.Add(p);
+        //shapes.Add(p);
         shapes.Add(l);
         shapes.Add(r);
         shapes.Add(c);
@@ -50,12 +50,20 @@ internal class Program
         shapes.Add(polyRect);
 
 
+        var theta = 0.0f;
+        var rayTheta = 0.0f;
+
+        var doRotate = true;
+
         //
         // Initialization
         //
         const int screenWidth = 1536;
         const int screenHeight = 1536;
         const int screenScale = 4;
+
+        const int middleX = (screenWidth / screenScale) / 2;
+        const int middleY = (screenHeight / screenScale) / 2;
 
         Raylib.InitWindow(screenWidth, screenHeight, ".: Geometry 2D :.");
         Raylib.SetTargetFPS(60);
@@ -108,24 +116,33 @@ internal class Program
             }
             else if (Raylib.IsKeyPressed(KeyboardKey.Right))
             {
-                G2d.Translate(poly, new Vector2(10.0f, 0.0f));
+                
             }
             else if (Raylib.IsKeyPressed(KeyboardKey.Left))
             {
-                G2d.Translate(poly, new Vector2(-10.0f, 0.0f));
+                
             }
             else if (Raylib.IsKeyPressed(KeyboardKey.Up))
             {
-                G2d.Translate(poly, new Vector2(0.0f, -10.0f));
+                
             }
             else if (Raylib.IsKeyPressed(KeyboardKey.Down))
             {
-                G2d.Translate(poly, new Vector2(0.0f, 10.0f));
+                
+            }
+            else if (Raylib.IsKeyPressed(KeyboardKey.R))
+            {
+                doRotate = !doRotate;
             }
 
             #endregion Keyboard Input
 
-            if(Raylib.IsMouseButtonDown(MouseButton.Left))
+            #region Mouse Input
+
+            //
+            // Draw shapes around with mouse
+            //
+            if (Raylib.IsMouseButtonDown(MouseButton.Left))
             {
                 // get shape that contains mouse
                 IShape shape = new Vector2();
@@ -142,12 +159,18 @@ internal class Program
                 G2d.Translate(shape, new Vector2(delta.X / screenScale, delta.Y / screenScale));
             }
 
+            #endregion Mouse Input
+
             //
             // Update
             //
 
             UpdateMouse(Raylib.GetMousePosition(), mousePoint, mouse, screenScale);
 
+            theta = G2d.DegreesToRadians(1);
+            rayTheta += theta;
+            if (rayTheta > MathF.PI * 2.0f) rayTheta = 0.0f;
+            
             //
             // Draw
             //
@@ -198,50 +221,25 @@ internal class Program
 
                 #endregion Draw Static Shapes
 
-                #region Mouse Shape Intersections
+                #region Mouse Shape Interactions
 
-                var interLine = G2d.Intersects(l, mouse);
-                foreach (var intersection in interLine)
-                    Gfx.DrawCircle(new Circle(intersection, 3), Color.Green);
+                foreach(var shape in shapes)
+                {
+                    //
+                    // SHAPE INTERSECTIONS
+                    //
+                    var intersections = G2d.Intersects(shape, mouse);
+                    foreach (var intersection in intersections)
+                        Gfx.DrawCircle(new Circle(intersection, 3), Color.Green);
 
-                var interRect = G2d.Intersects(r, mouse);
-                foreach (var intersection in interRect)
-                    Gfx.DrawCircle(new Circle(intersection, 3), Color.Green);
-
-                var interCircle = G2d.Intersects(c, mouse);
-                foreach (var intersection in interCircle)
-                    Gfx.DrawCircle(new Circle(intersection, 3), Color.Green);
-
-                var interTriangle = G2d.Intersects(t, mouse);
-                foreach (var intersection in interTriangle)
-                    Gfx.DrawCircle(new Circle(intersection, 3), Color.Green);
-
-                var interPoly = G2d.Intersects(poly, mouse);
-                foreach (var intersection in interPoly)
-                    Gfx.DrawCircle(new Circle(intersection, 3), Color.Green);
-
-                var interRay = G2d.Intersects(ray, mouse);
-                foreach (var intersection in interRay)
-                    Gfx.DrawCircle(new Circle(intersection, 3), Color.Green);
-
-                var interPolyRect = G2d.Intersects(polyRect, mouse);
-                foreach (var intersection in interPolyRect)
-                    Gfx.DrawCircle(new Circle(intersection, 3), Color.Green);
+                    //
+                    // SHAPE CLOSEST
+                    //
+                    Gfx.DrawCircle(new Circle(G2d.Closest(mouse, shape), 2), Color.Blue, true);
+                }
 
                 #endregion Mouse Shape Intersections
-
-                #region Mouse Shape Closest
-
-                Gfx.DrawCircle(new Circle(G2d.Closest(mouse, l), 2), Color.Blue, true);
-                Gfx.DrawCircle(new Circle(G2d.Closest(mouse, r), 2), Color.Blue, true);
-                Gfx.DrawCircle(new Circle(G2d.Closest(mouse, c), 2), Color.Blue, true);
-                Gfx.DrawCircle(new Circle(G2d.Closest(mouse, t), 2), Color.Blue, true);
-                Gfx.DrawCircle(new Circle(G2d.Closest(mouse, poly), 2), Color.Blue, true);
-                Gfx.DrawCircle(new Circle(G2d.Closest(mouse, ray), 2), Color.Blue, true);
-                Gfx.DrawCircle(new Circle(G2d.Closest(mouse, polyRect), 2), Color.Blue, true);
-
-                #endregion Mouse Shape Closest                               
-
+                                
                 #region Draw AABB
 
                 // triangle centers
@@ -250,16 +248,7 @@ internal class Program
                 Gfx.DrawCircle(new Circle(t.Incenter(), 2), Color.Green, true);
                 Gfx.DrawCircle(new Circle(t.Orthocenter(), 2), Color.Blue, true);                
                 Gfx.DrawCircle(t.Incircle(), Color.Green);
-
-                //Gfx.DrawRectangle(G2d.AABB(l), Color.DarkGray);
-                //Gfx.DrawRectangle(G2d.AABB(r), Color.DarkGray);
-                //Gfx.DrawRectangle(G2d.AABB(c), Color.DarkGray);
-                //Gfx.DrawRectangle(G2d.AABB(t), Color.DarkGray);
-                //Gfx.DrawRectangle(G2d.AABB(poly), Color.DarkGray);
-
-                //Gfx.DrawCircle(G2d.BoundingCircle(l), Color.DarkGray);
-                //Gfx.DrawCircle(G2d.BoundingCircle(r), Color.DarkGray);
-                //Gfx.DrawCircle(G2d.BoundingCircle(c), Color.DarkGray);
+                
                 Gfx.DrawCircle(G2d.BoundingCircle(t), Color.DarkGray);
                 Gfx.DrawCircle(G2d.BoundingCircle(poly), Color.DarkGray);
 
@@ -267,7 +256,22 @@ internal class Program
 
                 #region Transformation
 
-                
+                if (doRotate)
+                {
+                    foreach (var shape in shapes)
+                    {
+                        if (shape is Ray rr)
+                        {
+                            G2d.Rotate(rr, rayTheta);
+                        }
+                        else
+                        {
+                            G2d.Rotate(shape, theta);
+                        }
+                    }
+                }
+
+                G2d.Rotate(l, new Vector2(middleX, middleY), theta);
 
                 #endregion Transformation
             }

@@ -105,6 +105,16 @@ namespace Geometry2d.Lib.Primitives
         public Vector2 RealPoint(float distance) => RealPoint(this, distance);
 
         /// <summary>
+        /// returns the middle point of a line
+        /// </summary>        
+        public static Vector2 Middle(Line line) => UnitPoint(line, 0.5f);
+
+        /// <summary>
+        /// returns the middle point of a line
+        /// </summary>        
+        public Vector2 Middle() => Middle(this);
+
+        /// <summary>
         /// given a unit distance, get a point along the line (1 unit = length of line)
         /// </summary>        
         public static Vector2 UnitPoint(Line line, float distance)

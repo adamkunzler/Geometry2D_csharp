@@ -67,59 +67,187 @@ namespace Geometry2d.Lib.Utils
 
         #endregion TRANSLATE
 
-        #region ROTATE
+        #region ROTATE around shape origin
 
-        public static void Rotate(IShape lhs)
+        public static void Rotate(IShape lhs, float theta)
         {
             switch (lhs)
             {
-                case Vector2 x: Rotate(x); break;
-                case Line x: Rotate(x); break;
-                case Rectangle x: Rotate(x); break;
-                case Circle x: Rotate(x); break;
-                case Triangle x: Rotate(x); break;
-                case Polygon x: Rotate(x); break;
-                case Ray x: Rotate(x); break;
+                case Vector2 x: Rotate(x, theta); break;
+                case Line x: Rotate(x, theta); break;
+                case Rectangle x: Rotate(x, theta); break;
+                case Circle x: Rotate(x, theta); break;
+                case Triangle x: Rotate(x, theta); break;
+                case Polygon x: Rotate(x, theta); break;
+                case Ray x: Rotate(x, theta); break;
 
             };
         }
 
-        public static void Rotate(Vector2 lhs)
+        /// <summary>
+        /// doesn't do anything
+        /// </summary>        
+        public static void Rotate(Vector2 lhs, float theta)
         {
-
+            // do nothing
         }
 
-        public static void Rotate(Line lhs)
+        /// <summary>
+        /// rotate a line around it's center
+        /// </summary>        
+        public static void Rotate(Line lhs, float theta)
         {
-
+            var middle = lhs.Middle();
+            lhs.Start = RotatePoint(lhs.Start, middle, theta);
+            lhs.End = RotatePoint(lhs.End, middle, theta);
         }
 
-        public static void Rotate(Rectangle lhs)
+        /// <summary>
+        /// can't rotate a rectangle...make a PolyRectangle instead
+        /// </summary>        
+        public static void Rotate(Rectangle lhs, float theta)
         {
-
+            // do nothing
         }
 
-        public static void Rotate(Circle lhs)
+        /// <summary>
+        /// doesn't do anything
+        /// </summary>        
+        public static void Rotate(Circle lhs, float theta)
         {
-
+            // do nothing
         }
 
-        public static void Rotate(Triangle lhs)
+        /// <summary>
+        /// rotate a triangle around it's centroid
+        /// </summary>        
+        public static void Rotate(Triangle lhs, float theta)
         {
-
+            var centroid = lhs.Centroid();
+            lhs.Vertices[0] = RotatePoint(lhs.Vertices[0], centroid, theta);
+            lhs.Vertices[1] = RotatePoint(lhs.Vertices[1], centroid, theta);
+            lhs.Vertices[2] = RotatePoint(lhs.Vertices[2], centroid, theta);
         }
 
-        public static void Rotate(Polygon lhs)
+        /// <summary>
+        /// rotate a polygon around it's center
+        /// </summary>        
+        public static void Rotate(Polygon lhs, float theta)
         {
-
+            RotatePoints(lhs.Vertices, lhs.Center(), theta);
         }
 
-        public static void Rotate(Ray lhs)
+        /// <summary>
+        /// rotates the direction of a ray
+        /// </summary>        
+        public static void Rotate(Ray lhs, float theta)
         {
-
+            var v = new Vector2(1.0f, theta);
+            lhs.Direction = v.ToCartesian();
         }
 
-        #endregion ROTATE
+        private static void RotatePoints(List<Vector2> points, Vector2 origin, float theta)
+        {
+            for(var i = 0; i < points.Count; i++)
+            {
+                points[i] = RotatePoint(points[i], origin, theta);
+            }
+        }
+
+        private static Vector2 RotatePoint(Vector2 point, Vector2 origin, float theta)
+        {
+            // translate point relative to (0,0)
+            var translated = point - origin;
+
+            // rotate point
+            var rotated = new Vector2();
+            rotated.X = translated.X * MathF.Cos(theta) - translated.Y * MathF.Sin(theta);
+            rotated.Y = translated.X * MathF.Sin(theta) + translated.Y * MathF.Cos(theta);
+
+            // translate back to origin
+            var finalPoint = rotated + origin;
+            return finalPoint;
+        }
+
+        #endregion ROTATE around shape origin
+
+        #region ROTATE around arbitrary origin
+
+        public static void Rotate(IShape lhs, Vector2 origin, float theta)
+        {
+            switch (lhs)
+            {
+                case Vector2 x: Rotate(x, origin, theta); break;
+                case Line x: Rotate(x, origin, theta); break;
+                case Rectangle x: Rotate(x, origin, theta); break;
+                case Circle x: Rotate(x, origin, theta); break;
+                case Triangle x: Rotate(x, origin, theta); break;
+                case Polygon x: Rotate(x, origin, theta); break;
+                case Ray x: Rotate(x, origin, theta); break;
+
+            };
+        }
+
+        /// <summary>
+        /// rotate a point around an origin
+        /// </summary>        
+        public static void Rotate(Vector2 lhs, Vector2 origin, float theta)
+        {
+            lhs = RotatePoint(lhs, origin, theta);
+        }
+
+        /// <summary>
+        /// rotate a line around an origin
+        /// </summary>        
+        public static void Rotate(Line lhs, Vector2 origin, float theta)
+        {
+            lhs.Start = RotatePoint(lhs.Start, origin, theta);
+            lhs.End = RotatePoint(lhs.End, origin, theta);
+        }
+
+        /// <summary>
+        /// rotate a rectangle around an origin
+        /// </summary>        
+        public static void Rotate(Rectangle lhs, Vector2 origin, float theta)
+        {
+            lhs.Position = RotatePoint(lhs.Position, origin, theta);
+        }
+
+        /// <summary>
+        /// rotate a circle around an origin
+        /// </summary>        
+        public static void Rotate(Circle lhs, Vector2 origin, float theta)
+        {
+            lhs.Origin = RotatePoint(lhs.Origin, origin, theta);
+        }
+
+        /// <summary>
+        /// rotate a triangle around an origin
+        /// </summary>        
+        public static void Rotate(Triangle lhs, Vector2 origin, float theta)
+        {            
+            lhs.Vertices[0] = RotatePoint(lhs.Vertices[0], origin, theta);
+            lhs.Vertices[1] = RotatePoint(lhs.Vertices[1], origin, theta);
+            lhs.Vertices[2] = RotatePoint(lhs.Vertices[2], origin, theta);
+        }
+
+        /// <summary>
+        /// rotate a polygon around an origin
+        /// </summary>        
+        public static void Rotate(Polygon lhs, Vector2 origin, float theta)
+        {
+            RotatePoints(lhs.Vertices, origin, theta);
+        }
+
+        /// <summary>
+        /// doesn't do anything
+        /// </summary>        
+        public static void Rotate(Ray lhs, Vector2 origin, float theta)
+        {            
+            // do nothing
+        }        
+
+        #endregion ROTATE around arbitrary origin
 
         #region SCALE
 
