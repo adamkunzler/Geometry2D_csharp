@@ -283,10 +283,20 @@ internal class Program
                 G2d.Rotate(poly, new Vector2(middleX, middleY), theta, true);
 
                 #endregion Transformation
+
+                #region Reflections
+                
+                if(mouse is Ray mouseRay)
+                {
+                    var data = G2d.Reflect(mouseRay, r);
+                    Gfx.DrawRay(new Ray(data.Intersection, data.Reflection), Color.RayWhite);
+                }
+
+                #endregion Reflections
             }
-            catch
+            catch (Exception ex) 
             {
-                Console.WriteLine("oops");
+                Console.WriteLine($"OOPS: {ex.Message}");
             }
 
             Raylib.EndTextureMode();
