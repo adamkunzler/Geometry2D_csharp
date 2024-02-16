@@ -1,7 +1,7 @@
 ﻿using Geometry2d.Lib.Primitives;
 
 namespace Geometry2d.Lib.Utils
-{
+{    
     public static partial class G2d
     {
         #region IShape INTERSECTS IShape

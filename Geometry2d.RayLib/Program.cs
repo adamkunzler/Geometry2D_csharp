@@ -288,8 +288,11 @@ internal class Program
                 
                 if(mouse is Ray mouseRay)
                 {
-                    var data = G2d.Reflect(mouseRay, c);
-                    Gfx.DrawRay(new Ray(data.Intersection, data.Reflection), Color.RayWhite);
+                    var data = G2d.Reflect(mouseRay, poly);
+                    if (data != null)
+                    {
+                        Gfx.DrawRay(new Ray(data.Intersection, data.Reflection), Color.RayWhite);
+                    }
                 }
 
                 #endregion Reflections
@@ -381,9 +384,9 @@ internal class Program
                 break;
 
             case Ray ray:
-                ray.Origin.X = 0;
+                ray.Origin.X = 0.0f;
                 ray.Origin.Y = 0;
-                ray.Direction = new Vector2(mx, my).Normal();
+                ray.Direction = (new Vector2(mx, my) - ray.Origin).Normal();
                 break;
         }
     }

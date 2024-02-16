@@ -8,7 +8,7 @@ namespace Geometry2d.Lib.Utils
     {
         /// <summary>
         /// Law of Reflection
-        /// </summary>        
+        /// </summary>
         public static Vector2 Reflect(Vector2 incident, Vector2 normal)
         {
             // reflection vector
@@ -21,7 +21,7 @@ namespace Geometry2d.Lib.Utils
 
         /// <summary>
         /// return reflection data for a ray reflecting of an IShape
-        /// </summary>        
+        /// </summary>
         public static ReflectData Reflect(Ray lhs, IShape rhs)
         {
             return rhs switch
@@ -35,101 +35,84 @@ namespace Geometry2d.Lib.Utils
                 _ => new ReflectData(Vector2.Zero, Vector2.Zero)
             };
         }
-        
+
         /// <summary>
         /// return reflection data for a ray reflecting of a point
-        /// </summary>        
+        /// </summary>
         public static ReflectData Reflect(Ray lhs, Vector2 rhs)
-        {
-
-
-            //var reflection = Reflect(lhs.Direction, normal);
-
-            //return new ReflectData(closest, reflection);
-            return new ReflectData(Vector2.Zero, Vector2.Zero);
+        {            
+            return null!;
         }
 
         /// <summary>
         /// return reflection data for a ray reflecting of a line
-        /// </summary>        
+        /// </summary>
         public static ReflectData Reflect(Ray lhs, Line rhs)
         {
+            var collision = Collision(lhs, rhs);
+            if (!collision.IsHit) return null!;
 
+            var reflection = Reflect(lhs.Direction, collision.Normal);
 
-            //var reflection = Reflect(lhs.Direction, normal);
-
-            //return new ReflectData(closest, reflection);
-            return new ReflectData(Vector2.Zero, Vector2.Zero);
+            return new ReflectData(collision.Intersection, reflection);
         }
 
         /// <summary>
         /// return reflection data for a ray reflecting of a rectangle
-        /// </summary>        
+        /// </summary>
         public static ReflectData Reflect(Ray lhs, Rectangle rhs)
-        {                        
-            var intersections = Intersects(lhs, rhs);
-            if (intersections.Count == 0) return new ReflectData(Vector2.Zero, Vector2.Zero);
+        {
+            var collision = Collision(lhs, rhs);
+            if (!collision.IsHit) return null!;
 
-            var closest = ClosestIntersection(lhs.Origin, intersections);
+            var reflection = Reflect(lhs.Direction, collision.Normal);
 
-            var normal = Vector2.Zero;
-            if (Contains(rhs.Left, closest)) normal = new Vector2(-1.0f, 0.0f);
-            if (Contains(rhs.Right, closest)) normal = new Vector2(1.0f, 0.0f);
-            if (Contains(rhs.Top, closest)) normal = new Vector2(0.0f, -1.0f);
-            if (Contains(rhs.Bottom, closest)) normal = new Vector2(0.0f, 1.0f);
-
-            var reflection = Reflect(lhs.Direction, normal);
-
-            return new ReflectData(closest, reflection);
+            return new ReflectData(collision.Intersection, reflection);
         }
 
         /// <summary>
-        /// return reflection data for a ray reflecting of a rectangle
-        /// </summary>        
+        /// return reflection data for a ray reflecting of a circle
+        /// </summary>
         public static ReflectData Reflect(Ray lhs, Circle rhs)
         {
-            var intersections = Intersects(lhs, rhs);
-            if (intersections.Count == 0) return new ReflectData(Vector2.Zero, Vector2.Zero);
+            var collision = Collision(lhs, rhs);
+            if (!collision.IsHit) return null!;
 
-            var closest = ClosestIntersection(lhs.Origin, intersections);
+            var reflection = Reflect(lhs.Direction, collision.Normal);
 
-            var normal = (closest - rhs.Origin).Normal();
-
-            var reflection = Reflect(lhs.Direction, normal);
-
-            return new ReflectData(closest, reflection);
+            return new ReflectData(collision.Intersection, reflection);
         }
 
         /// <summary>
         /// return reflection data for a ray reflecting of a triangle
-        /// </summary>        
+        /// </summary>
         public static ReflectData Reflect(Ray lhs, Triangle rhs)
         {
+            var collision = Collision(lhs, rhs);
+            if (!collision.IsHit) return null!;
 
+            var reflection = Reflect(lhs.Direction, collision.Normal);
 
-            //var reflection = Reflect(lhs.Direction, normal);
-
-            //return new ReflectData(closest, reflection);
-            return new ReflectData(Vector2.Zero, Vector2.Zero);
+            return new ReflectData(collision.Intersection, reflection);
         }
 
         /// <summary>
         /// return reflection data for a ray reflecting of a polygon
-        /// </summary>        
+        /// </summary>
         public static ReflectData Reflect(Ray lhs, Polygon rhs)
         {
+            var collision = Collision(lhs, rhs);
+            if (!collision.IsHit) return null!;
 
+            var reflection = Reflect(lhs.Direction, collision.Normal);
 
-            //var reflection = Reflect(lhs.Direction, normal);
-
-            //return new ReflectData(closest, reflection);
-            return new ReflectData(Vector2.Zero, Vector2.Zero);
+            return new ReflectData(collision.Intersection, reflection);
         }
 
         private static Vector2 ClosestIntersection(Vector2 rayOrigin, List<Vector2> intersections)
-        {            
+        {
             var min = float.MaxValue;
-            var closest = Vector2.Zero;                      
+            var closest = Vector2.Zero;
 
             foreach (var intersection in intersections)
             {
