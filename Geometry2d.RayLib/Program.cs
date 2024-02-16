@@ -288,7 +288,7 @@ internal class Program
                 
                 if(mouse is Ray mouseRay)
                 {
-                    var data = G2d.Reflect(mouseRay, r);
+                    var data = G2d.Reflect(mouseRay, c);
                     Gfx.DrawRay(new Ray(data.Intersection, data.Reflection), Color.RayWhite);
                 }
 
