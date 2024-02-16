@@ -28,7 +28,7 @@
 
         public override string ToString()
         {
-            return $"[{Origin}, {Direction}]";
+            return $"Ray [{Origin}, {Direction}]";
         }
 
         #endregion ctor

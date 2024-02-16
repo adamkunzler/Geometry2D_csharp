@@ -32,8 +32,51 @@ namespace Geometry2d.Lib.Utils
                 Circle x => Reflect(lhs, x),
                 Triangle x => Reflect(lhs, x),
                 Polygon x => Reflect(lhs, x),
-                _ => new ReflectData(Vector2.Zero, Vector2.Zero)
+                _ => null!
             };
+        }
+
+        /// <summary>
+        /// Calculate the reflection data for a ray bouncing around a list of shapes
+        /// </summary>        
+        public static List<ReflectData> Reflect(Ray lhs, List<IShape> shapes, int maxBounces)
+        {
+            var reflectData = new List<ReflectData>();
+
+            var ray = lhs;
+            ReflectData lastClosest = null;
+
+            for (var i = 0; i < maxBounces; i++)
+            {                
+                var minDist = float.MaxValue;
+                ReflectData closest = null!;
+
+                foreach(var shape in shapes)
+                {
+                    var r = Reflect(ray, shape);
+                    if (r == null || r.Intersection.AreEqual(lastClosest?.Intersection!)) continue;
+
+                    var dist = (r.Intersection - ray.Origin).Magnitude2();
+                    if(dist < minDist)
+                    {
+                        minDist = dist;
+                        closest = r;                        
+                    }
+                }
+
+                if (closest == null) break;
+
+                // move "closest" a little bit away from intersection point in the direction of the incoming ray
+                var dir = (ray.Origin - closest.Intersection).Normal();
+                var newClosestIntersection = closest.Intersection + (dir * 0.05f);
+                var closerClosest = new ReflectData(newClosestIntersection, closest.Reflection);
+                
+                lastClosest = closerClosest;
+                ray = new Ray(closerClosest.Intersection, closerClosest.Reflection);
+                reflectData.Add(closerClosest);
+            }
+
+            return reflectData;
         }
 
         /// <summary>
@@ -107,24 +150,6 @@ namespace Geometry2d.Lib.Utils
             var reflection = Reflect(lhs.Direction, collision.Normal);
 
             return new ReflectData(collision.Intersection, reflection);
-        }
-
-        private static Vector2 ClosestIntersection(Vector2 rayOrigin, List<Vector2> intersections)
-        {
-            var min = float.MaxValue;
-            var closest = Vector2.Zero;
-
-            foreach (var intersection in intersections)
-            {
-                var dist = (rayOrigin - intersection).Magnitude();
-                if (dist < min)
-                {
-                    min = dist;
-                    closest = intersection;
-                }
-            }
-
-            return closest;
-        }
+        }        
     }
 }

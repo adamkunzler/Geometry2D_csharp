@@ -30,7 +30,7 @@
         {
             var asStrings = Vertices.Select(x => x.ToString()).ToArray();
             var verts = string.Join(", ", asStrings);
-            return $"[{verts}]";
+            return $"Polygon [{verts}]";
         }
 
         public static bool IsValid(Polygon p)

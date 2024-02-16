@@ -27,7 +27,7 @@ namespace Geometry2d.Lib.Primitives
 
         public override string ToString()
         {
-            return $"[{Start}, {End}]";
+            return $"Line [{Start}, {End}]";
         }
 
         public static bool AreEqual(Line lhs, Line rhs)

@@ -45,7 +45,11 @@
 
         public static bool AreEqual(Vector2 lhs, Vector2 rhs)
         {
-            return (lhs.X == rhs.X && lhs.Y == rhs.Y);
+            if (lhs == null && rhs == null) return true;
+            if (lhs != null && rhs == null) return false;
+            if (lhs == null && rhs != null) return false;
+
+            return (lhs!.X == rhs!.X && lhs.Y == rhs.Y);
         }
 
         public bool AreEqual(Vector2 rhs) => AreEqual(this, rhs);

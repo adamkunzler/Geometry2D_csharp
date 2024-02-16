@@ -28,7 +28,7 @@
 
         public override string ToString()
         {
-            return $"[{Origin}, {Radius}]";
+            return $"Circle [{Origin}, {Radius}]";
         }
 
         #endregion ctor

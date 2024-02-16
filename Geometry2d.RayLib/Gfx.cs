@@ -1,4 +1,5 @@
 ﻿using Geometry2d.Lib.Primitives;
+using Geometry2d.Lib.Utils;
 using Raylib_cs;
 using Ray = Geometry2d.Lib.Primitives.Ray;
 using Rectangle = Geometry2d.Lib.Primitives.Rectangle;
@@ -17,7 +18,7 @@ namespace Geometry2d.RayLib
                 case Circle c: DrawCircle(c, color, fill); break;
                 case Triangle t: DrawTriangle(t, color, fill); break;
                 case Polygon poly: DrawPolygon(poly, color, fill); break;
-                case Ray ray: DrawRay(ray, color); break;                
+                case Ray ray: DrawRay(ray, color); break;
             }
         }
 
@@ -32,9 +33,9 @@ namespace Geometry2d.RayLib
         }
 
         public static void DrawRay(Ray ray, Color color)
-        {            
+        {
             var end = ray.Origin + ray.Direction * 10000.0f;
-            Raylib.DrawLine((int)ray.Origin.X, (int)ray.Origin.Y, (int)end.X, (int)end.Y, color);            
+            Raylib.DrawLine((int)ray.Origin.X, (int)ray.Origin.Y, (int)end.X, (int)end.Y, color);
         }
 
         public static void DrawRectangle(Rectangle rectangle, Color color, bool fill = false)
@@ -96,8 +97,31 @@ namespace Geometry2d.RayLib
                 for (var i = 0; i < polygon.Vertices.Count; i++)
                 {
                     DrawLine(polygon.Side(i), color);
-                }                
+                }
             }
+        }
+
+        public static void DrawRayReflections(Ray ray, List<ReflectData> reflectData, Color color)
+        {
+            if (reflectData.Count == 0)
+            {
+                DrawRay(ray, color);
+                return;
+            }
+            
+            // line from ray origin to first reflection
+            DrawLine(new Line(ray.Origin, reflectData[0].Intersection), Color.Red);
+
+            // draw all middle reflections as lines
+            for (var i = 1; i < reflectData.Count; i++)
+            {                                                
+                DrawLine(new Line(reflectData[i - 1].Intersection, reflectData[i].Intersection), Color.Red);                
+            }
+
+            // draw last reflection as a ray
+            var index = reflectData.Count - 1;
+            var tempRay = new Ray(reflectData[index].Intersection, reflectData[index].Reflection);
+            DrawRay(tempRay, Color.Red);
         }
     }
 }

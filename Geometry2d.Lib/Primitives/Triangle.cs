@@ -49,7 +49,7 @@ namespace Geometry2d.Lib.Primitives
 
         public override string ToString()
         {
-            return $"[{Vertices[0]}, {Vertices[1]}, {Vertices[2]}]";
+            return $"Triangle [{Vertices[0]}, {Vertices[1]}, {Vertices[2]}]";
         }
 
         /// <summary>

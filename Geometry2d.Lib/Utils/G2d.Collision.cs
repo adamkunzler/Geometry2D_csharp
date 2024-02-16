@@ -128,6 +128,24 @@ namespace Geometry2d.Lib.Utils
                 : new CollisionData(false, Vector2.Zero, Vector2.Zero, null!);
         }
 
+        private static Vector2 ClosestIntersection(Vector2 rayOrigin, List<Vector2> intersections)
+        {
+            var min = float.MaxValue;
+            var closest = Vector2.Zero;
+
+            foreach (var intersection in intersections)
+            {
+                var dist = (rayOrigin - intersection).Magnitude2();
+                if (dist < min)
+                {
+                    min = dist;
+                    closest = intersection;
+                }
+            }
+
+            return closest;
+        }
+
         #endregion Ray COLLISION with [Shape]
     }
 }
