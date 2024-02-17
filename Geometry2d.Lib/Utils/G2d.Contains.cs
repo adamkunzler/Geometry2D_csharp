@@ -87,6 +87,17 @@ namespace Geometry2d.Lib.Utils
                     //case Ray ray2: return Contains(ray, ray2);
                     _ => false,
                 },
+                Ellipse e => rhs switch
+                {
+                    Vector2 v2 => Contains(e, v2),
+                    //Line l2 => Contains(ray, l2),
+                    //case Rectangle r2: return Contains(ray, r2);
+                    //case Circle c2: return Contains(ray, c2);
+                    //case Triangle t2: return Contains(ray, t2);
+                    //case Polygon poly2: return Contains(ray, poly2);
+                    //case Ray ray2: return Contains(ray, ray2);
+                    _ => false,
+                },
                 _ => false,
             };
         }
@@ -250,6 +261,18 @@ namespace Geometry2d.Lib.Utils
             var distance = MathF.Sqrt(x * x + y * y);
 
             return distance < Consts.EPSILON;
+        }
+
+        /// <summary>
+        /// determine if an ellipse contains a point
+        /// </summary>        
+        /// <returns></returns>
+        public static bool Contains(Ellipse lhs, Vector2 rhs)
+        {
+            var dx = rhs.X - lhs.Origin.X;
+            var dy = rhs.Y - lhs.Origin.Y;
+
+            return MathF.Pow(dx, 2.0f) / MathF.Pow(lhs.A, 2.0f) + MathF.Pow(dy, 2.0f) / MathF.Pow(lhs.B, 2.0f) <= 1;
         }
 
         #endregion [Shape] CONTAINS Point
@@ -506,5 +529,11 @@ namespace Geometry2d.Lib.Utils
         }
 
         #endregion [Shape] CONTAINS Polygon
+
+        #region [Shape] CONTAINS Ellipse
+        
+        // TODO
+
+        #endregion [Shape] CONTAINS Ellipse
     }
 }

@@ -26,6 +26,7 @@ internal class Program
         var c = new Circle(300.0f, 300.0f, 35.0f);
         var t = new Triangle(130.0f, 235.0f, 212.0f, 338.0f, 66.0f, 306.0f);
         var ray = new Ray(new Vector2(0.0f, 0.0f), new Vector2(1.0f, 1.0f));
+        var e = new Ellipse(325.0f, 50.0f, 50.0f, 25.0f);
         var poly = new Polygon
         (
             new Vector2(218.0f, 18.0f),
@@ -40,21 +41,16 @@ internal class Program
         );
         var polyRect = new PolyRectangle(20.0f, 80.0f, 55.0f, 70.0f);
 
-
-        var ray2 = new Ray(new Vector2(144.5f, 144.5f), new Vector2(0.70710677f, -0.70710677f));
-
-
-        //shapes.Add(p);
+        
+        
         shapes.Add(l);
         shapes.Add(r);
         shapes.Add(c);
-        shapes.Add(t);
-        shapes.Add(ray);
+        shapes.Add(t);        
         shapes.Add(poly);
+        shapes.Add(e);
         shapes.Add(polyRect);
-
-
-        shapes.Add(ray2);
+        
 
         var theta = 0.0f;
         var rayTheta = 0.0f;
@@ -224,23 +220,23 @@ internal class Program
                     ? Color.Gold 
                     : G2d.Overlaps(poly, mouse) ? Color.Purple : Color.RayWhite);
                 Gfx.DrawPoint(poly.Center(), Color.RayWhite);
-
-                Gfx.DrawRay(ray2, G2d.Contains(ray, mouse) 
-                    ? Color.Gold 
-                    : G2d.Overlaps(ray2, mouse) ? Color.Purple : Color.RayWhite);
-
+                
                 Gfx.DrawPolygon(polyRect, G2d.Contains(polyRect, mouse)
                     ? Color.Gold
                     : G2d.Overlaps(polyRect, mouse) ? Color.Purple : Color.RayWhite);
                 Gfx.DrawPoint(polyRect.Center(), Color.RayWhite);
 
+                Gfx.DrawEllipse(e, G2d.Contains(e, mouse)
+                    ? Color.Gold
+                    : G2d.Overlaps(e, mouse) ? Color.Purple : Color.RayWhite);
+                Gfx.DrawPoint(e.Origin, Color.RayWhite);
+                var eFoci = e.Foci();
+                Gfx.DrawPoint(eFoci.Focus1, Color.RayWhite);
+                Gfx.DrawPoint(eFoci.Focus2, Color.RayWhite);
+
                 #endregion Draw Static Shapes
 
                 #region Mouse Shape Interactions
-
-                var ray2Intersections = G2d.Intersects(ray2, poly);
-                foreach (var intersection in ray2Intersections)
-                    Gfx.DrawCircle(new Circle(intersection, 3), Color.Green);
 
                 foreach (var shape in shapes)
                 {

@@ -19,6 +19,7 @@ namespace Geometry2d.RayLib
                 case Triangle t: DrawTriangle(t, color, fill); break;
                 case Polygon poly: DrawPolygon(poly, color, fill); break;
                 case Ray ray: DrawRay(ray, color); break;
+                case Ellipse e: DrawEllipse(e, color, fill); break;
             }
         }
 
@@ -122,6 +123,18 @@ namespace Geometry2d.RayLib
             var index = reflectData.Count - 1;
             var tempRay = new Ray(reflectData[index].Intersection, reflectData[index].Reflection);
             DrawRay(tempRay, Color.Red);
+        }
+
+        public static void DrawEllipse(Ellipse ellipse, Color color, bool fill = false)
+        {
+            if (fill)
+            {
+                Raylib.DrawEllipse((int)ellipse.Origin.X, (int)ellipse.Origin.Y, ellipse.H, ellipse.V, color);
+            }
+            else
+            {
+                Raylib.DrawEllipseLines((int)ellipse.Origin.X, (int)ellipse.Origin.Y, ellipse.H, ellipse.V, color);
+            }
         }
     }
 }
