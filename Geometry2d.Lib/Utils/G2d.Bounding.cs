@@ -208,7 +208,7 @@ namespace Geometry2d.Lib.Utils
 
             foreach (var vertice in vertices)
             {
-                var dist = (vertice - middle).Magnitude();
+                var dist = (vertice - middle).Magnitude2();
                 if (dist > max) max = dist;
             }
 

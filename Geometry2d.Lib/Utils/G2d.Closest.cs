@@ -287,14 +287,14 @@ namespace Geometry2d.Lib.Utils
 
             // closest point on the line segment to the ray origin
             var p1 = Closest(lhs.Origin, rhs);
-            var d1 = (p1 - lhs.Origin).Magnitude();
+            var d1 = (p1 - lhs.Origin).Magnitude2();
 
             //closest points on the ray to the line endpoints
             var p2 = Closest(rhs.Start, lhs);
-            var d2 = (p2 - rhs.Start).Magnitude();
+            var d2 = (p2 - rhs.Start).Magnitude2();
 
             var p3 = Closest(rhs.End, lhs);
-            var d3 = (p3 - rhs.End).Magnitude();
+            var d3 = (p3 - rhs.End).Magnitude2();
 
             // compare distances
             var min = MathF.Min(d1, MathF.Min(d2, d3));
@@ -689,13 +689,13 @@ namespace Geometry2d.Lib.Utils
             if (intersections.Count != 0) return intersections.First();
 
             var start = Closest(lhs.Start, rhs);
-            var startDist = (lhs.Start - start).Magnitude();
+            var startDist = (lhs.Start - start).Magnitude2();
 
             var end = Closest(lhs.End, rhs);
-            var endDist = (lhs.End - end).Magnitude();
+            var endDist = (lhs.End - end).Magnitude2();
 
             var side = Closest(rhs.Origin, lhs);
-            var sideDist = (side - rhs.Origin).Magnitude();
+            var sideDist = (side - rhs.Origin).Magnitude2();
 
             var min = MathF.Min(startDist, MathF.Min(endDist, sideDist));
             var closest = min == startDist ? start :
@@ -762,7 +762,7 @@ namespace Geometry2d.Lib.Utils
             foreach (var line in rhs)
             {
                 var closestPointOnLine = Closest(lhs, line);
-                var distance = (closestPointOnLine - lhs).Magnitude();
+                var distance = (closestPointOnLine - lhs).Magnitude2();
                 if (distance < minDistance)
                 {
                     minDistance = distance;

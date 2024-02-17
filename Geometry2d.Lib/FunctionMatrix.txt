@@ -9,6 +9,10 @@
 [x] BoundingBox
 [x] BoundingCircle
 
+[x] Translate
+[x] Rotate
+[x] Scale
+
 [] Explode
 [] Collapse
 
@@ -77,7 +81,7 @@ RAY			|	Contains	|	Contains	|				|				|				|				|				|				|
 			|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|				|
 			|	Closest		|	Closest		|				|				|				|				|				|				|
 			|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|				|
-			|				|	 			|				|				|				|				|				|				|
+			|				|	Reflect		|	Reflect		|	Reflect		|	Reflect		|	Reflect		|	Reflect		|				|
 			|				|	 			|				|				|				|				|				|				|
 			|				|	 			|				|				|				|				|				|				|
 			|				|	 			|				|				|				|				|				|				|

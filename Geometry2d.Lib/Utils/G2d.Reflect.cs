@@ -44,8 +44,7 @@ namespace Geometry2d.Lib.Utils
             var reflectData = new List<ReflectData>();
 
             var ray = lhs;
-            ReflectData lastClosest = null;
-
+            
             for (var i = 0; i < maxBounces; i++)
             {                
                 var minDist = float.MaxValue;
@@ -54,7 +53,7 @@ namespace Geometry2d.Lib.Utils
                 foreach(var shape in shapes)
                 {
                     var r = Reflect(ray, shape);
-                    if (r == null || r.Intersection.AreEqual(lastClosest?.Intersection!)) continue;
+                    if (r == null) continue;
 
                     var dist = (r.Intersection - ray.Origin).Magnitude2();
                     if(dist < minDist)
@@ -68,12 +67,10 @@ namespace Geometry2d.Lib.Utils
 
                 // move "closest" a little bit away from intersection point in the direction of the incoming ray
                 var dir = (ray.Origin - closest.Intersection).Normal();
-                var newClosestIntersection = closest.Intersection + (dir * 0.05f);
-                var closerClosest = new ReflectData(newClosestIntersection, closest.Reflection);
-                
-                lastClosest = closerClosest;
-                ray = new Ray(closerClosest.Intersection, closerClosest.Reflection);
-                reflectData.Add(closerClosest);
+                var adjustedIntersection = closest.Intersection + (dir * 0.05f);
+                                                
+                ray = new Ray(adjustedIntersection, closest.Reflection);
+                reflectData.Add(new ReflectData(adjustedIntersection, closest.Reflection));
             }
 
             return reflectData;
