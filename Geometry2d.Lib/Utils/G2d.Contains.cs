@@ -268,12 +268,12 @@ namespace Geometry2d.Lib.Utils
         /// </summary>        
         /// <returns></returns>
         public static bool Contains(Ellipse lhs, Vector2 rhs)
-        {
-            var dx = rhs.X - lhs.Origin.X;
-            var dy = rhs.Y - lhs.Origin.Y;
-
-            return MathF.Pow(dx, 2.0f) / MathF.Pow(lhs.A, 2.0f) + MathF.Pow(dy, 2.0f) / MathF.Pow(lhs.B, 2.0f) <= 1;
-        }
+        {            
+            var translated = rhs - lhs.Origin;            
+            var left = (translated.X * translated.X) / (lhs.A * lhs.A);
+            var right = (translated.Y * translated.Y) / (lhs.B * lhs.B);
+            return  (left + right) <= 1.0 + Consts.EPSILON;
+    }
 
         #endregion [Shape] CONTAINS Point
 

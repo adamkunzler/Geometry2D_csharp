@@ -17,6 +17,7 @@ namespace Geometry2d.Lib.Utils
                 case Triangle x: Translate(x, rhs); break;
                 case Polygon x: Translate(x, rhs); break;
                 case Ray x: Translate(x, rhs); break;
+                case Ellipse x: Translate(x, rhs); break;
 
             };
         }
@@ -57,6 +58,11 @@ namespace Geometry2d.Lib.Utils
             lhs.Origin += rhs;
         }
 
+        public static void Translate(Ellipse lhs, Vector2 rhs)
+        {
+            lhs.Origin += rhs;
+        }
+
         private static void Translate(IList<Vector2> vertices, Vector2 rhs)
         {
             for(var i = 0; i < vertices.Count(); i++)
@@ -80,7 +86,7 @@ namespace Geometry2d.Lib.Utils
                 case Triangle x: Rotate(x, theta); break;
                 case Polygon x: Rotate(x, theta); break;
                 case Ray x: Rotate(x, theta); break;
-
+                case Ellipse x: Rotate(x, theta); break;
             };
         }
 
@@ -146,6 +152,14 @@ namespace Geometry2d.Lib.Utils
             lhs.Direction = v.ToCartesian();
         }
 
+        /// <summary>
+        /// rotate an ellipse around it's center
+        /// </summary>        
+        public static void Rotate(Ellipse lhs, float theta)
+        {
+            // TODO
+        }
+
         private static void RotatePoints(List<Vector2> points, Vector2 origin, float theta)
         {
             for(var i = 0; i < points.Count; i++)
@@ -187,6 +201,7 @@ namespace Geometry2d.Lib.Utils
                 case Triangle x: Rotate(x, origin, theta, counterRotate); break;
                 case Polygon x: Rotate(x, origin, theta, counterRotate); break;
                 case Ray x: Rotate(x, origin, theta); break;
+                case Ellipse x: Rotate(x, origin, theta); break;
 
             };
         }
@@ -249,12 +264,17 @@ namespace Geometry2d.Lib.Utils
         }
 
         /// <summary>
-        /// doesn't do anything
+        /// Rotate a ray around an origin
         /// </summary>        
         public static void Rotate(Ray lhs, Vector2 origin, float theta)
         {            
-            // do nothing
+            // TODO ?does this make sense?
         }        
+
+        public static void Rotate(Ellipse lhs, Vector2 origin, float theta)
+        {
+            lhs.Origin = RotatePoint(lhs.Origin, origin, theta);            
+        }
 
         #endregion ROTATE around arbitrary origin
 
@@ -269,7 +289,8 @@ namespace Geometry2d.Lib.Utils
                 case Rectangle x: Scale(x, amount); break;
                 case Circle x: Scale(x, amount); break;
                 case Triangle x: Scale(x, amount); break;
-                case Polygon x: Scale(x, amount); break;               
+                case Polygon x: Scale(x, amount); break;
+                case Ellipse x: Scale(x, amount); break;
             };
         }
 
@@ -330,6 +351,15 @@ namespace Geometry2d.Lib.Utils
             ScalePoints(lhs.Vertices, lhs.Center(), amount);
         }
 
+        public static void Scale(Ellipse lhs, Vector2 amount)
+        {
+            lhs.A *= amount.X;
+            lhs.B *= amount.Y;
+        }
+
+        /// <summary>
+        /// Scale a list of points around an origin
+        /// </summary>        
         private static void ScalePoints(List<Vector2> points, Vector2 origin, Vector2 amount)
         {
             for(var i = 0; i < points.Count; i++)
@@ -338,6 +368,9 @@ namespace Geometry2d.Lib.Utils
             }
         }
 
+        /// <summary>
+        /// Scale a point around an origin
+        /// </summary>        
         private static Vector2 ScalePoint(Vector2 point, Vector2 origin, Vector2 amount)
         {
             var translated = point - origin;

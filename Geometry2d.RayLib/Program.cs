@@ -87,6 +87,7 @@ internal class Program
             {
                 // do something...
                 Console.WriteLine($"mouse: {mouse}");
+                Console.WriteLine(e);
             }
             else if (Raylib.IsKeyPressed(KeyboardKey.One))
             {
@@ -118,11 +119,11 @@ internal class Program
             }
             else if (Raylib.IsKeyPressed(KeyboardKey.Right))
             {
-
+                G2d.Translate(e, new Vector2(5, 0));
             }
             else if (Raylib.IsKeyPressed(KeyboardKey.Left))
             {
-
+                G2d.Translate(e, new Vector2(-5, 0));
             }
             else if (Raylib.IsKeyPressed(KeyboardKey.Up))
             {
@@ -286,7 +287,7 @@ internal class Program
                     }
                 }
 
-                G2d.Rotate(poly, new Vector2(middleX, middleY), theta, true);
+                G2d.Rotate(e, new Vector2(middleX, middleY), theta, true);
 
                 #endregion Transformation
 

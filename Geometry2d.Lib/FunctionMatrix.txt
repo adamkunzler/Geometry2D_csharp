@@ -21,96 +21,105 @@ A => lhs
 B => rhs
 
 
-A		  B>|	POINT		|	LINE		|	RECTANGLE	|	CIRCLE		|	TRIANGLE	|	POLYGON		|	RAY			|	COMPOSITE	|
-------------+---------------+---------------+---------------+---------------+---------------+---------------+---------------+---------------|
-POINT		|	Contains	|				|				|				|				|				|				|				|
-			|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|				|
-			|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|				|
-			|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|				|
-			|				|	 			|				|				|				|				|				|				|
-			|				|	 			|				|				|				|				|				|				|
-			|				|	 			|				|				|				|				|				|				|
-			|				|	 			|				|				|				|				|				|				|
-------------+---------------+---------------+---------------+---------------+---------------+---------------+---------------+---------------|
-LINE		|	Contains	|	Contains	|				|				|				|				|				|				|
-			|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|				|
-			|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|				|
-			|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|				|
-			|				|	 			|				|				|				|				|				|				|
-			|				|	 			|				|				|				|				|				|				|
-			|				|	 			|				|				|				|				|				|				|
-			|				|	 			|				|				|				|				|				|				|
-------------+---------------+---------------+---------------+---------------+---------------+---------------+---------------+---------------|
-RECTANGLE	|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|				|				|
-			|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|				|
-			|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|				|
-			|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|				|
-			|				|	 			|				|				|				|				|				|				|
-			|				|	 			|				|				|				|				|				|				|
-			|				|	 			|				|				|				|				|				|				|
-			|				|	 			|				|				|				|				|				|				|
-------------+---------------+---------------+---------------+---------------+---------------+---------------+---------------+---------------|
-CIRCLE		|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|				|				|
-			|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|				|
-			|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|				|
-			|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|				|
-			|				|	 			|				|				|				|				|				|				|
-			|				|	 			|				|				|				|				|				|				|
-			|				|	 			|				|				|				|				|				|				|
-			|				|	 			|				|				|				|				|				|				|
-------------+---------------+---------------+---------------+---------------+---------------+---------------+---------------+---------------|
-TRIANGLE	|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|				|				|
-			|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|				|
-			|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|				|
-			|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|				|
-			|				|	 			|				|				|				|				|				|				|
-			|				|	 			|				|				|				|				|				|				|
-			|				|	 			|				|				|				|				|				|				|
-			|				|	 			|				|				|				|				|				|				|
-------------+---------------+---------------+---------------+---------------+---------------+---------------+---------------+---------------|
-POLYGON		|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|				|				|
-			|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|				|
-			|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|				|
-			|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|				|
-			|				|	 			|				|				|				|				|				|				|
-			|				|	 			|				|				|				|				|				|				|
-			|				|	 			|				|				|				|				|				|				|
-			|				|	 			|				|				|				|				|				|				|
-------------+---------------+---------------+---------------+---------------+---------------+---------------+---------------+---------------|
-RAY			|	Contains	|	Contains	|				|				|				|				|				|				|
-			|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|				|
-			|	Closest		|	Closest		|				|				|				|				|				|				|
-			|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|				|
-			|				|	Reflect		|	Reflect		|	Reflect		|	Reflect		|	Reflect		|	Reflect		|				|
-			|				|	 			|				|				|				|				|				|				|
-			|				|	 			|				|				|				|				|				|				|
-			|				|	 			|				|				|				|				|				|				|
-------------+---------------+---------------+---------------+---------------+---------------+---------------+---------------+---------------|
-COMPOSITE	|				|				|				|				|				|				|				|				|
-			|				|				|				|				|				|				|				|				|
-			|				|				|				|				|				|				|				|				|
-			|				|				|				|				|				|				|				|				|
-			|				|	 			|				|				|				|				|				|				|
-			|				|	 			|				|				|				|				|				|				|
-			|				|	 			|				|				|				|				|				|				|
-			|				|	 			|				|				|				|				|				|				|
-------------+---------------+---------------+---------------+---------------+---------------+---------------+---------------+---------------|
-			|	AABB		|	AABB		|	AABB		|	AABB		|	AABB		|	AABB		|				|				|
-			|	AABBCircle	|	AABBCircle	|	AABBCircle	|	AABBCircle	|	AABBCircle	|	AABBCircle	|				|				|
-			|	Translate	|	Translate	|	Translate	|	Translate	|	Translate	|	Translate	|	Translate	|				|
-			|	Rotate		|	Rotate		|	Rotate		|	Rotate		|	Rotate		|	Rotate		|	Rotate		|				|
-			|	Scale		|	Scale		|	Scale		|	Scale		|	Scale		|	Scale		|				|				|
-			|				|	 			|				|				|				|				|				|				|
-			|				|	 			|				|				|				|				|				|				|
-			|				|	 			|				|				|				|				|				|				|
-------------+---------------+---------------+---------------+---------------+---------------+---------------+---------------+---------------|
-			|				|				|				|				|				|				|				|				|
-			|				|				|				|				|				|				|				|				|
-			|				|				|				|				|				|				|				|				|
-			|				|				|				|				|				|				|				|				|
-			|				|	 			|				|				|				|				|				|				|
-			|				|	 			|				|				|				|				|				|				|
-			|				|	 			|				|				|				|				|				|				|
-			|				|	 			|				|				|				|				|				|				|
---------------------------------------------------------------------------------------------------------------------------------------------|
-A		  B>|	POINT		|	LINE		|	RECTANGLE	|	CIRCLE		|	TRIANGLE	|	POLYGON		|	RAY			|	COMPOSITE	|
+A		  B>|	POINT		|	LINE		|	RECTANGLE	|	CIRCLE		|	TRIANGLE	|	POLYGON		|	RAY			|	Ellipse		|	Composite	|
+------------+---------------+---------------+---------------+---------------+---------------+---------------+---------------+---------------+---------------|
+POINT		|	Contains	|				|				|				|				|				|				|				|				|
+			|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|				|				|
+			|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|				|				|
+			|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|				|				|
+			|				|	 			|				|				|				|				|				|				|				|
+			|				|	 			|				|				|				|				|				|				|				|
+			|				|	 			|				|				|				|				|				|				|				|
+			|				|	 			|				|				|				|				|				|				|				|
+------------+---------------+---------------+---------------+---------------+---------------+---------------+---------------+---------------+---------------|
+LINE		|	Contains	|	Contains	|				|				|				|				|				|				|				|
+			|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|				|				|
+			|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|				|				|
+			|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|				|				|
+			|				|	 			|				|				|				|				|				|				|				|
+			|				|	 			|				|				|				|				|				|				|				|
+			|				|	 			|				|				|				|				|				|				|				|
+			|				|	 			|				|				|				|				|				|				|				|
+------------+---------------+---------------+---------------+---------------+---------------+---------------+---------------+---------------+---------------|
+RECTANGLE	|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|				|				|				|
+			|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|				|				|
+			|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|				|				|
+			|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|				|				|
+			|				|	 			|				|				|				|				|				|				|				|
+			|				|	 			|				|				|				|				|				|				|				|
+			|				|	 			|				|				|				|				|				|				|				|
+			|				|	 			|				|				|				|				|				|				|				|
+------------+---------------+---------------+---------------+---------------+---------------+---------------+---------------+---------------+---------------|
+CIRCLE		|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|				|				|				|
+			|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|				|				|
+			|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|				|				|
+			|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|				|				|
+			|				|	 			|				|				|				|				|				|				|				|
+			|				|	 			|				|				|				|				|				|				|				|
+			|				|	 			|				|				|				|				|				|				|				|
+			|				|	 			|				|				|				|				|				|				|				|
+------------+---------------+---------------+---------------+---------------+---------------+---------------+---------------+---------------+---------------|
+TRIANGLE	|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|				|				|				|
+			|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|				|				|
+			|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|				|				|
+			|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|				|				|
+			|				|	 			|				|				|				|				|				|				|				|
+			|				|	 			|				|				|				|				|				|				|				|
+			|				|	 			|				|				|				|				|				|				|				|
+			|				|	 			|				|				|				|				|				|				|				|
+------------+---------------+---------------+---------------+---------------+---------------+---------------+---------------+---------------+---------------|
+POLYGON		|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|	Contains	|				|				|				|
+			|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|				|				|
+			|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|	Closest		|				|				|
+			|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|				|				|
+			|				|	 			|				|				|				|				|				|				|				|
+			|				|	 			|				|				|				|				|				|				|				|
+			|				|	 			|				|				|				|				|				|				|				|
+			|				|	 			|				|				|				|				|				|				|				|
+------------+---------------+---------------+---------------+---------------+---------------+---------------+---------------+---------------+---------------|
+RAY			|	Contains	|	Contains	|				|				|				|				|				|				|				|
+			|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|	Intersects	|				|				|
+			|	Closest		|	Closest		|				|				|				|				|				|				|				|
+			|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|	Overlaps	|				|				|
+			|				|	Reflect		|	Reflect		|	Reflect		|	Reflect		|	Reflect		|	Reflect		|				|				|
+			|				|	 			|				|				|				|				|				|				|				|
+			|				|	 			|				|				|				|				|				|				|				|
+			|				|	 			|				|				|				|				|				|				|				|
+------------+---------------+---------------+---------------+---------------+---------------+---------------+---------------+---------------+---------------|
+Ellipse		|	Contains	|				|				|				|				|				|				|				|				|
+			|				|				|				|				|				|				|				|				|				|
+			|				|				|				|				|				|				|				|				|				|
+			|				|				|				|				|				|				|				|				|				|
+			|				|	 			|				|				|				|				|				|				|				|
+			|				|	 			|				|				|				|				|				|				|				|
+			|				|	 			|				|				|				|				|				|				|				|
+			|				|	 			|				|				|				|				|				|				|				|
+------------+---------------+---------------+---------------+---------------+---------------+---------------+---------------+---------------+---------------|
+Composite	|				|				|				|				|				|				|				|				|				|
+			|				|				|				|				|				|				|				|				|				|
+			|				|				|				|				|				|				|				|				|				|
+			|				|				|				|				|				|				|				|				|				|
+			|				|	 			|				|				|				|				|				|				|				|
+			|				|	 			|				|				|				|				|				|				|				|
+			|				|	 			|				|				|				|				|				|				|				|
+			|				|	 			|				|				|				|				|				|				|				|
+------------+---------------+---------------+---------------+---------------+---------------+---------------+---------------+---------------+---------------|
+			|	AABB		|	AABB		|	AABB		|	AABB		|	AABB		|	AABB		|				|				|				|
+			|	AABBCircle	|	AABBCircle	|	AABBCircle	|	AABBCircle	|	AABBCircle	|	AABBCircle	|				|				|				|
+			|	Translate	|	Translate	|	Translate	|	Translate	|	Translate	|	Translate	|	Translate	|	Translate	|				|
+			|	Rotate		|	Rotate		|	Rotate		|	Rotate		|	Rotate		|	Rotate		|	Rotate		|	Rotate		|				|
+			|	Scale		|	Scale		|	Scale		|	Scale		|	Scale		|	Scale		|				|	SCale		|				|
+			|				|	 			|				|				|				|				|				|				|				|
+			|				|	 			|				|				|				|				|				|				|				|
+			|				|	 			|				|				|				|				|				|				|				|
+------------+---------------+---------------+---------------+---------------+---------------+---------------+---------------+---------------+---------------|
+			|				|				|				|				|				|				|				|				|				|
+			|				|				|				|				|				|				|				|				|				|
+			|				|				|				|				|				|				|				|				|				|
+			|				|				|				|				|				|				|				|				|				|
+			|				|	 			|				|				|				|				|				|				|				|
+			|				|	 			|				|				|				|				|				|				|				|
+			|				|	 			|				|				|				|				|				|				|				|
+			|				|	 			|				|				|				|				|				|				|				|
+--------------------------------------------------------------------------------------------------------------------------------------------+---------------|
+A		  B>|	POINT		|	LINE		|	RECTANGLE	|	CIRCLE		|	TRIANGLE	|	POLYGON		|	RAY			|	Ellipse		|	Composite	|

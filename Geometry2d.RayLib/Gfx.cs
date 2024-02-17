@@ -133,7 +133,35 @@ namespace Geometry2d.RayLib
             }
             else
             {
-                Raylib.DrawEllipseLines((int)ellipse.Origin.X, (int)ellipse.Origin.Y, ellipse.H, ellipse.V, color);
+                //Raylib.DrawEllipseLines((int)ellipse.Origin.X, (int)ellipse.Origin.Y, ellipse.H, ellipse.V, color);                
+                DrawRotatedEllipse(ellipse, color);
+            }
+        }
+
+        /// <summary>
+        /// Update this to render ellipse to texture, rotate the texture, then render texture
+        /// </summary>        
+        private static void DrawRotatedEllipse(Ellipse ellipse, Color color)
+        {            
+            var centerX = ellipse.Origin.X;
+            var centerY = ellipse.Origin.Y;
+            var radiusX = ellipse.SemiMajorAxis;
+            var radiusY = ellipse.SemiMinorAxis;
+
+            const int segments = 360; // Increase for smoother ellipse
+            
+            for (int i = 0; i < segments; i++)
+            {
+                var angle = i * (2.0f * MathF.PI / segments);
+                var x = centerX + radiusX * MathF.Cos(angle);
+                var y = centerY + radiusY * MathF.Sin(angle);
+
+                // Rotate point
+                //var rotatedX = MathF.Cos(rotation) * (x - centerX) - MathF.Sin(rotation) * (y - centerY) + centerX;
+                //var rotatedY = MathF.Sin(rotation) * (x - centerX) + MathF.Cos(rotation) * (y - centerY) + centerY;
+
+                // Draw point (or use lines for smoother ellipse)
+                Raylib.DrawPixel((int)x, (int)y, color);
             }
         }
     }

@@ -45,21 +45,21 @@
         {
             Origin = Vector2.Zero;
             A = 0;
-            B = 0;
+            B = 0;            
         }
 
-        public Ellipse(Vector2 origin, float a, float b)
+        public Ellipse(Vector2 origin, float a, float b, float theta = 0.0f)
         {
             Origin = origin;
             A = a;
-            B = b;
+            B = b;            
         }
 
-        public Ellipse(float x, float y, float a, float b)
+        public Ellipse(float x, float y, float a, float b, float theta = 0.0f)
         {
             Origin= new Vector2(x, y);
             A = a;
-            B = b;
+            B = b;            
         }
 
         public override string ToString()
@@ -167,17 +167,12 @@
         /// <summary>
         /// Calculates and returns the Foci of the ellipse
         /// </summary>        
-        public static (Vector2 Focus1, Vector2 Focus2) Foci(Ellipse lhs, float theta = 0.0f)
+        public static (Vector2 Focus1, Vector2 Focus2) Foci(Ellipse lhs)
         {
             var c = FocalDistance(lhs);
-
-            var x1 = lhs.Origin.X - c * MathF.Cos(theta);
-            var y1 = lhs.Origin.Y - c * MathF.Sin(theta);
-            var focus1 = new Vector2(x1, y1);
-
-            var x2 = lhs.Origin.X + c * MathF.Cos(theta);
-            var y2 = lhs.Origin.Y + c * MathF.Sin(theta);
-            var focus2 = new Vector2(x2, y2);
+            
+            var focus1 = new Vector2(lhs.Origin.X + c, lhs.Origin.Y);            
+            var focus2 = new Vector2(lhs.Origin.X - c, lhs.Origin.Y);
             
             return (focus1, focus2);
         }
