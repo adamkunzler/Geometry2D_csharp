@@ -1,19 +1,21 @@
-﻿namespace Geometry2d.Lib.Primitives
+﻿using Kz.DataStructures;
+
+namespace Geometry2d.Lib.Primitives
 {
     public class Rectangle : IShape
     {
         #region ctor
 
-        public Vector2 Position { get; set; }
-        public Vector2 Size { get; set; }
+        public Vector2f Position { get; set; }
+        public Vector2f Size { get; set; }
 
         public Rectangle()
         {
-            Position = new Vector2();
-            Size = new Vector2();
+            Position = new Vector2f();
+            Size = new Vector2f();
         }
 
-        public Rectangle(Vector2 position, Vector2 size)
+        public Rectangle(Vector2f position, Vector2f size)
         {
             Position = position;
             Size = size;
@@ -21,8 +23,8 @@
 
         public Rectangle(float posX, float posY, float width, float height)
         {
-            Position = new Vector2(posX, posY);
-            Size = new Vector2(width, height);
+            Position = new Vector2f(posX, posY);
+            Size = new Vector2f(width, height);
         }
 
         public override string ToString()
@@ -34,39 +36,39 @@
 
         #region Boundaries
 
-        public Vector2 Middle => Position + (Size * 0.5f);
+        public Vector2f Middle => Position + (Size * 0.5f);
 
-        public Line Top => new(Position, new Vector2(Position.X + Size.Width, Position.Y));
+        public Line Top => new(Position, new Vector2f(Position.X + Size.Width, Position.Y));
 
-        public Line Bottom => new(new Vector2(Position.X, Position.Y + Size.Height), Position + Size);
+        public Line Bottom => new(new Vector2f(Position.X, Position.Y + Size.Height), Position + Size);
 
-        public Line Left => new(Position, new Vector2(Position.X, Position.Y + Size.Height));
+        public Line Left => new(Position, new Vector2f(Position.X, Position.Y + Size.Height));
 
-        public Line Right => new(new Vector2(Position.X + Size.Width, Position.Y), Position + Size);
+        public Line Right => new(new Vector2f(Position.X + Size.Width, Position.Y), Position + Size);
 
         public List<Line> Sides => new List<Line> { Top, Right, Bottom, Left };
 
-        public Vector2 TopLeft => Position;
+        public Vector2f TopLeft => Position;
 
-        public Vector2 TopRight => new(Position.X + Size.Width, Position.Y);
+        public Vector2f TopRight => new(Position.X + Size.Width, Position.Y);
 
-        public Vector2 BottomLeft => new(Position.X, Position.Y + Size.Height);
+        public Vector2f BottomLeft => new(Position.X, Position.Y + Size.Height);
 
-        public Vector2 BottomRight => new(Position.X + Size.Width, Position.Y + Size.Height);
+        public Vector2f BottomRight => new(Position.X + Size.Width, Position.Y + Size.Height);
 
-        public List<Vector2> Vertices => new List<Vector2> { TopLeft, TopRight, BottomRight, BottomLeft };
+        public List<Vector2f> Vertices => new List<Vector2f> { TopLeft, TopRight, BottomRight, BottomLeft };
 
         #endregion Boundaries
 
         #region Rectangle Properties
-        
+
         public static float Perimeter(Rectangle r)
         {
             return 2.0f * (r.Size.Width + r.Size.Height);
         }
 
         public float Perimeter() => Perimeter(this);
-        
+
         public static float Area(Rectangle r)
         {
             return r.Size.Width * r.Size.Height;

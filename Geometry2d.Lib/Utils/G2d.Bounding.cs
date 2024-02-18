@@ -1,4 +1,5 @@
 ﻿using Geometry2d.Lib.Primitives;
+using Kz.DataStructures;
 
 namespace Geometry2d.Lib.Utils
 {
@@ -10,7 +11,7 @@ namespace Geometry2d.Lib.Utils
         {
             return lhs switch
             {
-                Vector2 x => AABB(x),
+                Vector2f x => AABB(x),
                 Line x => AABB(x),
                 Rectangle x => AABB(x),
                 Circle x => AABB(x),
@@ -23,7 +24,7 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// Returns an AABB for a point
         /// </summary>
-        public static Rectangle AABB(Vector2 lhs)
+        public static Rectangle AABB(Vector2f lhs)
         {
             return new Rectangle(lhs.X, lhs.Y, 1.0f, 1.0f);
         }
@@ -71,7 +72,7 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// Returns an AABB for the given set of vertices
         /// </summary>
-        private static Rectangle AABB(IEnumerable<Vector2> vertices)
+        private static Rectangle AABB(IEnumerable<Vector2f> vertices)
         {
             var minX = float.MaxValue;
             var maxX = float.MinValue;
@@ -100,7 +101,7 @@ namespace Geometry2d.Lib.Utils
         {
             return lhs switch
             {
-                Vector2 x => BoundingCircle(x),
+                Vector2f x => BoundingCircle(x),
                 Line x => BoundingCircle(x),
                 Rectangle x => BoundingCircle(x),
                 Circle x => BoundingCircle(x),
@@ -113,7 +114,7 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// Returns an BoundingCircle for a point
         /// </summary>
-        public static Circle BoundingCircle(Vector2 lhs)
+        public static Circle BoundingCircle(Vector2f lhs)
         {
             return new Circle(lhs.X, lhs.Y, 1.0f);
         }
@@ -168,7 +169,7 @@ namespace Geometry2d.Lib.Utils
         /// </summary>
         public static Circle BoundingCircle(Polygon lhs)
         {
-            if(lhs is RegularPolygon rp)
+            if (lhs is RegularPolygon rp)
             {
                 return new Circle(rp.Center(), rp.Radius);
             }
@@ -187,22 +188,22 @@ namespace Geometry2d.Lib.Utils
                 var d = (center - point).Magnitude();
                 if (d > radius)
                 {
-                    // Adjust the circle to include the new point                    
+                    // Adjust the circle to include the new point
                     radius = (radius + d) / 2;
                     var direction = point - center;
                     var norm = MathF.Sqrt(direction.Dot(direction));
-                    direction /= norm;                    
+                    direction /= norm;
                     center += direction * (d - radius);
                 }
             }
-            
+
             return new Circle(center, radius);
         }
 
         /// <summary>
         /// Returns an BoundingCircle for the given set of vertices
         /// </summary>
-        private static Circle BoundingCircle(Vector2 middle, IEnumerable<Vector2> vertices)
+        private static Circle BoundingCircle(Vector2f middle, IEnumerable<Vector2f> vertices)
         {
             var max = float.MinValue;
 

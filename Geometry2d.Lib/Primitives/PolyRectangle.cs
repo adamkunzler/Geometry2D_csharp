@@ -1,17 +1,19 @@
-﻿namespace Geometry2d.Lib.Primitives
+﻿using Kz.DataStructures;
+
+namespace Geometry2d.Lib.Primitives
 {
     public class PolyRectangle : Polygon
     {
-        public PolyRectangle(Vector2 position, Vector2 size) : this(position.X, position.Y, size.X, size.Y)
+        public PolyRectangle(Vector2f position, Vector2f size) : this(position.X, position.Y, size.X, size.Y)
         {
         }
 
         public PolyRectangle(float posX, float posY, float width, float height)
         {
-            Vertices.Add(new Vector2(posX, posY)); // top left
-            Vertices.Add(new Vector2(posX + width, posY)); // top right
-            Vertices.Add(new Vector2(posX + width, posY + height)); // bottom right
-            Vertices.Add(new Vector2(posX, posY + height)); // bottom left
+            Vertices.Add(new Vector2f(posX, posY)); // top left
+            Vertices.Add(new Vector2f(posX + width, posY)); // top right
+            Vertices.Add(new Vector2f(posX + width, posY + height)); // bottom right
+            Vertices.Add(new Vector2f(posX, posY + height)); // bottom left
         }
     }
 }

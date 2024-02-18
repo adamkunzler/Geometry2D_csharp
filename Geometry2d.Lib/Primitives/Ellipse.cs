@@ -1,4 +1,6 @@
-﻿namespace Geometry2d.Lib.Primitives
+﻿using Kz.DataStructures;
+
+namespace Geometry2d.Lib.Primitives
 {
     /// <summary>
     /// Represents an Ellipse
@@ -9,7 +11,7 @@
     {
         #region ctor
 
-        public Vector2 Origin { get; set; }
+        public Vector2f Origin { get; set; }
 
         /// <summary>
         /// The semi-major axis length (e.g radius of longest side)
@@ -43,12 +45,12 @@
 
         public Ellipse()
         {
-            Origin = Vector2.Zero;
+            Origin = Vector2f.Zero;
             A = 0;
             B = 0;            
         }
 
-        public Ellipse(Vector2 origin, float a, float b, float theta = 0.0f)
+        public Ellipse(Vector2f origin, float a, float b, float theta = 0.0f)
         {
             Origin = origin;
             A = a;
@@ -57,7 +59,7 @@
 
         public Ellipse(float x, float y, float a, float b, float theta = 0.0f)
         {
-            Origin= new Vector2(x, y);
+            Origin= new Vector2f(x, y);
             A = a;
             B = b;            
         }
@@ -167,12 +169,12 @@
         /// <summary>
         /// Calculates and returns the Foci of the ellipse
         /// </summary>        
-        public static (Vector2 Focus1, Vector2 Focus2) Foci(Ellipse lhs)
+        public static (Vector2f Focus1, Vector2f Focus2) Foci(Ellipse lhs)
         {
             var c = FocalDistance(lhs);
             
-            var focus1 = new Vector2(lhs.Origin.X + c, lhs.Origin.Y);            
-            var focus2 = new Vector2(lhs.Origin.X - c, lhs.Origin.Y);
+            var focus1 = new Vector2f(lhs.Origin.X + c, lhs.Origin.Y);            
+            var focus2 = new Vector2f(lhs.Origin.X - c, lhs.Origin.Y);
             
             return (focus1, focus2);
         }
@@ -180,7 +182,7 @@
         /// <summary>
         /// Calculates and returns the Foci of the ellipse
         /// </summary>        
-        public (Vector2 Focus1, Vector2 Focus2) Foci() => Foci(this);
+        public (Vector2f Focus1, Vector2f Focus2) Foci() => Foci(this);
 
         #endregion Properties of an Ellipse
     }

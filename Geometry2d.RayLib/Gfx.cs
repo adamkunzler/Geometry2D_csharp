@@ -1,5 +1,6 @@
 ﻿using Geometry2d.Lib.Primitives;
 using Geometry2d.Lib.Utils;
+using Kz.DataStructures;
 using Raylib_cs;
 using Ray = Geometry2d.Lib.Primitives.Ray;
 using Rectangle = Geometry2d.Lib.Primitives.Rectangle;
@@ -12,7 +13,7 @@ namespace Geometry2d.RayLib
         {
             switch (shape)
             {
-                case Vector2 v: DrawPoint(v, color); break;
+                case Vector2f v: DrawPoint(v, color); break;
                 case Line l: DrawLine(l, color); break;
                 case Rectangle r: DrawRectangle(r, color, fill); break;
                 case Circle c: DrawCircle(c, color, fill); break;
@@ -23,7 +24,7 @@ namespace Geometry2d.RayLib
             }
         }
 
-        public static void DrawPoint(Vector2 p, Color color)
+        public static void DrawPoint(Vector2f p, Color color)
         {
             Raylib.DrawPixel((int)p.X, (int)p.Y, color);
         }
@@ -109,14 +110,14 @@ namespace Geometry2d.RayLib
                 DrawRay(ray, color);
                 return;
             }
-            
+
             // line from ray origin to first reflection
             DrawLine(new Line(ray.Origin, reflectData[0].Intersection), Color.Red);
 
             // draw all middle reflections as lines
             for (var i = 1; i < reflectData.Count; i++)
-            {                                                
-                DrawLine(new Line(reflectData[i - 1].Intersection, reflectData[i].Intersection), Color.Red);                
+            {
+                DrawLine(new Line(reflectData[i - 1].Intersection, reflectData[i].Intersection), Color.Red);
             }
 
             // draw last reflection as a ray
@@ -133,23 +134,23 @@ namespace Geometry2d.RayLib
             }
             else
             {
-                //Raylib.DrawEllipseLines((int)ellipse.Origin.X, (int)ellipse.Origin.Y, ellipse.H, ellipse.V, color);                
+                //Raylib.DrawEllipseLines((int)ellipse.Origin.X, (int)ellipse.Origin.Y, ellipse.H, ellipse.V, color);
                 DrawRotatedEllipse(ellipse, color);
             }
         }
 
         /// <summary>
         /// Update this to render ellipse to texture, rotate the texture, then render texture
-        /// </summary>        
+        /// </summary>
         private static void DrawRotatedEllipse(Ellipse ellipse, Color color)
-        {            
+        {
             var centerX = ellipse.Origin.X;
             var centerY = ellipse.Origin.Y;
             var radiusX = ellipse.SemiMajorAxis;
             var radiusY = ellipse.SemiMinorAxis;
 
             const int segments = 360; // Increase for smoother ellipse
-            
+
             for (int i = 0; i < segments; i++)
             {
                 var angle = i * (2.0f * MathF.PI / segments);

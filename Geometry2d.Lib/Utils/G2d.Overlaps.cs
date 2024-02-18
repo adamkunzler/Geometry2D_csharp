@@ -1,4 +1,5 @@
 ﻿using Geometry2d.Lib.Primitives;
+using Kz.DataStructures;
 
 namespace Geometry2d.Lib.Utils
 {
@@ -10,9 +11,9 @@ namespace Geometry2d.Lib.Utils
         {
             return lhs switch
             {
-                Vector2 v => rhs switch
+                Vector2f v => rhs switch
                 {
-                    Vector2 v2 => Intersects(v, v2).Count > 0,
+                    Vector2f v2 => Intersects(v, v2).Count > 0,
                     Line l2 => Intersects(v, l2).Count > 0,
                     Rectangle r2 => Intersects(v, r2).Count > 0,
                     Circle c2 => Intersects(v, c2).Count > 0,
@@ -23,7 +24,7 @@ namespace Geometry2d.Lib.Utils
                 },
                 Line l => rhs switch
                 {
-                    Vector2 v2 => Intersects(l, v2).Count > 0,
+                    Vector2f v2 => Intersects(l, v2).Count > 0,
                     Line l2 => Intersects(l, l2).Count > 0,
                     Rectangle r2 => Intersects(l, r2).Count > 0,
                     Circle c2 => Intersects(l, c2).Count > 0,
@@ -34,7 +35,7 @@ namespace Geometry2d.Lib.Utils
                 },
                 Rectangle r => rhs switch
                 {
-                    Vector2 v2 => Intersects(r, v2).Count > 0,
+                    Vector2f v2 => Intersects(r, v2).Count > 0,
                     Line l2 => Intersects(r, l2).Count > 0,
                     Rectangle r2 => Intersects(r, r2).Count > 0,
                     Circle c2 => Intersects(r, c2).Count > 0,
@@ -45,7 +46,7 @@ namespace Geometry2d.Lib.Utils
                 },
                 Circle c => rhs switch
                 {
-                    Vector2 v2 => Intersects(c, v2).Count > 0,
+                    Vector2f v2 => Intersects(c, v2).Count > 0,
                     Line l2 => Intersects(c, l2).Count > 0,
                     Rectangle r2 => Intersects(c, r2).Count > 0,
                     Circle c2 => Intersects(c, c2).Count > 0,
@@ -56,7 +57,7 @@ namespace Geometry2d.Lib.Utils
                 },
                 Triangle t => rhs switch
                 {
-                    Vector2 v2 => Intersects(t, v2).Count > 0,
+                    Vector2f v2 => Intersects(t, v2).Count > 0,
                     Line l2 => Intersects(t, l2).Count > 0,
                     Rectangle r2 => Intersects(t, r2).Count > 0,
                     Circle c2 => Intersects(t, c2).Count > 0,
@@ -67,7 +68,7 @@ namespace Geometry2d.Lib.Utils
                 },
                 Polygon poly => rhs switch
                 {
-                    Vector2 v2 => Intersects(poly, v2).Count > 0,
+                    Vector2f v2 => Intersects(poly, v2).Count > 0,
                     Line l2 => Intersects(poly, l2).Count > 0,
                     Rectangle r2 => Intersects(poly, r2).Count > 0,
                     Circle c2 => Intersects(poly, c2).Count > 0,
@@ -78,7 +79,7 @@ namespace Geometry2d.Lib.Utils
                 },
                 Ray ray => rhs switch
                 {
-                    Vector2 v2 => Intersects(ray, v2).Count > 0,
+                    Vector2f v2 => Intersects(ray, v2).Count > 0,
                     Line l2 => Intersects(ray, l2).Count > 0,
                     Rectangle r2 => Intersects(ray, r2).Count > 0,
                     Circle c2 => Intersects(ray, c2).Count > 0,
@@ -91,6 +92,6 @@ namespace Geometry2d.Lib.Utils
             };
         }
 
-        #endregion IShape OVERLAPS IShape        
+        #endregion IShape OVERLAPS IShape
     }
 }

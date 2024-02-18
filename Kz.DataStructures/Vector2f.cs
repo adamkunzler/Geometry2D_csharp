@@ -1,9 +1,6 @@
-﻿namespace Geometry2d.Lib.Primitives
-{
-    public interface IShape { }
-
-
-    public class Vector2 : IShape
+﻿namespace Kz.DataStructures
+{    
+    public class Vector2f : IShape
     {
         #region ctor
 
@@ -20,15 +17,15 @@
 
         #endregion Aliases
 
-        public static Vector2 Zero => new Vector2();
+        public static Vector2f Zero => new Vector2f();
 
-        public Vector2()
+        public Vector2f()
         {
             X = 0.0f;
             Y = 0.0f;
         }
 
-        public Vector2(float x, float y)
+        public Vector2f(float x, float y)
         {
             X = x;
             Y = y;
@@ -43,7 +40,7 @@
 
         #region Equality
 
-        public static bool AreEqual(Vector2 lhs, Vector2 rhs)
+        public static bool AreEqual(Vector2f lhs, Vector2f rhs)
         {
             if (lhs == null && rhs == null) return true;
             if (lhs != null && rhs == null) return false;
@@ -52,23 +49,23 @@
             return (lhs!.X == rhs!.X && lhs.Y == rhs.Y);
         }
 
-        public bool AreEqual(Vector2 rhs) => AreEqual(this, rhs);
+        public bool AreEqual(Vector2f rhs) => AreEqual(this, rhs);
 
         #endregion Equality
 
         #region Vector Addition
 
-        public static Vector2 Add(Vector2 a, Vector2 b)
+        public static Vector2f Add(Vector2f a, Vector2f b)
         {
-            return new Vector2(a.X + b.X, a.Y + b.Y);
+            return new Vector2f(a.X + b.X, a.Y + b.Y);
         }
 
-        public static Vector2 operator +(Vector2 a, Vector2 b)
+        public static Vector2f operator +(Vector2f a, Vector2f b)
         {
             return Add(a, b);
         }
 
-        public Vector2 Add(Vector2 other)
+        public Vector2f Add(Vector2f other)
         {
             return Add(this, other);
         }
@@ -77,22 +74,22 @@
 
         #region Scalar Addition
 
-        public static Vector2 Add(Vector2 a, float t)
+        public static Vector2f Add(Vector2f a, float t)
         {
-            return new Vector2(a.X + t, a.Y + t);
+            return new Vector2f(a.X + t, a.Y + t);
         }
 
-        public static Vector2 operator +(Vector2 a, float t)
-        {
-            return Add(a, t);
-        }
-
-        public static Vector2 operator +(float t, Vector2 a)
+        public static Vector2f operator +(Vector2f a, float t)
         {
             return Add(a, t);
         }
 
-        public Vector2 Add(float t)
+        public static Vector2f operator +(float t, Vector2f a)
+        {
+            return Add(a, t);
+        }
+
+        public Vector2f Add(float t)
         {
             return Add(this, t);
         }
@@ -101,17 +98,17 @@
 
         #region Vector Subtraction
 
-        public static Vector2 Subtract(Vector2 a, Vector2 b)
+        public static Vector2f Subtract(Vector2f a, Vector2f b)
         {
-            return new Vector2(a.X - b.X, a.Y - b.Y);
+            return new Vector2f(a.X - b.X, a.Y - b.Y);
         }
 
-        public static Vector2 operator -(Vector2 a, Vector2 b)
+        public static Vector2f operator -(Vector2f a, Vector2f b)
         {
             return Subtract(a, b);
         }
 
-        public Vector2 Subtract(Vector2 other)
+        public Vector2f Subtract(Vector2f other)
         {
             return Subtract(this, other);
         }
@@ -120,22 +117,22 @@
 
         #region Scalar Subtraction
 
-        public static Vector2 Subtract(Vector2 a, float t)
+        public static Vector2f Subtract(Vector2f a, float t)
         {
-            return new Vector2(a.X - t, a.Y - t);
+            return new Vector2f(a.X - t, a.Y - t);
         }
 
-        public static Vector2 operator -(Vector2 a, float t)
-        {
-            return Subtract(a, t);
-        }
-
-        public static Vector2 operator -(float t, Vector2 a)
+        public static Vector2f operator -(Vector2f a, float t)
         {
             return Subtract(a, t);
         }
 
-        public Vector2 Subtract(float t)
+        public static Vector2f operator -(float t, Vector2f a)
+        {
+            return Subtract(a, t);
+        }
+
+        public Vector2f Subtract(float t)
         {
             return Subtract(this, t);
         }
@@ -144,17 +141,17 @@
 
         #region Vector Multiplication
 
-        public static Vector2 Multiply(Vector2 a, Vector2 b)
+        public static Vector2f Multiply(Vector2f a, Vector2f b)
         {
-            return new Vector2(a.X * b.X, a.Y * b.Y);
+            return new Vector2f(a.X * b.X, a.Y * b.Y);
         }
 
-        public static Vector2 operator *(Vector2 a, Vector2 b)
+        public static Vector2f operator *(Vector2f a, Vector2f b)
         {
             return Multiply(a, b);
         }
 
-        public Vector2 Multiply(Vector2 a)
+        public Vector2f Multiply(Vector2f a)
         {
             return Multiply(this, a);
         }
@@ -163,22 +160,22 @@
 
         #region Scalar Multiplication
 
-        public static Vector2 Multiply(Vector2 a, float scalar)
+        public static Vector2f Multiply(Vector2f a, float scalar)
         {
-            return new Vector2(a.X * scalar, a.Y * scalar);
+            return new Vector2f(a.X * scalar, a.Y * scalar);
         }
 
-        public static Vector2 operator *(Vector2 a, float scalar)
-        {
-            return Multiply(a, scalar);
-        }
-
-        public static Vector2 operator *(float scalar, Vector2 a)
+        public static Vector2f operator *(Vector2f a, float scalar)
         {
             return Multiply(a, scalar);
         }
 
-        public Vector2 Multiply(float scalar)
+        public static Vector2f operator *(float scalar, Vector2f a)
+        {
+            return Multiply(a, scalar);
+        }
+
+        public Vector2f Multiply(float scalar)
         {
             return Multiply(this, scalar);
         }
@@ -187,17 +184,17 @@
 
         #region Vector Division
 
-        public static Vector2 Divide(Vector2 a, Vector2 b)
+        public static Vector2f Divide(Vector2f a, Vector2f b)
         {
-            return new Vector2(a.X / b.X, a.Y / b.Y);
+            return new Vector2f(a.X / b.X, a.Y / b.Y);
         }
 
-        public static Vector2 operator /(Vector2 a, Vector2 b)
+        public static Vector2f operator /(Vector2f a, Vector2f b)
         {
             return Divide(a, b);
         }
 
-        public Vector2 Divide(Vector2 a)
+        public Vector2f Divide(Vector2f a)
         {
             return Divide(this, a);
         }
@@ -206,17 +203,17 @@
 
         #region Scalar Division
 
-        public static Vector2 Divide(Vector2 a, float scalar)
+        public static Vector2f Divide(Vector2f a, float scalar)
         {
-            return new Vector2(a.X / scalar, a.Y / scalar);
+            return new Vector2f(a.X / scalar, a.Y / scalar);
         }
 
-        public static Vector2 operator /(Vector2 a, float scalar)
+        public static Vector2f operator /(Vector2f a, float scalar)
         {
             return Divide(a, scalar);
         }
 
-        public Vector2 Divide(float scalar)
+        public Vector2f Divide(float scalar)
         {
             return Divide(this, scalar);
         }
@@ -225,12 +222,12 @@
 
         #region Dot Product (Scalar Product)
 
-        public static float Dot(Vector2 a, Vector2 b)
+        public static float Dot(Vector2f a, Vector2f b)
         {
             return (a.X * b.X) + (a.Y * b.Y);
         }
 
-        public float Dot(Vector2 other)
+        public float Dot(Vector2f other)
         {
             return Dot(this, other);
         }
@@ -242,7 +239,7 @@
         /// <summary>
         /// return magnitude (length) of the vector
         /// </summary>
-        public static float Magnitude(Vector2 a)
+        public static float Magnitude(Vector2f a)
         {
             return MathF.Sqrt((a.X * a.X) + (a.Y * a.Y));
         }
@@ -258,7 +255,7 @@
         /// <summary>
         /// returns magnitude squared (useful for fast comparison)
         /// </summary>
-        public static float Magnitude2(Vector2 a)
+        public static float Magnitude2(Vector2f a)
         {
             return (a.X * a.X) + (a.Y * a.Y);
         }
@@ -278,16 +275,16 @@
         /// <summary>
         /// returns the normalized version of the vector (length = 1)
         /// </summary>
-        public static Vector2 Normal(Vector2 a)
+        public static Vector2f Normal(Vector2f a)
         {
             var magnitude = Magnitude(a);
-            return new Vector2(a.X / magnitude, a.Y / magnitude);
+            return new Vector2f(a.X / magnitude, a.Y / magnitude);
         }
 
         /// <summary>
         /// returns the normalized version of the vector (length = 1)
         /// </summary>
-        public Vector2 Normal()
+        public Vector2f Normal()
         {
             return Normal(this);
         }
@@ -301,7 +298,7 @@
         /// Negative - b is clockwise to a
         /// Zero - a and b are parallel or one is a zero vector
         /// </summary>
-        public static float CrossProduct(Vector2 a, Vector2 b)
+        public static float CrossProduct(Vector2f a, Vector2f b)
         {
             return a.X * b.Y - a.Y * b.X;
         }
@@ -311,7 +308,7 @@
         /// Negative - b is clockwise to a
         /// Zero - a and b are parallel or one is a zero vector
         /// </summary>
-        public float CrossProduct(Vector2 other)
+        public float CrossProduct(Vector2f other)
         {
             return CrossProduct(this, other);
         }
@@ -323,15 +320,15 @@
         /// <summary>
         /// returns a vector perpendicular to the vector
         /// </summary>
-        public static Vector2 Perpendicular(Vector2 a)
+        public static Vector2f Perpendicular(Vector2f a)
         {
-            return new Vector2(-a.Y, a.X);
+            return new Vector2f(-a.Y, a.X);
         }
 
         /// <summary>
         /// returns a vector perpendicular to the vector
         /// </summary>
-        public Vector2 Perpendicular()
+        public Vector2f Perpendicular()
         {
             return Perpendicular(this);
         }
@@ -343,7 +340,7 @@
         /// <summary>
         /// returns rectangular area of vector
         /// </summary>
-        public static float Area(Vector2 a)
+        public static float Area(Vector2f a)
         {
             return a.X * a.Y;
         }
@@ -359,15 +356,15 @@
         /// <summary>
         /// round both components down
         /// </summary>
-        public static Vector2 Floor(Vector2 a)
+        public static Vector2f Floor(Vector2f a)
         {
-            return new Vector2(MathF.Floor(a.X), MathF.Floor(a.Y));
+            return new Vector2f(MathF.Floor(a.X), MathF.Floor(a.Y));
         }
 
         /// <summary>
         /// round both components down
         /// </summary>
-        public Vector2 Floor()
+        public Vector2f Floor()
         {
             return Floor(this);
         }
@@ -375,15 +372,15 @@
         /// <summary>
         /// round both components up
         /// </summary>
-        public static Vector2 Ceiling(Vector2 a)
+        public static Vector2f Ceiling(Vector2f a)
         {
-            return new Vector2(MathF.Ceiling(a.X), MathF.Ceiling(a.Y));
+            return new Vector2f(MathF.Ceiling(a.X), MathF.Ceiling(a.Y));
         }
 
         /// <summary>
         /// round both components up
         /// </summary>
-        public Vector2 Ceiling()
+        public Vector2f Ceiling()
         {
             return Floor(this);
         }
@@ -391,15 +388,15 @@
         /// <summary>
         /// returns element-wise max of two vectors
         /// </summary>
-        public static Vector2 Max(Vector2 a, Vector2 b)
+        public static Vector2f Max(Vector2f a, Vector2f b)
         {
-            return new Vector2(MathF.Max(a.X, b.X), MathF.Max(a.Y, b.Y));
+            return new Vector2f(MathF.Max(a.X, b.X), MathF.Max(a.Y, b.Y));
         }
 
         /// <summary>
         /// returns element-wise max of two vectors
         /// </summary>
-        public Vector2 Max(Vector2 other)
+        public Vector2f Max(Vector2f other)
         {
             return Max(this, other);
         }
@@ -407,15 +404,15 @@
         /// <summary>
         /// returns element-wise min of two vectors
         /// </summary>
-        public static Vector2 Min(Vector2 a, Vector2 b)
+        public static Vector2f Min(Vector2f a, Vector2f b)
         {
-            return new Vector2(MathF.Min(a.X, b.X), MathF.Min(a.Y, b.Y));
+            return new Vector2f(MathF.Min(a.X, b.X), MathF.Min(a.Y, b.Y));
         }
 
         /// <summary>
         /// returns element-wise min of two vectors
         /// </summary>
-        public Vector2 Min(Vector2 other)
+        public Vector2f Min(Vector2f other)
         {
             return Min(this, other);
         }
@@ -424,15 +421,15 @@
         /// treat this as polar coordinate (R, Theta), return cartesian equivalent (X, Y)
         /// Theta is in radians.
         /// </summary>
-        public static Vector2 ToCartesian(Vector2 a)
+        public static Vector2f ToCartesian(Vector2f a)
         {
-            return new Vector2(MathF.Cos(a.Theta) * a.R, MathF.Sin(a.Theta) * a.R);
+            return new Vector2f(MathF.Cos(a.Theta) * a.R, MathF.Sin(a.Theta) * a.R);
         }
 
         /// <summary>
         /// treat this as polar coordinate (R, Theta), return cartesian equivalent (X, Y)
         /// </summary>
-        public Vector2 ToCartesian()
+        public Vector2f ToCartesian()
         {
             return ToCartesian(this);
         }
@@ -440,15 +437,15 @@
         /// <summary>
         /// treat this as cartesian coordinate (X, Y), return polar equivalent (R, Theta)
         /// </summary>
-        public static Vector2 ToPolar(Vector2 a)
+        public static Vector2f ToPolar(Vector2f a)
         {
-            return new Vector2(a.Magnitude(), MathF.Atan2(a.Y, a.X));
+            return new Vector2f(a.Magnitude(), MathF.Atan2(a.Y, a.X));
         }
 
         /// <summary>
         /// treat this as cartesian coordinate (X, Y), return polar equivalent (R, Theta)
         /// </summary>
-        public Vector2 ToPolar()
+        public Vector2f ToPolar()
         {
             return ToPolar(this);
         }
@@ -456,7 +453,7 @@
         /// <summary>
         /// clamp the components of this vector in between the 'element-wise' minimum and maximum of 2 other vectors
         /// </summary>
-        public static Vector2 Clamp(Vector2 a, Vector2 min, Vector2 max)
+        public static Vector2f Clamp(Vector2f a, Vector2f min, Vector2f max)
         {
             return a.Max(min).Min(max);
         }
@@ -464,7 +461,7 @@
         /// <summary>
         /// clamp the components of this vector in between the 'element-wise' minimum and maximum of 2 other vectors
         /// </summary>
-        public Vector2 Clamp(Vector2 min, Vector2 max)
+        public Vector2f Clamp(Vector2f min, Vector2f max)
         {
             return Clamp(this, min, max);
         }
@@ -472,9 +469,9 @@
         /// <summary>
         /// linearly interpolate between this vector, and another vector, given normalised parameter 't'
         /// </summary>
-        public static Vector2 Lerp(Vector2 a, Vector2 b, float t)
-        {            
-            return new Vector2
+        public static Vector2f Lerp(Vector2f a, Vector2f b, float t)
+        {
+            return new Vector2f
             (
                 (1.0f - t) * a.X + t * b.X,
                 (1.0f - t) * a.Y + t * b.Y
@@ -484,7 +481,7 @@
         /// <summary>
         /// linearly interpolate between this vector, and another vector, given normalised parameter 't'
         /// </summary>
-        public Vector2 Lerp(Vector2 other, float t)
+        public Vector2f Lerp(Vector2f other, float t)
         {
             return Lerp(this, other, t);
         }
@@ -492,7 +489,7 @@
         /// <summary>
         /// return the angle between two vectors in radians
         /// </summary>        
-        public static float AngleBetween(Vector2 a, Vector2 b)
+        public static float AngleBetween(Vector2f a, Vector2f b)
         {
             var dot = Dot(a, b);
             var cosTheta = dot / (a.Magnitude() * b.Magnitude());
@@ -503,7 +500,7 @@
         /// <summary>
         /// return the angle between two vectors in radians
         /// </summary>        
-        public float AngleBetwen(Vector2 rhs) => AngleBetween(this, rhs);
+        public float AngleBetwen(Vector2f rhs) => AngleBetween(this, rhs);
 
         #endregion Misc
     }

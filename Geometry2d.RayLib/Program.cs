@@ -5,8 +5,8 @@
 using Geometry2d.Lib.Primitives;
 using Geometry2d.Lib.Utils;
 using Geometry2d.RayLib;
+using Kz.DataStructures;
 using Raylib_cs;
-using System.Drawing;
 using Color = Raylib_cs.Color;
 using Ray = Geometry2d.Lib.Primitives.Ray;
 using Rectangle = Geometry2d.Lib.Primitives.Rectangle;
@@ -15,42 +15,39 @@ internal class Program
 {
     public static void Main()
     {
-        IShape mouse = new Vector2();
-        var mousePoint = new Vector2();
+        IShape mouse = new Vector2f();
+        var mousePoint = new Vector2f();
 
         var shapes = new List<IShape>();
 
-        var p = new Vector2(150.0f, 150.0f);
+        var p = new Vector2f(150.0f, 150.0f);
         var l = new Line(63.0f, 204.0f, 172.0f, 232.0f);
         var r = new Rectangle(120.0f, 120.0f, 200.0f, 80.0f);
         var c = new Circle(300.0f, 300.0f, 35.0f);
         var t = new Triangle(130.0f, 235.0f, 212.0f, 338.0f, 66.0f, 306.0f);
-        var ray = new Ray(new Vector2(0.0f, 0.0f), new Vector2(1.0f, 1.0f));
+        var ray = new Ray(new Vector2f(0.0f, 0.0f), new Vector2f(1.0f, 1.0f));
         var e = new Ellipse(325.0f, 50.0f, 50.0f, 25.0f);
         var poly = new Polygon
         (
-            new Vector2(218.0f, 18.0f),
-            new Vector2(265.0f, 52.0f),
-            new Vector2(229.0f, 97.0f),
-            new Vector2(199.0f, 70.0f),
-            new Vector2(170.0f, 96.0f),
-            new Vector2(108.0f, 77.0f),
-            new Vector2(100.0f, 35.0f),
-            new Vector2(140.0f, 22.0f),
-            new Vector2(179.0f, 46.0f)
+            new Vector2f(218.0f, 18.0f),
+            new Vector2f(265.0f, 52.0f),
+            new Vector2f(229.0f, 97.0f),
+            new Vector2f(199.0f, 70.0f),
+            new Vector2f(170.0f, 96.0f),
+            new Vector2f(108.0f, 77.0f),
+            new Vector2f(100.0f, 35.0f),
+            new Vector2f(140.0f, 22.0f),
+            new Vector2f(179.0f, 46.0f)
         );
         var polyRect = new PolyRectangle(20.0f, 80.0f, 55.0f, 70.0f);
 
-        
-        
         shapes.Add(l);
         shapes.Add(r);
         shapes.Add(c);
-        shapes.Add(t);        
+        shapes.Add(t);
         shapes.Add(poly);
         shapes.Add(e);
         shapes.Add(polyRect);
-        
 
         var theta = 0.0f;
         var rayTheta = 0.0f;
@@ -91,7 +88,7 @@ internal class Program
             }
             else if (Raylib.IsKeyPressed(KeyboardKey.One))
             {
-                mouse = new Vector2();
+                mouse = new Vector2f();
             }
             else if (Raylib.IsKeyPressed(KeyboardKey.Two))
             {
@@ -119,24 +116,24 @@ internal class Program
             }
             else if (Raylib.IsKeyPressed(KeyboardKey.Right))
             {
-                G2d.Translate(e, new Vector2(5, 0));
+                G2d.Translate(e, new Vector2f(5, 0));
             }
             else if (Raylib.IsKeyPressed(KeyboardKey.Left))
             {
-                G2d.Translate(e, new Vector2(-5, 0));
+                G2d.Translate(e, new Vector2f(-5, 0));
             }
             else if (Raylib.IsKeyPressed(KeyboardKey.Up))
             {
                 foreach (var shape in shapes)
                 {
-                    G2d.Scale(shape, new Vector2(1.1f, 1.1f));
+                    G2d.Scale(shape, new Vector2f(1.1f, 1.1f));
                 }
             }
             else if (Raylib.IsKeyPressed(KeyboardKey.Down))
             {
                 foreach (var shape in shapes)
                 {
-                    G2d.Scale(shape, new Vector2(0.75f, 0.75f));
+                    G2d.Scale(shape, new Vector2f(0.75f, 0.75f));
                 }
             }
             else if (Raylib.IsKeyPressed(KeyboardKey.R))
@@ -154,7 +151,7 @@ internal class Program
             if (Raylib.IsMouseButtonDown(MouseButton.Left))
             {
                 // get shape that contains mouse
-                IShape shape = new Vector2();
+                IShape shape = new Vector2f();
                 foreach (var s in shapes)
                 {
                     if (G2d.Contains(s, mouse))
@@ -165,7 +162,7 @@ internal class Program
                 }
 
                 var delta = Raylib.GetMouseDelta();
-                G2d.Translate(shape, new Vector2(delta.X / screenScale, delta.Y / screenScale));
+                G2d.Translate(shape, new Vector2f(delta.X / screenScale, delta.Y / screenScale));
             }
 
             #endregion Mouse Input
@@ -182,7 +179,7 @@ internal class Program
                 rayTheta += theta;
                 if (rayTheta > MathF.PI * 2.0f) rayTheta = 0.0f;
             }
-            
+
             //
             // Draw
             //
@@ -198,30 +195,30 @@ internal class Program
             {
                 #region Draw Static Shapes
 
-                Gfx.DrawLine(l, G2d.Contains(l, mouse) 
-                    ? Color.Gold 
+                Gfx.DrawLine(l, G2d.Contains(l, mouse)
+                    ? Color.Gold
                     : G2d.Overlaps(l, mouse) ? Color.Purple : Color.RayWhite);
 
-                Gfx.DrawRectangle(r, G2d.Contains(r, mouse) 
-                    ? Color.Gold 
+                Gfx.DrawRectangle(r, G2d.Contains(r, mouse)
+                    ? Color.Gold
                     : G2d.Overlaps(r, mouse) ? Color.Purple : Color.RayWhite);
                 Gfx.DrawPoint(r.Middle, Color.RayWhite);
 
-                Gfx.DrawCircle(c, G2d.Contains(c, mouse) 
-                    ? Color.Gold 
+                Gfx.DrawCircle(c, G2d.Contains(c, mouse)
+                    ? Color.Gold
                     : G2d.Overlaps(c, mouse) ? Color.Purple : Color.RayWhite);
                 Gfx.DrawPoint(c.Origin, Color.RayWhite);
 
-                Gfx.DrawTriangle(t, G2d.Contains(t, mouse) 
-                    ? Color.Gold 
+                Gfx.DrawTriangle(t, G2d.Contains(t, mouse)
+                    ? Color.Gold
                     : G2d.Overlaps(t, mouse) ? Color.Purple : Color.RayWhite);
                 Gfx.DrawPoint(t.Centroid(), Color.RayWhite);
 
-                Gfx.DrawPolygon(poly, G2d.Contains(poly, mouse) 
-                    ? Color.Gold 
+                Gfx.DrawPolygon(poly, G2d.Contains(poly, mouse)
+                    ? Color.Gold
                     : G2d.Overlaps(poly, mouse) ? Color.Purple : Color.RayWhite);
                 Gfx.DrawPoint(poly.Center(), Color.RayWhite);
-                
+
                 Gfx.DrawPolygon(polyRect, G2d.Contains(polyRect, mouse)
                     ? Color.Gold
                     : G2d.Overlaps(polyRect, mouse) ? Color.Purple : Color.RayWhite);
@@ -254,17 +251,17 @@ internal class Program
                     Gfx.DrawCircle(new Circle(G2d.Closest(mouse, shape), 2), Color.Blue, true);
                 }
 
-                #endregion Mouse Shape Intersections
-                                
+                #endregion Mouse Shape Interactions
+
                 #region Draw AABB
 
                 // triangle centers
                 Gfx.DrawCircle(new Circle(t.Centroid(), 2), Color.Red, true);
                 Gfx.DrawCircle(new Circle(t.Circumcenter(), 2), Color.Purple, true);
                 Gfx.DrawCircle(new Circle(t.Incenter(), 2), Color.Green, true);
-                Gfx.DrawCircle(new Circle(t.Orthocenter(), 2), Color.Blue, true);                
+                Gfx.DrawCircle(new Circle(t.Orthocenter(), 2), Color.Blue, true);
                 Gfx.DrawCircle(t.Incircle(), Color.Green);
-                
+
                 Gfx.DrawCircle(G2d.BoundingCircle(t), Color.DarkGray);
                 Gfx.DrawCircle(G2d.BoundingCircle(poly), Color.DarkGray);
 
@@ -287,18 +284,18 @@ internal class Program
                     }
                 }
 
-                G2d.Rotate(e, new Vector2(middleX, middleY), theta, true);
+                G2d.Rotate(e, new Vector2f(middleX, middleY), theta, true);
 
                 #endregion Transformation
 
                 #region Reflections
-                
+
                 var reflectData = G2d.Reflect(ray, shapes, 20);
                 Gfx.DrawRayReflections(ray, reflectData, Color.Red);
-                
+
                 #endregion Reflections
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 Console.WriteLine($"OOPS: {ex.Message}");
             }
@@ -325,8 +322,6 @@ internal class Program
             Raylib.EndDrawing();
 
             #endregion Draw Target Texture to Window
-
-            
         }
 
         //
@@ -336,7 +331,7 @@ internal class Program
         Raylib.CloseWindow();        // Close window and OpenGL context
     }
 
-    private static void UpdateMouse(System.Numerics.Vector2 mouse, Vector2 mousePoint, IShape mouseShape, int screenScale)
+    private static void UpdateMouse(System.Numerics.Vector2 mouse, Vector2f mousePoint, IShape mouseShape, int screenScale)
     {
         var mx = (mouse.X / screenScale);
         var my = (mouse.Y / screenScale);
@@ -346,7 +341,7 @@ internal class Program
 
         switch (mouseShape)
         {
-            case Vector2 v:
+            case Vector2f v:
                 v.X = mx;
                 v.Y = my;
                 break;
@@ -381,13 +376,13 @@ internal class Program
                 break;
 
             case RegularPolygon poly:
-                poly.BuildRegularPolygon(new Vector2(mx, my), 5, 25.0f);
+                poly.BuildRegularPolygon(new Vector2f(mx, my), 5, 25.0f);
                 break;
 
             case Ray ray:
                 ray.Origin.X = 0.0f;
                 ray.Origin.Y = 0;
-                ray.Direction = (new Vector2(mx, my) - ray.Origin).Normal();
+                ray.Direction = (new Vector2f(mx, my) - ray.Origin).Normal();
                 break;
         }
     }

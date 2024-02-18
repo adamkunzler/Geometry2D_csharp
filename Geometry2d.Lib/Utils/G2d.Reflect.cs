@@ -1,22 +1,23 @@
 ﻿using Geometry2d.Lib.Primitives;
+using Kz.DataStructures;
 
 namespace Geometry2d.Lib.Utils
 {
-    public record ReflectData(Vector2 Intersection, Vector2 Reflection);
+    public record ReflectData(Vector2f Intersection, Vector2f Reflection);
 
     public static partial class G2d
     {
         /// <summary>
         /// Law of Reflection
         /// </summary>
-        public static Vector2 Reflect(Vector2 incident, Vector2 normal)
+        public static Vector2f Reflect(Vector2f incident, Vector2f normal)
         {
             // reflection vector
             //      r = i - 2(i dot n)n
             //      i = incident vector
             //      n = normal vector
 
-            return incident - (2.0f * Vector2.Dot(incident, normal) * normal);
+            return incident - (2.0f * Vector2f.Dot(incident, normal) * normal);
         }
 
         /// <summary>
@@ -26,7 +27,7 @@ namespace Geometry2d.Lib.Utils
         {
             return rhs switch
             {
-                Vector2 x => Reflect(lhs, x),
+                Vector2f x => Reflect(lhs, x),
                 Line x => Reflect(lhs, x),
                 Rectangle x => Reflect(lhs, x),
                 Circle x => Reflect(lhs, x),
@@ -38,28 +39,28 @@ namespace Geometry2d.Lib.Utils
 
         /// <summary>
         /// Calculate the reflection data for a ray bouncing around a list of shapes
-        /// </summary>        
+        /// </summary>
         public static List<ReflectData> Reflect(Ray lhs, List<IShape> shapes, int maxBounces)
         {
             var reflectData = new List<ReflectData>();
 
             var ray = lhs;
-            
+
             for (var i = 0; i < maxBounces; i++)
-            {                
+            {
                 var minDist = float.MaxValue;
                 ReflectData closest = null!;
 
-                foreach(var shape in shapes)
+                foreach (var shape in shapes)
                 {
                     var r = Reflect(ray, shape);
                     if (r == null) continue;
 
                     var dist = (r.Intersection - ray.Origin).Magnitude2();
-                    if(dist < minDist)
+                    if (dist < minDist)
                     {
                         minDist = dist;
-                        closest = r;                        
+                        closest = r;
                     }
                 }
 
@@ -68,7 +69,7 @@ namespace Geometry2d.Lib.Utils
                 // move "closest" a little bit away from intersection point in the direction of the incoming ray
                 var dir = (ray.Origin - closest.Intersection).Normal();
                 var adjustedIntersection = closest.Intersection + (dir * 0.05f);
-                                                
+
                 ray = new Ray(adjustedIntersection, closest.Reflection);
                 reflectData.Add(new ReflectData(adjustedIntersection, closest.Reflection));
             }
@@ -79,8 +80,8 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// return reflection data for a ray reflecting of a point
         /// </summary>
-        public static ReflectData Reflect(Ray lhs, Vector2 rhs)
-        {            
+        public static ReflectData Reflect(Ray lhs, Vector2f rhs)
+        {
             return null!;
         }
 
@@ -147,6 +148,6 @@ namespace Geometry2d.Lib.Utils
             var reflection = Reflect(lhs.Direction, collision.Normal);
 
             return new ReflectData(collision.Intersection, reflection);
-        }        
+        }
     }
 }

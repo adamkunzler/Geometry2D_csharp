@@ -1,8 +1,9 @@
 ﻿using Geometry2d.Lib.Primitives;
+using Kz.DataStructures;
 
 namespace Geometry2d.Lib.Utils
 {
-    public record CollisionData(bool IsHit, Vector2 Intersection, Vector2 Normal, IShape Shape);
+    public record CollisionData(bool IsHit, Vector2f Intersection, Vector2f Normal, IShape Shape);
 
     public static partial class G2d
     {
@@ -15,22 +16,22 @@ namespace Geometry2d.Lib.Utils
         {
             return rhs switch
             {
-                Vector2 x => Collision(lhs, x),
+                Vector2f x => Collision(lhs, x),
                 Line x => Collision(lhs, x),
                 Rectangle x => Collision(lhs, x),
                 Circle x => Collision(lhs, x),
                 Triangle x => Collision(lhs, x),
                 Polygon x => Collision(lhs, x),
-                _ => new CollisionData(false, Vector2.Zero, Vector2.Zero, null!)
+                _ => new CollisionData(false, Vector2f.Zero, Vector2f.Zero, null!)
             };
         }
 
         /// <summary>
         /// Return collision information for a collision between a ray and a point
         /// </summary>
-        public static CollisionData Collision(Ray lhs, Vector2 rhs)
+        public static CollisionData Collision(Ray lhs, Vector2f rhs)
         {
-            return new CollisionData(false, Vector2.Zero, Vector2.Zero, null!);
+            return new CollisionData(false, Vector2f.Zero, Vector2f.Zero, null!);
         }
 
         /// <summary>
@@ -39,7 +40,7 @@ namespace Geometry2d.Lib.Utils
         public static CollisionData Collision(Ray lhs, Line rhs)
         {
             var intersections = Intersects(lhs, rhs);
-            if (intersections.Count == 0) return new CollisionData(false, Vector2.Zero, Vector2.Zero, null!);
+            if (intersections.Count == 0) return new CollisionData(false, Vector2f.Zero, Vector2f.Zero, null!);
 
             var closest = ClosestIntersection(lhs.Origin, intersections);
 
@@ -56,7 +57,7 @@ namespace Geometry2d.Lib.Utils
             var collision = Collision(lhs, rhs.Sides);
             return collision.IsHit
                 ? new CollisionData(true, collision.Intersection, collision.Normal, rhs)
-                : new CollisionData(false, Vector2.Zero, Vector2.Zero, null!);
+                : new CollisionData(false, Vector2f.Zero, Vector2f.Zero, null!);
         }
 
         /// <summary>
@@ -65,7 +66,7 @@ namespace Geometry2d.Lib.Utils
         public static CollisionData Collision(Ray lhs, Circle rhs)
         {
             var intersections = Intersects(lhs, rhs);
-            if (intersections.Count == 0) return new CollisionData(false, Vector2.Zero, Vector2.Zero, null!);
+            if (intersections.Count == 0) return new CollisionData(false, Vector2f.Zero, Vector2f.Zero, null!);
 
             var closest = ClosestIntersection(lhs.Origin, intersections);
 
@@ -82,7 +83,7 @@ namespace Geometry2d.Lib.Utils
             var collision = Collision(lhs, rhs.Sides);
             return collision.IsHit
                 ? new CollisionData(true, collision.Intersection, collision.Normal, rhs)
-                : new CollisionData(false, Vector2.Zero, Vector2.Zero, null!);
+                : new CollisionData(false, Vector2f.Zero, Vector2f.Zero, null!);
         }
 
         /// <summary>
@@ -93,7 +94,7 @@ namespace Geometry2d.Lib.Utils
             var collision = Collision(lhs, rhs.Sides());
             return collision.IsHit
                 ? new CollisionData(true, collision.Intersection, collision.Normal, rhs)
-                : new CollisionData(false, Vector2.Zero, Vector2.Zero, null!);
+                : new CollisionData(false, Vector2f.Zero, Vector2f.Zero, null!);
         }
 
         /// <summary>
@@ -103,8 +104,8 @@ namespace Geometry2d.Lib.Utils
         {
             var isCollision = false;
             var min = float.MaxValue;
-            var closestIntersection = Vector2.Zero;
-            var closestNormal = Vector2.Zero;
+            var closestIntersection = Vector2f.Zero;
+            var closestNormal = Vector2f.Zero;
 
             foreach (var side in sides)
             {
@@ -125,13 +126,13 @@ namespace Geometry2d.Lib.Utils
 
             return isCollision
                 ? new CollisionData(true, closestIntersection, closestNormal, null!)
-                : new CollisionData(false, Vector2.Zero, Vector2.Zero, null!);
+                : new CollisionData(false, Vector2f.Zero, Vector2f.Zero, null!);
         }
 
-        private static Vector2 ClosestIntersection(Vector2 rayOrigin, List<Vector2> intersections)
+        private static Vector2f ClosestIntersection(Vector2f rayOrigin, List<Vector2f> intersections)
         {
             var min = float.MaxValue;
-            var closest = Vector2.Zero;
+            var closest = Vector2f.Zero;
 
             foreach (var intersection in intersections)
             {
