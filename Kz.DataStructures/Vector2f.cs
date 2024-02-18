@@ -1,4 +1,5 @@
-﻿namespace Kz.DataStructures
+﻿
+namespace Kz.DataStructures
 {    
     public class Vector2f
     {
@@ -35,7 +36,7 @@
         {
             return $"({X}, {Y})";
         }
-
+                
         #endregion ctor
 
         #region Equality

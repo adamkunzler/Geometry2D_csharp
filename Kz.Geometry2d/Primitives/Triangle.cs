@@ -1,4 +1,4 @@
-﻿using Geometry2d.Lib.Utils;
+﻿using Kz.Geometry2d.Utils;
 using Kz.DataStructures;
 
 namespace Kz.Geometry2d.Primitives
@@ -120,7 +120,7 @@ namespace Kz.Geometry2d.Primitives
         public static Point Centroid(Triangle t)
         {
             var center = (t.Vertices[0] + t.Vertices[1] + t.Vertices[2]) / 3.0f;
-            return (Point)center;
+            return new Point(center);
         }
 
         /// <summary>

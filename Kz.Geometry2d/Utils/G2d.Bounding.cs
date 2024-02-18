@@ -1,7 +1,7 @@
 ﻿using Kz.Geometry2d.Primitives;
 using Kz.DataStructures;
 
-namespace Geometry2d.Lib.Utils
+namespace Kz.Geometry2d.Utils
 {
     public static partial class G2d
     {
@@ -11,7 +11,7 @@ namespace Geometry2d.Lib.Utils
         {
             return lhs switch
             {
-                Vector2f x => AABB(x),
+                Point x => AABB(x),
                 Line x => AABB(x),
                 Rectangle x => AABB(x),
                 Circle x => AABB(x),
@@ -24,7 +24,7 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// Returns an AABB for a point
         /// </summary>
-        public static Rectangle AABB(Vector2f lhs)
+        public static Rectangle AABB(Point lhs)
         {
             return new Rectangle(lhs.X, lhs.Y, 1.0f, 1.0f);
         }
@@ -72,7 +72,7 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// Returns an AABB for the given set of vertices
         /// </summary>
-        private static Rectangle AABB(IEnumerable<Vector2f> vertices)
+        private static Rectangle AABB(IEnumerable<Point> vertices)
         {
             var minX = float.MaxValue;
             var maxX = float.MinValue;
@@ -101,7 +101,7 @@ namespace Geometry2d.Lib.Utils
         {
             return lhs switch
             {
-                Vector2f x => BoundingCircle(x),
+                Point x => BoundingCircle(x),
                 Line x => BoundingCircle(x),
                 Rectangle x => BoundingCircle(x),
                 Circle x => BoundingCircle(x),
@@ -114,7 +114,7 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// Returns an BoundingCircle for a point
         /// </summary>
-        public static Circle BoundingCircle(Vector2f lhs)
+        public static Circle BoundingCircle(Point lhs)
         {
             return new Circle(lhs.X, lhs.Y, 1.0f);
         }
@@ -197,13 +197,13 @@ namespace Geometry2d.Lib.Utils
                 }
             }
 
-            return new Circle(center, radius);
+            return new Circle(new Point(center), radius);
         }
 
         /// <summary>
         /// Returns an BoundingCircle for the given set of vertices
         /// </summary>
-        private static Circle BoundingCircle(Vector2f middle, IEnumerable<Vector2f> vertices)
+        private static Circle BoundingCircle(Point middle, IEnumerable<Point> vertices)
         {
             var max = float.MinValue;
 

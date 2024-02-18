@@ -133,7 +133,7 @@ namespace Kz.Geometry2d.Primitives
 
             center /= p.NumSides();
 
-            return (Point)center;
+            return new Point(center);
         }
 
         public Point Center() => Center(this);

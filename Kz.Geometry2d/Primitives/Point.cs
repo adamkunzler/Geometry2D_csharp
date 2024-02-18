@@ -15,5 +15,13 @@ namespace Kz.Geometry2d.Primitives
             X = x;
             Y = y;
         }
+
+        public Point(Vector2f v)
+        {
+            X = v.X;
+            Y = v.Y;
+        }
+
+        public new static Point Zero = new Point(0.0f, 0.0f);        
     }
 }

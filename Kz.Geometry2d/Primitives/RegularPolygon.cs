@@ -24,7 +24,7 @@ namespace Kz.Geometry2d.Primitives
 
             for (var i = 0; i < numSides; i++)
             {
-                var angle = (MathF.PI * 2.0f) * ((float)i / numSides);
+                var angle = Consts.PI2 * ((float)i / numSides);
 
                 var x = center.X + radius * MathF.Cos(angle);
                 var y = center.Y + radius * MathF.Sin(angle);

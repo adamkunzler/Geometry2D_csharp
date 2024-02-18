@@ -1,9 +1,9 @@
 ﻿using Kz.Geometry2d.Primitives;
 using Kz.DataStructures;
 
-namespace Geometry2d.Lib.Utils
+namespace Kz.Geometry2d.Utils
 {
-    public record ReflectData(Vector2f Intersection, Vector2f Reflection);
+    public record ReflectData(Point Intersection, Vector2f Reflection);
 
     public static partial class G2d
     {
@@ -70,8 +70,8 @@ namespace Geometry2d.Lib.Utils
                 var dir = (ray.Origin - closest.Intersection).Normal();
                 var adjustedIntersection = closest.Intersection + (dir * 0.05f);
 
-                ray = new Ray(adjustedIntersection, closest.Reflection);
-                reflectData.Add(new ReflectData(adjustedIntersection, closest.Reflection));
+                ray = new Ray(new Point(adjustedIntersection), closest.Reflection);
+                reflectData.Add(new ReflectData(new Point(adjustedIntersection), closest.Reflection));
             }
 
             return reflectData;

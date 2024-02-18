@@ -1,11 +1,11 @@
 ﻿using Kz.Geometry2d.Primitives;
-using Geometry2d.Lib.Utils;
-using Kz.DataStructures;
-using Raylib_cs;
+using Kz.Geometry2d.Utils;
+using Color = Raylib_cs.Color;
+using Point = Kz.Geometry2d.Primitives.Point;
 using Ray = Kz.Geometry2d.Primitives.Ray;
 using Rectangle = Kz.Geometry2d.Primitives.Rectangle;
 
-namespace Geometry2d.RayLib
+namespace Kz.Raylib.Gfx
 {
     public static class Gfx
     {
@@ -13,7 +13,7 @@ namespace Geometry2d.RayLib
         {
             switch (shape)
             {
-                case Vector2f v: DrawPoint(v, color); break;
+                case Point v: DrawPoint(v, color); break;
                 case Line l: DrawLine(l, color); break;
                 case Rectangle r: DrawRectangle(r, color, fill); break;
                 case Circle c: DrawCircle(c, color, fill); break;
@@ -24,31 +24,31 @@ namespace Geometry2d.RayLib
             }
         }
 
-        public static void DrawPoint(Vector2f p, Color color)
+        public static void DrawPoint(Point p, Color color)
         {
-            Raylib.DrawPixel((int)p.X, (int)p.Y, color);
+            Raylib_cs.Raylib.DrawPixel((int)p.X, (int)p.Y, color);
         }
 
         public static void DrawLine(Line line, Color color)
         {
-            Raylib.DrawLine((int)line.Start.X, (int)line.Start.Y, (int)line.End.X, (int)line.End.Y, color);
+            Raylib_cs.Raylib.DrawLine((int)line.Start.X, (int)line.Start.Y, (int)line.End.X, (int)line.End.Y, color);
         }
 
         public static void DrawRay(Ray ray, Color color)
         {
             var end = ray.Origin + ray.Direction * 10000.0f;
-            Raylib.DrawLine((int)ray.Origin.X, (int)ray.Origin.Y, (int)end.X, (int)end.Y, color);
+            Raylib_cs.Raylib.DrawLine((int)ray.Origin.X, (int)ray.Origin.Y, (int)end.X, (int)end.Y, color);
         }
 
         public static void DrawRectangle(Rectangle rectangle, Color color, bool fill = false)
         {
             if (fill)
             {
-                Raylib.DrawRectangle((int)rectangle.Position.X, (int)rectangle.Position.Y, (int)rectangle.Size.Width, (int)rectangle.Size.Height, color);
+                Raylib_cs.Raylib.DrawRectangle((int)rectangle.Position.X, (int)rectangle.Position.Y, (int)rectangle.Size.Width, (int)rectangle.Size.Height, color);
             }
             else
             {
-                Raylib.DrawRectangleLines((int)rectangle.Position.X, (int)rectangle.Position.Y, (int)rectangle.Size.Width, (int)rectangle.Size.Height, color);
+                Raylib_cs.Raylib.DrawRectangleLines((int)rectangle.Position.X, (int)rectangle.Position.Y, (int)rectangle.Size.Width, (int)rectangle.Size.Height, color);
             }
         }
 
@@ -56,11 +56,11 @@ namespace Geometry2d.RayLib
         {
             if (fill)
             {
-                Raylib.DrawCircle((int)circle.Origin.X, (int)circle.Origin.Y, circle.Radius, color);
+                Raylib_cs.Raylib.DrawCircle((int)circle.Origin.X, (int)circle.Origin.Y, circle.Radius, color);
             }
             else
             {
-                Raylib.DrawCircleLines((int)circle.Origin.X, (int)circle.Origin.Y, circle.Radius, color);
+                Raylib_cs.Raylib.DrawCircleLines((int)circle.Origin.X, (int)circle.Origin.Y, circle.Radius, color);
             }
         }
 
@@ -68,7 +68,7 @@ namespace Geometry2d.RayLib
         {
             if (fill)
             {
-                Raylib.DrawTriangle
+                Raylib_cs.Raylib.DrawTriangle
                 (
                     new System.Numerics.Vector2(triangle.Vertices[0].X, triangle.Vertices[0].Y),
                     new System.Numerics.Vector2(triangle.Vertices[1].X, triangle.Vertices[1].Y),
@@ -78,7 +78,7 @@ namespace Geometry2d.RayLib
             }
             else
             {
-                Raylib.DrawTriangleLines
+                Raylib_cs.Raylib.DrawTriangleLines
                 (
                     new System.Numerics.Vector2(triangle.Vertices[0].X, triangle.Vertices[0].Y),
                     new System.Numerics.Vector2(triangle.Vertices[1].X, triangle.Vertices[1].Y),
@@ -130,11 +130,11 @@ namespace Geometry2d.RayLib
         {
             if (fill)
             {
-                Raylib.DrawEllipse((int)ellipse.Origin.X, (int)ellipse.Origin.Y, ellipse.H, ellipse.V, color);
+                Raylib_cs.Raylib.DrawEllipse((int)ellipse.Origin.X, (int)ellipse.Origin.Y, ellipse.H, ellipse.V, color);
             }
             else
             {
-                //Raylib.DrawEllipseLines((int)ellipse.Origin.X, (int)ellipse.Origin.Y, ellipse.H, ellipse.V, color);
+                //Raylib_cs.Raylib.DrawEllipseLines((int)ellipse.Origin.X, (int)ellipse.Origin.Y, ellipse.H, ellipse.V, color);
                 DrawRotatedEllipse(ellipse, color);
             }
         }
@@ -162,7 +162,7 @@ namespace Geometry2d.RayLib
                 //var rotatedY = MathF.Sin(rotation) * (x - centerX) + MathF.Cos(rotation) * (y - centerY) + centerY;
 
                 // Draw point (or use lines for smoother ellipse)
-                Raylib.DrawPixel((int)x, (int)y, color);
+                Raylib_cs.Raylib.DrawPixel((int)x, (int)y, color);
             }
         }
     }

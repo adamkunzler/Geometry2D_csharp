@@ -95,7 +95,7 @@ namespace Kz.Geometry2d.Primitives
         /// </summary>
         public static Point RealPoint(Line line, float distance)
         {
-            return (Point)(line.Start + Vector(line).Normal() * distance);
+            return new Point(line.Start + Vector(line).Normal() * distance);
         }
 
         /// <summary>
@@ -118,7 +118,7 @@ namespace Kz.Geometry2d.Primitives
         /// </summary>
         public static Point UnitPoint(Line line, float distance)
         {
-            return (Point)(line.Start + Vector(line) * distance);
+            return new Point(line.Start + Vector(line) * distance);
         }
 
         /// <summary>

@@ -1,94 +1,94 @@
 ﻿using Kz.Geometry2d.Primitives;
 using Kz.DataStructures;
 
-namespace Geometry2d.Lib.Utils
+namespace Kz.Geometry2d.Utils
 {
     public static partial class G2d
     {
         #region IShape INTERSECTS IShape
 
-        public static List<Vector2f> Intersects(IShape lhs, IShape rhs)
+        public static List<Point> Intersects(IShape lhs, IShape rhs)
         {
             return lhs switch
             {
-                Vector2f v => rhs switch
+                Point v => rhs switch
                 {
-                    Vector2f v2 => Intersects(v, v2),
+                    Point v2 => Intersects(v, v2),
                     Line l2 => Intersects(v, l2),
                     Rectangle r2 => Intersects(v, r2),
                     Circle c2 => Intersects(v, c2),
                     Triangle t2 => Intersects(v, t2),
                     Polygon poly2 => Intersects(v, poly2),
                     Ray ray2 => Intersects(v, ray2),
-                    _ => new List<Vector2f>(),
+                    _ => new List<Point>(),
                 },
                 Line l => rhs switch
                 {
-                    Vector2f v2 => Intersects(l, v2),
+                    Point v2 => Intersects(l, v2),
                     Line l2 => Intersects(l, l2),
                     Rectangle r2 => Intersects(l, r2),
                     Circle c2 => Intersects(l, c2),
                     Triangle t2 => Intersects(l, t2),
                     Polygon poly2 => Intersects(l, poly2),
                     Ray ray2 => Intersects(l, ray2),
-                    _ => new List<Vector2f>(),
+                    _ => new List<Point>(),
                 },
                 Rectangle r => rhs switch
                 {
-                    Vector2f v2 => Intersects(r, v2),
+                    Point v2 => Intersects(r, v2),
                     Line l2 => Intersects(r, l2),
                     Rectangle r2 => Intersects(r, r2),
                     Circle c2 => Intersects(r, c2),
                     Triangle t2 => Intersects(r, t2),
                     Polygon poly2 => Intersects(r, poly2),
                     Ray ray2 => Intersects(r, ray2),
-                    _ => new List<Vector2f>(),
+                    _ => new List<Point>(),
                 },
                 Circle c => rhs switch
                 {
-                    Vector2f v2 => Intersects(c, v2),
+                    Point v2 => Intersects(c, v2),
                     Line l2 => Intersects(c, l2),
                     Rectangle r2 => Intersects(c, r2),
                     Circle c2 => Intersects(c, c2),
                     Triangle t2 => Intersects(c, t2),
                     Polygon poly2 => Intersects(c, poly2),
                     Ray ray2 => Intersects(c, ray2),
-                    _ => new List<Vector2f>(),
+                    _ => new List<Point>(),
                 },
                 Triangle t => rhs switch
                 {
-                    Vector2f v2 => Intersects(t, v2),
+                    Point v2 => Intersects(t, v2),
                     Line l2 => Intersects(t, l2),
                     Rectangle r2 => Intersects(t, r2),
                     Circle c2 => Intersects(t, c2),
                     Triangle t2 => Intersects(t, t2),
                     Polygon poly2 => Intersects(t, poly2),
                     Ray ray2 => Intersects(t, ray2),
-                    _ => new List<Vector2f>(),
+                    _ => new List<Point>(),
                 },
                 Polygon poly => rhs switch
                 {
-                    Vector2f v2 => Intersects(poly, v2),
+                    Point v2 => Intersects(poly, v2),
                     Line l2 => Intersects(poly, l2),
                     Rectangle r2 => Intersects(poly, r2),
                     Circle c2 => Intersects(poly, c2),
                     Triangle t2 => Intersects(poly, t2),
                     Polygon poly2 => Intersects(poly, poly2),
                     Ray ray2 => Intersects(poly, ray2),
-                    _ => new List<Vector2f>(),
+                    _ => new List<Point>(),
                 },
                 Ray ray => rhs switch
                 {
-                    Vector2f v2 => Intersects(ray, v2),
+                    Point v2 => Intersects(ray, v2),
                     Line l2 => Intersects(ray, l2),
                     Rectangle r2 => Intersects(ray, r2),
                     Circle c2 => Intersects(ray, c2),
                     Triangle t2 => Intersects(ray, t2),
                     Polygon poly2 => Intersects(ray, poly2),
                     Ray ray2 => Intersects(ray, ray2),
-                    _ => new List<Vector2f>(),
+                    _ => new List<Point>(),
                 },
-                _ => new List<Vector2f>(),
+                _ => new List<Point>(),
             };
         }
 
@@ -99,9 +99,9 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// return intersection points of a point and a point
         /// </summary>
-        public static List<Vector2f> Intersects(Vector2f p, Vector2f other)
+        public static List<Point> Intersects(Point p, Point other)
         {
-            var intersections = new List<Vector2f>();
+            var intersections = new List<Point>();
 
             if (Contains(p, other)) intersections.Add(p);
 
@@ -111,9 +111,9 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// return intersection points of a line and a point
         /// </summary>
-        public static List<Vector2f> Intersects(Line l, Vector2f other)
+        public static List<Point> Intersects(Line l, Point other)
         {
-            var intersections = new List<Vector2f>();
+            var intersections = new List<Point>();
 
             if (Contains(l, other)) intersections.Add(other);
 
@@ -123,9 +123,9 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// return intersection points of a rectangle and a point
         /// </summary>
-        public static List<Vector2f> Intersects(Rectangle r, Vector2f other)
+        public static List<Point> Intersects(Rectangle r, Point other)
         {
-            var intersections = new List<Vector2f>();
+            var intersections = new List<Point>();
 
             foreach (var side in r.Sides)
             {
@@ -138,9 +138,9 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// return intersection points of a circle and a point
         /// </summary>
-        public static List<Vector2f> Intersects(Circle c, Vector2f other)
+        public static List<Point> Intersects(Circle c, Point other)
         {
-            var intersections = new List<Vector2f>();
+            var intersections = new List<Point>();
 
             var distance = new Line(c.Origin, other).Length();
             if ((distance >= c.Radius - Consts.EPSILON) && (distance <= c.Radius + Consts.EPSILON))
@@ -152,9 +152,9 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// return intersection points of a triangle and a point
         /// </summary>
-        public static List<Vector2f> Intersects(Triangle t, Vector2f other)
+        public static List<Point> Intersects(Triangle t, Point other)
         {
-            var intersections = new List<Vector2f>();
+            var intersections = new List<Point>();
 
             for (var i = 0; i < 3; i++)
             {
@@ -167,9 +167,9 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// return intersection points of a polygon and a point
         /// </summary>
-        public static List<Vector2f> Intersects(Polygon p, Vector2f other)
+        public static List<Point> Intersects(Polygon p, Point other)
         {
-            var intersections = new List<Vector2f>();
+            var intersections = new List<Point>();
 
             for (var i = 0; i < p.NumSides(); i++)
             {
@@ -182,9 +182,9 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// return intersection points of a ray and a point
         /// </summary>
-        public static List<Vector2f> Intersects(Ray r, Vector2f other)
+        public static List<Point> Intersects(Ray r, Point other)
         {
-            var intersections = new List<Vector2f>();
+            var intersections = new List<Point>();
 
             if (Contains(r, other)) intersections.Add(other);
 
@@ -198,9 +198,9 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// return intersection points of a point and a line
         /// </summary>
-        public static List<Vector2f> Intersects(Vector2f p, Line other)
+        public static List<Point> Intersects(Point p, Line other)
         {
-            var intersections = new List<Vector2f>();
+            var intersections = new List<Point>();
 
             if (Contains(other, p)) intersections.Add(p);
 
@@ -210,9 +210,9 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// return intersection points of a line and a line
         /// </summary>
-        public static List<Vector2f> Intersects(Line l, Line other)
+        public static List<Point> Intersects(Line l, Line other)
         {
-            var intersections = new List<Vector2f>();
+            var intersections = new List<Point>();
 
             var Ax = l.Start.X;
             var Ay = l.Start.Y;
@@ -233,7 +233,7 @@ namespace Geometry2d.Lib.Utils
             {
                 var x = Ax + t * (Bx - Ax);
                 var y = Ay + t * (By - Ay);
-                intersections.Add(new Vector2f(x, y));
+                intersections.Add(new Point(x, y));
             }
 
             return intersections;
@@ -242,9 +242,9 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// return intersection points of a rectangle and a line
         /// </summary>
-        public static List<Vector2f> Intersects(Rectangle r, Line other)
+        public static List<Point> Intersects(Rectangle r, Line other)
         {
-            var intersections = new List<Vector2f>();
+            var intersections = new List<Point>();
 
             foreach (var side in r.Sides)
             {
@@ -257,9 +257,9 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// return intersection points of a circle and a line
         /// </summary>
-        public static List<Vector2f> Intersects(Circle circle, Line other)
+        public static List<Point> Intersects(Circle circle, Line other)
         {
-            var intersections = new List<Vector2f>();
+            var intersections = new List<Point>();
 
             var h = circle.Origin.X;
             var k = circle.Origin.Y;
@@ -288,7 +288,7 @@ namespace Geometry2d.Lib.Utils
             {
                 var ix1 = x1 + t1 * (x2 - x1);
                 var iy1 = y1 + t1 * (y2 - y1);
-                intersections.Add(new Vector2f(ix1, iy1));
+                intersections.Add(new Point(ix1, iy1));
             }
 
             // second intersection
@@ -296,7 +296,7 @@ namespace Geometry2d.Lib.Utils
             {
                 var ix2 = x1 + t2 * (x2 - x1);
                 var iy2 = y1 + t2 * (y2 - y1);
-                intersections.Add(new Vector2f(ix2, iy2));
+                intersections.Add(new Point(ix2, iy2));
             }
 
             return intersections;
@@ -305,9 +305,9 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// return intersection points of a triangle and a line
         /// </summary>
-        public static List<Vector2f> Intersects(Triangle t, Line other)
+        public static List<Point> Intersects(Triangle t, Line other)
         {
-            var intersections = new List<Vector2f>();
+            var intersections = new List<Point>();
 
             foreach (var side in t.Sides)
             {
@@ -320,9 +320,9 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// return intersection points of a polygon and a line
         /// </summary>
-        public static List<Vector2f> Intersects(Polygon p, Line other)
+        public static List<Point> Intersects(Polygon p, Line other)
         {
-            var intersections = new List<Vector2f>();
+            var intersections = new List<Point>();
 
             for (var i = 0; i < p.NumSides(); i++)
             {
@@ -335,9 +335,9 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// return intersection points of a ray and a line
         /// </summary>
-        public static List<Vector2f> Intersects(Ray r, Line other)
+        public static List<Point> Intersects(Ray r, Line other)
         {
-            var intersections = new List<Vector2f>();
+            var intersections = new List<Point>();
 
             var Ax = other.Start.X;
             var Ay = other.Start.Y;
@@ -361,7 +361,7 @@ namespace Geometry2d.Lib.Utils
             {
                 var x = Ax + t * (Bx - Ax);
                 var y = Ay + t * (By - Ay);
-                intersections.Add(new Vector2f(x, y));
+                intersections.Add(new Point(x, y));
             }
 
             return intersections;
@@ -374,7 +374,7 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// return intersection points of a point and a rectangle
         /// </summary>
-        public static List<Vector2f> Intersects(Vector2f p, Rectangle other)
+        public static List<Point> Intersects(Point p, Rectangle other)
         {
             return Intersects(other, p);
         }
@@ -382,7 +382,7 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// return intersection points of a line and a rectangle
         /// </summary>
-        public static List<Vector2f> Intersects(Line l, Rectangle other)
+        public static List<Point> Intersects(Line l, Rectangle other)
         {
             return Intersects(other, l);
         }
@@ -390,9 +390,9 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// return intersection points of a rectangle and a rectangle
         /// </summary>
-        public static List<Vector2f> Intersects(Rectangle r, Rectangle other)
+        public static List<Point> Intersects(Rectangle r, Rectangle other)
         {
-            var intersections = new List<Vector2f>();
+            var intersections = new List<Point>();
 
             foreach (var side in r.Sides)
             {
@@ -405,9 +405,9 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// return intersection points of a circle and a rectangle
         /// </summary>
-        public static List<Vector2f> Intersects(Circle c, Rectangle other)
+        public static List<Point> Intersects(Circle c, Rectangle other)
         {
-            var intersections = new List<Vector2f>();
+            var intersections = new List<Point>();
 
             foreach (var side in other.Sides)
             {
@@ -420,9 +420,9 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// return intersection points of a triangle and a rectangle
         /// </summary>
-        public static List<Vector2f> Intersects(Triangle t, Rectangle other)
+        public static List<Point> Intersects(Triangle t, Rectangle other)
         {
-            var intersections = new List<Vector2f>();
+            var intersections = new List<Point>();
 
             foreach (var rectSide in other.Sides)
             {
@@ -438,9 +438,9 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// return intersection points of a polygon and a rectangle
         /// </summary>
-        public static List<Vector2f> Intersects(Polygon p, Rectangle other)
+        public static List<Point> Intersects(Polygon p, Rectangle other)
         {
-            var intersections = new List<Vector2f>();
+            var intersections = new List<Point>();
 
             foreach (var rectSide in other.Sides)
             {
@@ -456,9 +456,9 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// return intersection points of a ray and a rectangle
         /// </summary>
-        public static List<Vector2f> Intersects(Ray r, Rectangle other)
+        public static List<Point> Intersects(Ray r, Rectangle other)
         {
-            var intersections = new List<Vector2f>();
+            var intersections = new List<Point>();
 
             foreach (var side in other.Sides)
             {
@@ -475,7 +475,7 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// return intersection points of a point and a circle
         /// </summary>
-        public static List<Vector2f> Intersects(Vector2f p, Circle other)
+        public static List<Point> Intersects(Point p, Circle other)
         {
             return Intersects(other, p);
         }
@@ -483,7 +483,7 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// return intersection points of a line and a circle
         /// </summary>
-        public static List<Vector2f> Intersects(Line l, Circle other)
+        public static List<Point> Intersects(Line l, Circle other)
         {
             return Intersects(other, l);
         }
@@ -491,9 +491,9 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// return intersection points of a rectangle and a circle
         /// </summary>
-        public static List<Vector2f> Intersects(Rectangle r, Circle other)
+        public static List<Point> Intersects(Rectangle r, Circle other)
         {
-            var intersections = new List<Vector2f>();
+            var intersections = new List<Point>();
 
             foreach (var side in r.Sides)
             {
@@ -506,9 +506,9 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// return intersection points of a circle and a circle
         /// </summary>
-        public static List<Vector2f> Intersects(Circle c, Circle other)
+        public static List<Point> Intersects(Circle c, Circle other)
         {
-            var intersections = new List<Vector2f>();
+            var intersections = new List<Point>();
 
             var x1 = c.Origin.X;
             var y1 = c.Origin.Y;
@@ -535,11 +535,11 @@ namespace Geometry2d.Lib.Utils
             var ix2 = x3 - h * (y2 - y1) / d;
             var iy2 = y3 + h * (x2 - x1) / d;
 
-            intersections.Add(new Vector2f(ix1, iy1));
+            intersections.Add(new Point(ix1, iy1));
 
             if (h > 0) // Checks if there are two distinct intersection points
             {
-                intersections.Add(new Vector2f(ix2, iy2));
+                intersections.Add(new Point(ix2, iy2));
             }
 
             return intersections;
@@ -548,9 +548,9 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// return intersection points of a triangle and a circle
         /// </summary>
-        public static List<Vector2f> Intersects(Triangle t, Circle other)
+        public static List<Point> Intersects(Triangle t, Circle other)
         {
-            var intersections = new List<Vector2f>();
+            var intersections = new List<Point>();
 
             foreach (var triSide in t.Sides)
             {
@@ -563,9 +563,9 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// return intersection points of a polygon and a circle
         /// </summary>
-        public static List<Vector2f> Intersects(Polygon p, Circle other)
+        public static List<Point> Intersects(Polygon p, Circle other)
         {
-            var intersections = new List<Vector2f>();
+            var intersections = new List<Point>();
 
             for (var i = 0; i < p.NumSides(); i++)
             {
@@ -578,9 +578,9 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// return intersection points of a ray and a circle
         /// </summary>
-        public static List<Vector2f> Intersects(Ray r, Circle other)
+        public static List<Point> Intersects(Ray r, Circle other)
         {
-            var intersections = new List<Vector2f>();
+            var intersections = new List<Point>();
 
             var x0 = r.Origin.X;
             var y0 = r.Origin.Y;
@@ -604,14 +604,14 @@ namespace Geometry2d.Lib.Utils
             {
                 var ix1 = x0 + t1 * dx;
                 var iy1 = y0 + t1 * dy;
-                intersections.Add(new Vector2f(ix1, iy1));
+                intersections.Add(new Point(ix1, iy1));
             }
 
             if (t2 >= 0 && discriminant > 0)
             {
                 var ix2 = x0 + t2 * dx;
                 var iy2 = y0 + t2 * dy;
-                intersections.Add(new Vector2f(ix2, iy2));
+                intersections.Add(new Point(ix2, iy2));
             }
 
             // if discriminant == 0 then ray is tangent to circle
@@ -626,7 +626,7 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// return intersection points of a point and a triangle
         /// </summary>
-        public static List<Vector2f> Intersects(Vector2f p, Triangle other)
+        public static List<Point> Intersects(Point p, Triangle other)
         {
             return Intersects(other, p);
         }
@@ -634,7 +634,7 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// return intersection points of a line and a triangle
         /// </summary>
-        public static List<Vector2f> Intersects(Line l, Triangle other)
+        public static List<Point> Intersects(Line l, Triangle other)
         {
             return Intersects(other, l);
         }
@@ -642,7 +642,7 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// return intersection points of a rectangle and a triangle
         /// </summary>
-        public static List<Vector2f> Intersects(Rectangle r, Triangle other)
+        public static List<Point> Intersects(Rectangle r, Triangle other)
         {
             return Intersects(other, r);
         }
@@ -650,7 +650,7 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// return intersection points of a circle and a triangle
         /// </summary>
-        public static List<Vector2f> Intersects(Circle c, Triangle other)
+        public static List<Point> Intersects(Circle c, Triangle other)
         {
             return Intersects(other, c);
         }
@@ -658,9 +658,9 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// return intersection points of a triangle and a triangle
         /// </summary>
-        public static List<Vector2f> Intersects(Triangle t, Triangle other)
+        public static List<Point> Intersects(Triangle t, Triangle other)
         {
-            var intersections = new List<Vector2f>();
+            var intersections = new List<Point>();
 
             foreach (var side in t.Sides)
             {
@@ -673,9 +673,9 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// return intersection points of a polygon and a triangle
         /// </summary>
-        public static List<Vector2f> Intersects(Polygon p, Triangle other)
+        public static List<Point> Intersects(Polygon p, Triangle other)
         {
-            var intersections = new List<Vector2f>();
+            var intersections = new List<Point>();
 
             for (var i = 0; i < p.NumSides(); i++)
             {
@@ -688,9 +688,9 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// return intersection points of a ray and a triangle
         /// </summary>
-        public static List<Vector2f> Intersects(Ray r, Triangle other)
+        public static List<Point> Intersects(Ray r, Triangle other)
         {
-            var intersections = new List<Vector2f>();
+            var intersections = new List<Point>();
 
             foreach (var side in other.Sides)
             {
@@ -707,7 +707,7 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// return intersection points of a point and a polygon
         /// </summary>
-        public static List<Vector2f> Intersects(Vector2f p, Polygon other)
+        public static List<Point> Intersects(Point p, Polygon other)
         {
             return Intersects(other, p);
         }
@@ -715,7 +715,7 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// return intersection points of a line and a polygon
         /// </summary>
-        public static List<Vector2f> Intersects(Line l, Polygon other)
+        public static List<Point> Intersects(Line l, Polygon other)
         {
             return Intersects(other, l);
         }
@@ -723,7 +723,7 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// return intersection points of a rectangle and a polygon
         /// </summary>
-        public static List<Vector2f> Intersects(Rectangle r, Polygon other)
+        public static List<Point> Intersects(Rectangle r, Polygon other)
         {
             return Intersects(other, r);
         }
@@ -731,7 +731,7 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// return intersection points of a circle and a polygon
         /// </summary>
-        public static List<Vector2f> Intersects(Circle c, Polygon other)
+        public static List<Point> Intersects(Circle c, Polygon other)
         {
             return Intersects(other, c);
         }
@@ -739,7 +739,7 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// return intersection points of a triangle and a polygon
         /// </summary>
-        public static List<Vector2f> Intersects(Triangle t, Polygon other)
+        public static List<Point> Intersects(Triangle t, Polygon other)
         {
             return Intersects(other, t);
         }
@@ -747,9 +747,9 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// return intersection points of a polygon and a polygon
         /// </summary>
-        public static List<Vector2f> Intersects(Polygon p, Polygon other)
+        public static List<Point> Intersects(Polygon p, Polygon other)
         {
-            var intersections = new List<Vector2f>();
+            var intersections = new List<Point>();
 
             for (int i = 0; i < p.NumSides(); i++)
             {
@@ -765,9 +765,9 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// return intersection points of a ray and a polygon
         /// </summary>
-        public static List<Vector2f> Intersects(Ray r, Polygon other)
+        public static List<Point> Intersects(Ray r, Polygon other)
         {
-            var intersections = new List<Vector2f>();
+            var intersections = new List<Point>();
 
             for (int i = 0; i < other.NumSides(); i++)
             {
@@ -784,7 +784,7 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// return intersection points of a point and a ray
         /// </summary>
-        public static List<Vector2f> Intersects(Vector2f p, Ray other)
+        public static List<Point> Intersects(Point p, Ray other)
         {
             return Intersects(other, p);
         }
@@ -792,7 +792,7 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// return intersection points of a line and a ray
         /// </summary>
-        public static List<Vector2f> Intersects(Line l, Ray other)
+        public static List<Point> Intersects(Line l, Ray other)
         {
             return Intersects(other, l);
         }
@@ -800,7 +800,7 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// return intersection points of a rectangle and a ray
         /// </summary>
-        public static List<Vector2f> Intersects(Rectangle r, Ray other)
+        public static List<Point> Intersects(Rectangle r, Ray other)
         {
             return Intersects(other, r);
         }
@@ -808,7 +808,7 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// return intersection points of a circle and a ray
         /// </summary>
-        public static List<Vector2f> Intersects(Circle c, Ray other)
+        public static List<Point> Intersects(Circle c, Ray other)
         {
             return Intersects(other, c);
         }
@@ -816,7 +816,7 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// return intersection points of a triangle and a ray
         /// </summary>
-        public static List<Vector2f> Intersects(Triangle t, Ray other)
+        public static List<Point> Intersects(Triangle t, Ray other)
         {
             return Intersects(other, t);
         }
@@ -824,7 +824,7 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// return intersection points of a polygon and a ray
         /// </summary>
-        public static List<Vector2f> Intersects(Polygon p, Ray other)
+        public static List<Point> Intersects(Polygon p, Ray other)
         {
             return Intersects(other, p);
         }
@@ -832,9 +832,9 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// return intersection points of a ray and a ray
         /// </summary>
-        public static List<Vector2f> Intersects(Ray r, Ray other)
+        public static List<Point> Intersects(Ray r, Ray other)
         {
-            var intersections = new List<Vector2f>();
+            var intersections = new List<Point>();
 
             var x1 = r.Origin.X;
             var y1 = r.Origin.Y;
@@ -855,7 +855,7 @@ namespace Geometry2d.Lib.Utils
             {
                 var ix = x1 + t * dx1;
                 var iy = y1 + t * dy1;
-                intersections.Add(new Vector2f(ix, iy));
+                intersections.Add(new Point(ix, iy));
             }
 
             return intersections;

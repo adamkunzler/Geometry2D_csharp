@@ -1,7 +1,7 @@
 ﻿using Kz.Geometry2d.Primitives;
 using Kz.DataStructures;
 
-namespace Geometry2d.Lib.Utils
+namespace Kz.Geometry2d.Utils
 {
     public static partial class G2d
     {
@@ -11,7 +11,7 @@ namespace Geometry2d.Lib.Utils
         {
             switch (lhs)
             {
-                case Vector2f x: Translate(x, rhs); break;
+                case Point x: Translate(x, rhs); break;
                 case Line x: Translate(x, rhs); break;
                 case Rectangle x: Translate(x, rhs); break;
                 case Circle x: Translate(x, rhs); break;
@@ -22,25 +22,31 @@ namespace Geometry2d.Lib.Utils
             };
         }
 
-        public static void Translate(Vector2f lhs, Vector2f rhs)
+        public static void Translate(Point lhs, Vector2f rhs)
         {
-            lhs += rhs;
+            lhs.X += rhs.X;
+            lhs.Y += rhs.Y;
         }
 
         public static void Translate(Line lhs, Vector2f rhs)
         {
-            lhs.Start += rhs;
-            lhs.End += rhs;
+            lhs.Start.X += rhs.X;
+            lhs.Start.Y += rhs.Y;
+
+            lhs.End.X += rhs.Y;
+            lhs.End.Y += rhs.Y;
         }
 
         public static void Translate(Rectangle lhs, Vector2f rhs)
         {
-            lhs.Position += rhs;
+            lhs.Position.X += rhs.X;
+            lhs.Position.Y += rhs.Y;
         }
 
         public static void Translate(Circle lhs, Vector2f rhs)
         {
-            lhs.Origin += rhs;
+            lhs.Origin.X += rhs.X;
+            lhs.Origin.Y += rhs.Y;
         }
 
         public static void Translate(Triangle lhs, Vector2f rhs)
@@ -55,19 +61,22 @@ namespace Geometry2d.Lib.Utils
 
         public static void Translate(Ray lhs, Vector2f rhs)
         {
-            lhs.Origin += rhs;
+            lhs.Origin.X += rhs.X;
+            lhs.Origin.Y += rhs.Y;
         }
 
         public static void Translate(Ellipse lhs, Vector2f rhs)
         {
-            lhs.Origin += rhs;
+            lhs.Origin.X += rhs.X;
+            lhs.Origin.Y += rhs.Y;
         }
 
-        private static void Translate(IList<Vector2f> vertices, Vector2f rhs)
+        private static void Translate(IList<Point> vertices, Vector2f rhs)
         {
             for (var i = 0; i < vertices.Count(); i++)
             {
-                vertices[i] += rhs;
+                vertices[i].X += rhs.X;
+                vertices[i].Y += rhs.Y;
             }
         }
 
@@ -79,7 +88,7 @@ namespace Geometry2d.Lib.Utils
         {
             switch (lhs)
             {
-                case Vector2f x: Rotate(x, theta); break;
+                case Point x: Rotate(x, theta); break;
                 case Line x: Rotate(x, theta); break;
                 case Rectangle x: Rotate(x, theta); break;
                 case Circle x: Rotate(x, theta); break;
@@ -93,7 +102,7 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// doesn't do anything
         /// </summary>
-        public static void Rotate(Vector2f lhs, float theta)
+        public static void Rotate(Point lhs, float theta)
         {
             // do nothing
         }
@@ -160,7 +169,7 @@ namespace Geometry2d.Lib.Utils
             // TODO
         }
 
-        private static void RotatePoints(List<Vector2f> points, Vector2f origin, float theta)
+        private static void RotatePoints(List<Point> points, Point origin, float theta)
         {
             for (var i = 0; i < points.Count; i++)
             {
@@ -168,19 +177,19 @@ namespace Geometry2d.Lib.Utils
             }
         }
 
-        private static Vector2f RotatePoint(Vector2f point, Vector2f origin, float theta)
+        private static Point RotatePoint(Point point, Point origin, float theta)
         {
             // translate point relative to (0,0)
             var translated = point - origin;
 
             // rotate point
-            var rotated = new Vector2f();
+            var rotated = new Point();
             rotated.X = translated.X * MathF.Cos(theta) - translated.Y * MathF.Sin(theta);
             rotated.Y = translated.X * MathF.Sin(theta) + translated.Y * MathF.Cos(theta);
 
             // translate back to origin
             var finalPoint = rotated + origin;
-            return finalPoint;
+            return new Point(finalPoint);
         }
 
         #endregion ROTATE around shape origin
@@ -190,11 +199,11 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// Rotate a shape around an origin. if counterRotate is true, rotate the shape -theta around the shape center.
         /// </summary>
-        public static void Rotate(IShape lhs, Vector2f origin, float theta, bool counterRotate)
+        public static void Rotate(IShape lhs, Point origin, float theta, bool counterRotate)
         {
             switch (lhs)
             {
-                case Vector2f x: Rotate(x, origin, theta); break;
+                case Point x: Rotate(x, origin, theta); break;
                 case Line x: Rotate(x, origin, theta, counterRotate); break;
                 case Rectangle x: Rotate(x, origin, theta); break;
                 case Circle x: Rotate(x, origin, theta); break;
@@ -208,7 +217,7 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// rotate a point around an origin
         /// </summary>
-        public static void Rotate(Vector2f lhs, Vector2f origin, float theta)
+        public static void Rotate(Point lhs, Point origin, float theta)
         {
             lhs = RotatePoint(lhs, origin, theta);
         }
@@ -216,7 +225,7 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// rotate a line around an origin. if counterRotate is true, rotate the shape -theta around the shape center.
         /// </summary>
-        public static void Rotate(Line lhs, Vector2f origin, float theta, bool counterRotate)
+        public static void Rotate(Line lhs, Point origin, float theta, bool counterRotate)
         {
             lhs.Start = RotatePoint(lhs.Start, origin, theta);
             lhs.End = RotatePoint(lhs.End, origin, theta);
@@ -227,7 +236,7 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// rotate a rectangle around an origin
         /// </summary>
-        public static void Rotate(Rectangle lhs, Vector2f origin, float theta)
+        public static void Rotate(Rectangle lhs, Point origin, float theta)
         {
             lhs.Position = RotatePoint(lhs.Position, origin, theta);
         }
@@ -235,7 +244,7 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// rotate a circle around an origin
         /// </summary>
-        public static void Rotate(Circle lhs, Vector2f origin, float theta)
+        public static void Rotate(Circle lhs, Point origin, float theta)
         {
             lhs.Origin = RotatePoint(lhs.Origin, origin, theta);
         }
@@ -243,7 +252,7 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// rotate a triangle around an origin. if counterRotate is true, rotate the shape -theta around the shape center.
         /// </summary>
-        public static void Rotate(Triangle lhs, Vector2f origin, float theta, bool counterRotate)
+        public static void Rotate(Triangle lhs, Point origin, float theta, bool counterRotate)
         {
             lhs.Vertices[0] = RotatePoint(lhs.Vertices[0], origin, theta);
             lhs.Vertices[1] = RotatePoint(lhs.Vertices[1], origin, theta);
@@ -255,7 +264,7 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// rotate a polygon around an origin. if counterRotate is true, rotate the shape -theta around the shape center.
         /// </summary>
-        public static void Rotate(Polygon lhs, Vector2f origin, float theta, bool counterRotate)
+        public static void Rotate(Polygon lhs, Point origin, float theta, bool counterRotate)
         {
             RotatePoints(lhs.Vertices, origin, theta);
 
@@ -265,12 +274,12 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// Rotate a ray around an origin
         /// </summary>
-        public static void Rotate(Ray lhs, Vector2f origin, float theta)
+        public static void Rotate(Ray lhs, Point origin, float theta)
         {
             // TODO ?does this make sense?
         }
 
-        public static void Rotate(Ellipse lhs, Vector2f origin, float theta)
+        public static void Rotate(Ellipse lhs, Point origin, float theta)
         {
             lhs.Origin = RotatePoint(lhs.Origin, origin, theta);
         }
@@ -283,7 +292,7 @@ namespace Geometry2d.Lib.Utils
         {
             switch (lhs)
             {
-                case Vector2f x: Scale(x, amount); break;
+                case Point x: Scale(x, amount); break;
                 case Line x: Scale(x, amount); break;
                 case Rectangle x: Scale(x, amount); break;
                 case Circle x: Scale(x, amount); break;
@@ -296,7 +305,7 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// doesn't do anything
         /// </summary>
-        public static void Scale(Vector2f lhs, Vector2f amount)
+        public static void Scale(Point lhs, Vector2f amount)
         {
             // do nothing
         }
@@ -358,7 +367,7 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// Scale a list of points around an origin
         /// </summary>
-        private static void ScalePoints(List<Vector2f> points, Vector2f origin, Vector2f amount)
+        private static void ScalePoints(List<Point> points, Point origin, Vector2f amount)
         {
             for (var i = 0; i < points.Count; i++)
             {
@@ -369,12 +378,12 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// Scale a point around an origin
         /// </summary>
-        private static Vector2f ScalePoint(Vector2f point, Vector2f origin, Vector2f amount)
+        private static Point ScalePoint(Point point, Point origin, Vector2f amount)
         {
             var translated = point - origin;
             var scaled = translated * amount;
             var finalPoint = scaled + origin;
-            return finalPoint;
+            return new Point(finalPoint);
         }
 
         #endregion SCALE

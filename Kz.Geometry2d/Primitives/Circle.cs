@@ -46,7 +46,7 @@ namespace Kz.Geometry2d.Primitives
 
         public static float Circumference(Circle c)
         {
-            return MathF.PI * 2.0f * c.Radius;
+            return Consts.PI2 * c.Radius;
         }
 
         public float Circumference() => Circumference(this);

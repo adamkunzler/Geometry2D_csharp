@@ -36,15 +36,15 @@ namespace Kz.Geometry2d.Primitives
 
         #region Boundaries
 
-        public Vector2f Middle => Position + (Size * 0.5f);
+        public Point Middle => new Point(Position + (Size * 0.5f));
 
         public Line Top => new(Position, new Point(Position.X + Size.Width, Position.Y));
 
-        public Line Bottom => new(new Point(Position.X, Position.Y + Size.Height), (Point)(Position + Size));
+        public Line Bottom => new(new Point(Position.X, Position.Y + Size.Height), new Point(Position + Size));
 
         public Line Left => new(Position, new Point(Position.X, Position.Y + Size.Height));
 
-        public Line Right => new(new Point(Position.X + Size.Width, Position.Y), (Point)(Position + Size));
+        public Line Right => new(new Point(Position.X + Size.Width, Position.Y), new Point(Position + Size));
 
         public List<Line> Sides => new() { Top, Right, Bottom, Left };
 

@@ -1,7 +1,7 @@
 ﻿using Kz.Geometry2d.Primitives;
 using Kz.DataStructures;
 
-namespace Geometry2d.Lib.Utils
+namespace Kz.Geometry2d.Utils
 {
     public static partial class G2d
     {
@@ -18,7 +18,7 @@ namespace Geometry2d.Lib.Utils
         /// <summary>
         /// Calculate perpendicular distance from a point to a line
         /// </summary>
-        public static float DistanceTo(Vector2f p, Line l)
+        public static float DistanceTo(Point p, Line l)
         {
             var vLine = l.End - l.Start;
             var vPointLine = p - l.Start;
