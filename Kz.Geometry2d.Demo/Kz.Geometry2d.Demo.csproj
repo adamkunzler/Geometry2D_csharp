@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Geometry2d.Lib\Geometry2d.Lib.csproj" />
+    <ProjectReference Include="..\Kz.Geometry2d\Kz.Geometry2d.csproj" />
   </ItemGroup>
 
 </Project>
