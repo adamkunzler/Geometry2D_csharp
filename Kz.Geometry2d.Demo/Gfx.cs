@@ -1,9 +1,9 @@
-﻿using Geometry2d.Lib.Primitives;
+﻿using Kz.Geometry2d.Primitives;
 using Geometry2d.Lib.Utils;
 using Kz.DataStructures;
 using Raylib_cs;
-using Ray = Geometry2d.Lib.Primitives.Ray;
-using Rectangle = Geometry2d.Lib.Primitives.Rectangle;
+using Ray = Kz.Geometry2d.Primitives.Ray;
+using Rectangle = Kz.Geometry2d.Primitives.Rectangle;
 
 namespace Geometry2d.RayLib
 {

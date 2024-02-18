@@ -1,4 +1,4 @@
-﻿namespace Geometry2d.Lib
+﻿namespace Kz.Geometry2d
 {
     public static class Consts
     {

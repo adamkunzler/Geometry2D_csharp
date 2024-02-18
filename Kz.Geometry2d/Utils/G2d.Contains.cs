@@ -1,4 +1,4 @@
-﻿using Geometry2d.Lib.Primitives;
+﻿using Kz.Geometry2d.Primitives;
 using Kz.DataStructures;
 
 namespace Geometry2d.Lib.Utils

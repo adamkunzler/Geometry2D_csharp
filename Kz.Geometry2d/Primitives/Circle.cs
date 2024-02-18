@@ -1,22 +1,22 @@
 ﻿using Kz.DataStructures;
 
-namespace Geometry2d.Lib.Primitives
+namespace Kz.Geometry2d.Primitives
 {
     public class Circle : IShape
     {
         #region ctor
 
-        public Vector2f Origin { get; set; }
+        public Point Origin { get; set; }
 
         public float Radius { get; set; }
 
         public Circle()
         {
-            Origin = new Vector2f();
+            Origin = new Point();
             Radius = 0.0f;
         }
 
-        public Circle(Vector2f position, float radius)
+        public Circle(Point position, float radius)
         {
             Origin = position;
             Radius = radius;
@@ -24,7 +24,7 @@ namespace Geometry2d.Lib.Primitives
 
         public Circle(float x, float y, float radius)
         {
-            Origin = new Vector2f(x, y);
+            Origin = new Point(x, y);
             Radius = radius;
         }
 

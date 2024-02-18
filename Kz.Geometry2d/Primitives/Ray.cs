@@ -1,14 +1,14 @@
 ﻿using Kz.DataStructures;
 
-namespace Geometry2d.Lib.Primitives
+namespace Kz.Geometry2d.Primitives
 {
     public class Ray : IShape
     {
         #region ctor
 
-        private Vector2f _direction = new Vector2f();
+        private Vector2f _direction = new();
 
-        public Vector2f Origin { get; set; }
+        public Point Origin { get; set; }
 
         public Vector2f Direction
         {
@@ -18,11 +18,11 @@ namespace Geometry2d.Lib.Primitives
 
         public Ray()
         {
-            Origin = new Vector2f();
-            Direction = new Vector2f();
+            Origin = new Point();
+            Direction = new();
         }
 
-        public Ray(Vector2f origin, Vector2f direction)
+        public Ray(Point origin, Vector2f direction)
         {
             Origin = origin;
             Direction = direction;

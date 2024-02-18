@@ -2,14 +2,14 @@
 // https://github.com/ChrisDill/Raylib-cs
 // dotnet add package Raylib-cs
 
-using Geometry2d.Lib.Primitives;
+using Kz.Geometry2d.Primitives;
 using Geometry2d.Lib.Utils;
 using Geometry2d.RayLib;
 using Kz.DataStructures;
 using Raylib_cs;
 using Color = Raylib_cs.Color;
-using Ray = Geometry2d.Lib.Primitives.Ray;
-using Rectangle = Geometry2d.Lib.Primitives.Rectangle;
+using Ray = Kz.Geometry2d.Primitives.Ray;
+using Rectangle = Kz.Geometry2d.Primitives.Rectangle;
 
 internal class Program
 {

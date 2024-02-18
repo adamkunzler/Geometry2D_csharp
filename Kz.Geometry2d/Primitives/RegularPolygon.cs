@@ -1,12 +1,12 @@
 ﻿using Kz.DataStructures;
 
-namespace Geometry2d.Lib.Primitives
+namespace Kz.Geometry2d.Primitives
 {
     public class RegularPolygon : Polygon
     {
         public float Radius { get; init; }
 
-        public RegularPolygon(Vector2f center, int numSides, float radius)
+        public RegularPolygon(Point center, int numSides, float radius)
         {
             Radius = radius;
             BuildRegularPolygon(center, numSides, radius);
@@ -15,12 +15,12 @@ namespace Geometry2d.Lib.Primitives
         public RegularPolygon(float centerX, float centerY, int numSides, float radius)
         {
             Radius = radius;
-            BuildRegularPolygon(new Vector2f(centerX, centerY), numSides, radius);
+            BuildRegularPolygon(new Point(centerX, centerY), numSides, radius);
         }
 
-        public void BuildRegularPolygon(Vector2f center, int numSides, float radius)
+        public void BuildRegularPolygon(Point center, int numSides, float radius)
         {
-            Vertices = new List<Vector2f>();
+            Vertices = new List<Point>();
 
             for (var i = 0; i < numSides; i++)
             {
@@ -29,7 +29,7 @@ namespace Geometry2d.Lib.Primitives
                 var x = center.X + radius * MathF.Cos(angle);
                 var y = center.Y + radius * MathF.Sin(angle);
 
-                Vertices.Add(new Vector2f(x, y));
+                Vertices.Add(new Point(x, y));
             }
         }
     }

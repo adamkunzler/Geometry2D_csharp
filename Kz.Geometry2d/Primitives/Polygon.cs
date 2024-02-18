@@ -1,26 +1,26 @@
 ﻿using Kz.DataStructures;
 
-namespace Geometry2d.Lib.Primitives
+namespace Kz.Geometry2d.Primitives
 {
     public class Polygon : IShape
     {
         #region ctor
 
-        public List<Vector2f> Vertices = new List<Vector2f>();
+        public List<Point> Vertices = [];
 
         public Polygon()
         {
-            Vertices = new List<Vector2f>();
+            Vertices = [];
         }
 
-        public Polygon(List<Vector2f> vertices)
+        public Polygon(List<Point> vertices)
         {
             Vertices = [.. vertices];
 
             if (!IsValid()) throw new ArgumentException("vertices are not in clockwise order");
         }
 
-        public Polygon(params Vector2f[] vertices)
+        public Polygon(params Point[] vertices)
         {
             Vertices = [.. vertices];
 
@@ -122,7 +122,7 @@ namespace Geometry2d.Lib.Primitives
 
         public List<Line> Sides() => Sides(this);
 
-        public static Vector2f Center(Polygon p)
+        public static Point Center(Polygon p)
         {
             var center = new Vector2f();
 
@@ -133,10 +133,10 @@ namespace Geometry2d.Lib.Primitives
 
             center /= p.NumSides();
 
-            return center;
+            return (Point)center;
         }
 
-        public Vector2f Center() => Center(this);
+        public Point Center() => Center(this);
 
         #endregion Polygon Properties
     }

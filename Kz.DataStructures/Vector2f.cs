@@ -1,6 +1,6 @@
 ﻿namespace Kz.DataStructures
 {    
-    public class Vector2f : IShape
+    public class Vector2f
     {
         #region ctor
 
