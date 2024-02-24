@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kz.Geometry2d", "Kz.Geometr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kz.DataStructures", "Kz.DataStructures\Kz.DataStructures.csproj", "{5B072762-CE24-421C-9AF2-2A04DC0795A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kz.Raylib.Gfx", "Kz.Raylib.Gfx\Kz.Raylib.Gfx.csproj", "{DA53615F-E1CC-418D-88C8-4401475A3EF5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kz.Raylib.Gfx", "Kz.Raylib.Gfx\Kz.Raylib.Gfx.csproj", "{DA53615F-E1CC-418D-88C8-4401475A3EF5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kz.Trigonometry", "Kz.Trigonometry\Kz.Trigonometry.csproj", "{52AFC73F-8614-43F0-9F62-E8EC56982F7C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{DA53615F-E1CC-418D-88C8-4401475A3EF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DA53615F-E1CC-418D-88C8-4401475A3EF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DA53615F-E1CC-418D-88C8-4401475A3EF5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52AFC73F-8614-43F0-9F62-E8EC56982F7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52AFC73F-8614-43F0-9F62-E8EC56982F7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52AFC73F-8614-43F0-9F62-E8EC56982F7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52AFC73F-8614-43F0-9F62-E8EC56982F7C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

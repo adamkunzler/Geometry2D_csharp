@@ -11,6 +11,7 @@ using Ray = Kz.Geometry2d.Primitives.Ray;
 using Rectangle = Kz.Geometry2d.Primitives.Rectangle;
 using Kz.Geometry2d;
 using Kz.Raylib.Gfx;
+using Kz.Trigonometry;
 
 internal class Program
 {
@@ -176,7 +177,7 @@ internal class Program
 
             if (doRotate)
             {
-                theta = G2d.DegreesToRadians(1);
+                theta = TrigUtil.DegreesToRadians(1);
                 rayTheta += theta;
                 if (rayTheta > Consts.PI2) rayTheta = 0.0f;
             }

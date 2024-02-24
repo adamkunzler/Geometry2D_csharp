@@ -4,17 +4,7 @@ using Kz.DataStructures;
 namespace Kz.Geometry2d.Utils
 {
     public static partial class G2d
-    {
-        public static float DegreesToRadians(float theta)
-        {
-            return theta * MathF.PI / 180.0f;
-        }
-
-        public static float RadiansToDegrees(float theta)
-        {
-            return theta * 180.0f / MathF.PI;
-        }
-
+    {        
         /// <summary>
         /// Calculate perpendicular distance from a point to a line
         /// </summary>

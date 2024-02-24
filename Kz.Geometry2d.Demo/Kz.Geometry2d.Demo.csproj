@@ -15,6 +15,7 @@
     <ProjectReference Include="..\Kz.DataStructures\Kz.DataStructures.csproj" />
     <ProjectReference Include="..\Kz.Geometry2d\Kz.Geometry2d.csproj" />
     <ProjectReference Include="..\Kz.Raylib.Gfx\Kz.Raylib.Gfx.csproj" />
+    <ProjectReference Include="..\Kz.Trigonometry\Kz.Trigonometry.csproj" />
   </ItemGroup>
 
 </Project>
