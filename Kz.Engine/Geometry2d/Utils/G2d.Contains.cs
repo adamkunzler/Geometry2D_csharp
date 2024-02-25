@@ -119,7 +119,7 @@ namespace Kz.Engine.Geometry2d.Utils
         {
             // get the magnitude squared of the vector p pointing to other
             var mag2 = (p - other).Magnitude2();
-            return mag2 <= Consts.EPSILON;
+            return mag2 <= Geo2dConsts.EPSILON;
         }
 
         /// <summary>
@@ -266,7 +266,7 @@ namespace Kz.Engine.Geometry2d.Utils
             var y = projection.Y - originPoint.Y;
             var distance = MathF.Sqrt(x * x + y * y);
 
-            return distance < Consts.EPSILON;
+            return distance < Geo2dConsts.EPSILON;
         }
 
         /// <summary>
@@ -278,7 +278,7 @@ namespace Kz.Engine.Geometry2d.Utils
             var translated = rhs - lhs.Origin;
             var left = (translated.X * translated.X) / (lhs.A * lhs.A);
             var right = (translated.Y * translated.Y) / (lhs.B * lhs.B);
-            return (left + right) <= 1.0 + Consts.EPSILON;
+            return (left + right) <= 1.0 + Geo2dConsts.EPSILON;
         }
 
         #endregion [Shape] CONTAINS Point

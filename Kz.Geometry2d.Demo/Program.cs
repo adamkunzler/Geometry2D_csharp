@@ -179,7 +179,7 @@ internal class Program
             {
                 theta = TrigUtil.DegreesToRadians(1);
                 rayTheta += theta;
-                if (rayTheta > Kz.Engine.Trigonometry.Consts.TWO_PI) rayTheta = 0.0f;
+                if (rayTheta > Kz.Engine.Trigonometry.TrigConsts.TWO_PI) rayTheta = 0.0f;
             }
 
             //

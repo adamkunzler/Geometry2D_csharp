@@ -1,6 +1,6 @@
 ﻿namespace Kz.Engine.Geometry2d
 {
-    public static class Consts
+    public static class Geo2dConsts
     {
         public static readonly float EPSILON = 0.0001f;
 

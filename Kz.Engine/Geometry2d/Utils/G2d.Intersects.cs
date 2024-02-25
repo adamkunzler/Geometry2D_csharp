@@ -143,7 +143,7 @@ namespace Kz.Engine.Geometry2d.Utils
             var intersections = new List<Point>();
 
             var distance = new Line(c.Origin, other).Length();
-            if ((distance >= c.Radius - Consts.EPSILON) && (distance <= c.Radius + Consts.EPSILON))
+            if ((distance >= c.Radius - Geo2dConsts.EPSILON) && (distance <= c.Radius + Geo2dConsts.EPSILON))
                 intersections.Add(other);
 
             return intersections;

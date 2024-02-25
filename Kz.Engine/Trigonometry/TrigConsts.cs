@@ -1,6 +1,6 @@
 ﻿namespace Kz.Engine.Trigonometry
 {
-    public static class Consts
+    public static class TrigConsts
     {
         public static readonly float PI = MathF.PI;
         public static readonly float TWO_PI = MathF.PI * 2.0f;
