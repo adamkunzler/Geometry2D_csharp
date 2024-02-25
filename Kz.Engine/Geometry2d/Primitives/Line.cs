@@ -1,4 +1,5 @@
 ﻿using Kz.Engine.DataStructures;
+using Kz.Engine.General;
 
 namespace Kz.Engine.Geometry2d.Primitives
 {
@@ -133,7 +134,7 @@ namespace Kz.Engine.Geometry2d.Primitives
         public static (float M, float A) Coefficients(Line line)
         {
             // check if line is close to vertical
-            if (MathF.Abs(line.Start.X - line.End.X) < Geo2dConsts.EPSILON)
+            if (MathF.Abs(line.Start.X - line.End.X) < Consts.EPSILON)
             {
                 return (float.PositiveInfinity, float.PositiveInfinity);
             }

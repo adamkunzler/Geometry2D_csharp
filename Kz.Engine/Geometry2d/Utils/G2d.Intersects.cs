@@ -1,5 +1,6 @@
 ﻿using Kz.Engine.Geometry2d.Primitives;
 using Kz.Engine.DataStructures;
+using Kz.Engine.General;
 
 namespace Kz.Engine.Geometry2d.Utils
 {
@@ -143,7 +144,7 @@ namespace Kz.Engine.Geometry2d.Utils
             var intersections = new List<Point>();
 
             var distance = new Line(c.Origin, other).Length();
-            if ((distance >= c.Radius - Geo2dConsts.EPSILON) && (distance <= c.Radius + Geo2dConsts.EPSILON))
+            if ((distance >= c.Radius - Consts.EPSILON) && (distance <= c.Radius + Consts.EPSILON))
                 intersections.Add(other);
 
             return intersections;
