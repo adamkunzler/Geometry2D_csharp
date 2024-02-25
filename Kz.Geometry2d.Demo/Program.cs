@@ -2,16 +2,16 @@
 // https://github.com/ChrisDill/Raylib-cs
 // dotnet add package Raylib-cs
 
-using Kz.Geometry2d.Primitives;
-using Kz.Geometry2d.Utils;
-using Kz.DataStructures;
+using Kz.Engine.Geometry2d.Primitives;
+using Kz.Engine.Geometry2d.Utils;
+using Kz.Engine.DataStructures;
 using Raylib_cs;
 using Color = Raylib_cs.Color;
-using Ray = Kz.Geometry2d.Primitives.Ray;
-using Rectangle = Kz.Geometry2d.Primitives.Rectangle;
-using Kz.Geometry2d;
-using Kz.Raylib.Gfx;
-using Kz.Trigonometry;
+using Ray = Kz.Engine.Geometry2d.Primitives.Ray;
+using Rectangle = Kz.Engine.Geometry2d.Primitives.Rectangle;
+using Kz.Engine.Geometry2d;
+using Kz.Engine.Raylib;
+using Kz.Engine.Trigonometry;
 
 internal class Program
 {
@@ -179,7 +179,7 @@ internal class Program
             {
                 theta = TrigUtil.DegreesToRadians(1);
                 rayTheta += theta;
-                if (rayTheta > Kz.Trigonometry.Consts.TWO_PI) rayTheta = 0.0f;
+                if (rayTheta > Kz.Engine.Trigonometry.Consts.TWO_PI) rayTheta = 0.0f;
             }
 
             //

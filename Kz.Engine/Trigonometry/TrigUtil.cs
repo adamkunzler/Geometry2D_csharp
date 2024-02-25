@@ -1,4 +1,4 @@
-﻿namespace Kz.Trigonometry
+﻿namespace Kz.Engine.Trigonometry
 {
     public static class TrigUtil
     {

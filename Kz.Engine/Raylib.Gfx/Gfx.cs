@@ -1,11 +1,11 @@
-﻿using Kz.Geometry2d.Primitives;
-using Kz.Geometry2d.Utils;
+﻿using Kz.Engine.Geometry2d.Primitives;
+using Kz.Engine.Geometry2d.Utils;
 using Color = Raylib_cs.Color;
-using Point = Kz.Geometry2d.Primitives.Point;
-using Ray = Kz.Geometry2d.Primitives.Ray;
-using Rectangle = Kz.Geometry2d.Primitives.Rectangle;
+using Point = Kz.Engine.Geometry2d.Primitives.Point;
+using Ray = Kz.Engine.Geometry2d.Primitives.Ray;
+using Rectangle = Kz.Engine.Geometry2d.Primitives.Rectangle;
 
-namespace Kz.Raylib.Gfx
+namespace Kz.Engine.Raylib
 {
     public static class Gfx
     {

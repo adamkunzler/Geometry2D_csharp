@@ -1,6 +1,5 @@
-﻿
-namespace Kz.DataStructures
-{    
+﻿namespace Kz.Engine.DataStructures
+{
     public class Vector2f
     {
         #region ctor
@@ -36,7 +35,7 @@ namespace Kz.DataStructures
         {
             return $"({X}, {Y})";
         }
-                
+
         #endregion ctor
 
         #region Equality
@@ -489,7 +488,7 @@ namespace Kz.DataStructures
 
         /// <summary>
         /// return the angle between two vectors in radians
-        /// </summary>        
+        /// </summary>
         public static float AngleBetween(Vector2f a, Vector2f b)
         {
             var dot = Dot(a, b);
@@ -500,7 +499,7 @@ namespace Kz.DataStructures
 
         /// <summary>
         /// return the angle between two vectors in radians
-        /// </summary>        
+        /// </summary>
         public float AngleBetwen(Vector2f rhs) => AngleBetween(this, rhs);
 
         #endregion Misc
