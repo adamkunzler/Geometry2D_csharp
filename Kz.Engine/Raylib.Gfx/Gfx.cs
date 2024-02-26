@@ -7,7 +7,7 @@ using Rectangle = Kz.Engine.Geometry2d.Primitives.Rectangle;
 
 namespace Kz.Engine.Raylib
 {
-    public static class Gfx
+    public static partial class Gfx
     {
         public static void DrawShape(IShape shape, Color color, bool fill = false)
         {

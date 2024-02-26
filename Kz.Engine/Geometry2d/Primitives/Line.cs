@@ -128,10 +128,10 @@ namespace Kz.Engine.Geometry2d.Primitives
         public Point UnitPoint(float distance) => UnitPoint(this, distance);
 
         /// <summary>
-        /// return lne equation "mx + a" coefficients where: x = m and y = a
+        /// return lne equation "mx + b" coefficients where: x = m and y-intercept = b
         /// returns float.PositiveInfinity if line is vertical
         /// </summary>
-        public static (float M, float A) Coefficients(Line line)
+        public static (float M, float B) Coefficients(Line line)
         {
             // check if line is close to vertical
             if (MathF.Abs(line.Start.X - line.End.X) < Consts.EPSILON)
@@ -155,5 +155,124 @@ namespace Kz.Engine.Geometry2d.Primitives
         public List<Point> Endpoints() => Endpoints(this);
 
         #endregion Line Properties
+
+        #region Line Equation Forms
+        
+        /// <summary>
+        /// y = mx + b
+        /// 
+        /// m is the slope
+        /// b is the y-intercept
+        /// </summary>        
+        public static (float M, float B) SlopeInterceptForm(Line line)
+        {
+            return Coefficients(line);
+        }
+
+        /// <summary>
+        /// y = mx + b
+        /// 
+        /// m is the slope
+        /// b is the y-intercept
+        /// </summary>        
+        public (float M, float B) SlopeInterceptForm() => SlopeInterceptForm(this);
+
+        /// <summary>
+        /// Ax + By = C
+        /// </summary>        
+        public static (float A, float B, float C) StandardForm(Line line)
+        {
+            // convert to standard form
+            var a = line.End.Y - line.Start.Y;            
+            var b = line.Start.X - line.End.X;
+            var c = a * line.Start.X + b * line.Start.Y;
+
+            // normalize
+            if(a < 0)
+            {
+                a = -a;
+                b = -b;
+                c = -c;
+            }
+
+            return (a, b, c);
+        }
+
+        /// <summary>
+        /// Ax + By = C
+        /// </summary>        
+        public (float A, float B, float C) StandardForm() => StandardForm(this);
+
+        /// <summary>
+        /// y - y1 = m(x - x1)
+        /// </summary>        
+        public static (float M, float X1, float Y1) PointSlopeForm(Line line)
+        {
+            var coef = Coefficients(line);
+            
+            return (coef.M, line.Start.X, line.Start.Y);
+        }
+        
+        /// <summary>
+        /// y - y1 = m(x - x1)
+        /// </summary>        
+        public void PointSlopeForm() => PointSlopeForm(this);
+
+        /// <summary>
+        /// (y - y1) / (x - x1) = (y2 - y1) / (x2 - x1)
+        /// </summary>        
+        public static void TwoPointForm(Line line)
+        {
+            // doesn't make sense to return anything
+        }
+
+        /// <summary>
+        /// (y - y1) / (x - x1) = (y2 - y1) / (x2 - x1)
+        /// </summary>        
+        public void TwoPointForm() => TwoPointForm(this);
+
+        /// <summary>
+        /// (x / a) + (y / b) = 1
+        /// 
+        /// If a line intersects the x-axis and y-axis at distinct points.
+        /// 
+        /// a is the x-intercept (if == 0 then no intercept...parallel to x-axis)
+        /// b is the y-intercept
+        /// </summary>        
+        public static (float A, float B) InterceptForm(Line line)
+        {
+            var coef = Coefficients(line);
+
+            var b = line.Start.Y - coef.M * line.Start.X;
+            var a = coef.M != 0 ? -b / coef.M : 0;
+            
+            return (a, b);
+        }
+
+        /// <summary>
+        /// x = x1 + t(vx)
+        /// y = y1 + t(vy)
+        /// 
+        /// x1,y1 is a point on the line
+        /// vx,vy are components of a direction vector parallel to the line
+        /// t can be interpreted as time
+        /// </summary>        
+        public static void ParametricForm(Line line)
+        {
+            // TODO
+        }
+
+        /// <summary>
+        /// x cos(theta) + y sin(theta) = p
+        /// 
+        /// p is the perpendicular distance from the origin to the line
+        /// theta is the angle formed by the x-axis and the line perpendicular to the given line
+        /// </summary>        
+        public static void NormalForm(Line line)
+        {
+            // TODO
+        }
+
+        #endregion Line Equation Forms
     }
 }
