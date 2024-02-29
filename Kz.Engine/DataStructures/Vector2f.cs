@@ -98,20 +98,15 @@
 
         #region Vector Subtraction
 
-        public static Vector2f Subtract(Vector2f a, Vector2f b)
+        public static Vector2f Subtract(Vector2f lhs, Vector2f rhs)
         {
-            return new Vector2f(a.X - b.X, a.Y - b.Y);
+            return new Vector2f(lhs.X - rhs.X, lhs.Y - rhs.Y);
         }
 
-        public static Vector2f operator -(Vector2f a, Vector2f b)
-        {
-            return Subtract(a, b);
-        }
-
-        public Vector2f Subtract(Vector2f other)
-        {
-            return Subtract(this, other);
-        }
+        public static Vector2f operator -(Vector2f lhs, Vector2f rhs) => Subtract(lhs, rhs);
+        
+        public Vector2f Subtract(Vector2f rhs) => Subtract(this, rhs);
+        
 
         #endregion Vector Subtraction
 
