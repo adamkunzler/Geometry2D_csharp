@@ -117,20 +117,17 @@
             return new Vector2f(a.X - t, a.Y - t);
         }
 
-        public static Vector2f operator -(Vector2f a, float t)
+        public static Vector2f Subtract(float t, Vector2f a)
         {
-            return Subtract(a, t);
+            return new Vector2f(t - a.X, t - a.Y);
         }
 
-        public static Vector2f operator -(float t, Vector2f a)
-        {
-            return Subtract(a, t);
-        }
-
-        public Vector2f Subtract(float t)
-        {
-            return Subtract(this, t);
-        }
+        public static Vector2f operator -(Vector2f a, float t) => Subtract(a, t);
+        
+        public static Vector2f operator -(float t, Vector2f a) => Subtract(t, a);
+        
+        public Vector2f Subtract(float t) => Subtract(this, t);
+        
 
         #endregion Scalar Subtraction
 
@@ -279,10 +276,7 @@
         /// <summary>
         /// returns the normalized version of the vector (length = 1)
         /// </summary>
-        public Vector2f Normal()
-        {
-            return Normal(this);
-        }
+        public Vector2f Normal() => Normal(this);        
 
         #endregion Normalization
 

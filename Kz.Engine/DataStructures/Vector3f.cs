@@ -1,5 +1,4 @@
-﻿
-namespace Kz.Engine.DataStructures
+﻿namespace Kz.Engine.DataStructures
 {
     public class Vector3f
     {
@@ -32,6 +31,22 @@ namespace Kz.Engine.DataStructures
 
         #endregion ctor
 
+        #region Equality
+
+        public static bool AreEqual(Vector3f lhs, Vector3f rhs)
+        {
+            if (lhs == null && rhs == null) return true;
+            if (lhs != null && rhs == null) return false;
+            if (lhs == null && rhs != null) return false;
+
+            return lhs!.X == rhs!.X && lhs.Y == rhs.Y && lhs.Z == rhs.Z;
+        }
+
+        public bool AreEqual(Vector3f rhs) => AreEqual(this, rhs);
+
+        #endregion Equality
+
+
         #region Vector Addition
 
         public static Vector3f Add(Vector3f lhs, Vector3f rhs)
@@ -45,6 +60,21 @@ namespace Kz.Engine.DataStructures
 
         #endregion Vector Addition
 
+        #region Scalar Addition
+
+        public static Vector3f Add(Vector3f lhs, float rhs)
+        {
+            return new Vector3f(lhs.X + rhs, lhs.Y + rhs, lhs.Z + rhs);
+        }
+
+        public Vector3f Add(float rhs) => Add(this, rhs);
+
+        public static Vector3f operator +(float lhs, Vector3f rhs) => Add(rhs, lhs);
+
+        public static Vector3f operator +(Vector3f lhs, float rhs) => Add(lhs, rhs);
+
+        #endregion Scalar Addition
+
         #region Vector Subtraction
 
         public static Vector3f Subtract(Vector3f lhs, Vector3f rhs)
@@ -57,6 +87,39 @@ namespace Kz.Engine.DataStructures
         public static Vector3f operator -(Vector3f lhs, Vector3f rhs) => Subtract(lhs, rhs);
 
         #endregion Vector Subtraction
+
+        #region Scalar Subtraction
+
+        public static Vector3f Subtract(Vector3f lhs, float rhs)
+        {
+            return new Vector3f(lhs.X - rhs, lhs.Y - rhs, lhs.Z - rhs);
+        }
+
+        public static Vector3f Subtract(float lhs, Vector3f rhs)
+        {
+            return new Vector3f(lhs - rhs.X, lhs - rhs.Y, lhs - rhs.Z);
+        }
+
+        public Vector3f Subtract(float rhs) => Subtract(this, rhs);
+
+        public static Vector3f operator -(Vector3f lhs, float rhs) => Subtract(lhs, rhs);
+
+        public static Vector3f operator -(float lhs, Vector3f rhs) => Subtract(lhs, rhs);
+
+        #endregion Scalar Subtraction
+
+        #region Vector Multiplication
+
+        public static Vector3f Multiply(Vector3f lhs, Vector3f rhs)
+        {
+            return new Vector3f(lhs.X * rhs.X, lhs.Y * rhs.Y, lhs.Z * rhs.Z);
+        }
+
+        public Vector3f Multiply(Vector3f rhs) => Multiply(this, rhs);
+
+        public static Vector3f operator *(Vector3f lhs, Vector3f rhs) => Multiply(lhs, rhs);
+
+        #endregion Vector Multiplication
 
         #region Scalar Multiplication
 
@@ -72,6 +135,19 @@ namespace Kz.Engine.DataStructures
         public static Vector3f operator *(float rhs, Vector3f lhs) => Multiply(lhs, rhs);
 
         #endregion Scalar Multiplication
+
+        #region Vector Division
+        
+        public static Vector3f Divide(Vector3f lhs, Vector3f rhs)
+        {
+            return new Vector3f(lhs.X / rhs.X, lhs.Y / rhs.Y, lhs.Z / rhs.Z);
+        }
+
+        public Vector3f Divide(Vector3f rhs) => Divide(this, rhs);
+
+        public static Vector3f operator /(Vector3f lhs, Vector3f rhs) => Divide(lhs, rhs);
+
+        #endregion Vector Division
 
         #region Scalar Division
 
@@ -116,7 +192,7 @@ namespace Kz.Engine.DataStructures
         #endregion Magnitude
 
         #region Normal
-        
+
         public static Vector3f Normal(Vector3f lhs)
         {
             var magnitude = lhs.Magnitude();
