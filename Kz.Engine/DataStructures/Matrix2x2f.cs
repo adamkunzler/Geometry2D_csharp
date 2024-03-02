@@ -8,6 +8,10 @@ namespace Kz.Engine.DataStructures
     ///     M11 M12
     ///     M21 M22
     ///
+    /// Aliases
+    ///     a b
+    ///     c d
+    ///
     /// </summary>
     public class Matrix2x2f
     {
@@ -27,10 +31,23 @@ namespace Kz.Engine.DataStructures
         public float M22
         { get { return _data[3]; } set { _data[3] = value; } }
 
+        #region Aliases
+
+        public float A => M11;
+
+        public float B => M12;
+
+        public float C => M21;
+
+        public float D => M22;
+
+        #endregion Aliases
+
         public Matrix2x2f()
         {
             M11 = 0.0f;
             M12 = 0.0f;
+
             M21 = 0.0f;
             M22 = 0.0f;
         }
@@ -39,6 +56,7 @@ namespace Kz.Engine.DataStructures
         {
             M11 = m11;
             M12 = m12;
+
             M21 = m21;
             M22 = m22;
         }
@@ -235,28 +253,28 @@ namespace Kz.Engine.DataStructures
 
         #endregion Trace
 
-        #region Vector2 / Matrix Operations
+        #region Vector2 / Matrix2x2 Operations
 
-        public static Vector2f Multiply(Matrix2x2f lhs, Vector2f rhs)
+        public static Vector2f Multiply(Vector2f lhs, Matrix2x2f rhs)
         {
-            var a = lhs.M11 * rhs.X + lhs.M12 * rhs.Y;
-            var b = lhs.M21 * rhs.X + lhs.M22 * rhs.Y;
+            var a = rhs.M11 * lhs.X + rhs.M12 * lhs.Y;
+            var b = rhs.M21 * lhs.X + rhs.M22 * lhs.Y;
             return new Vector2f(a, b);
         }
 
-        public Vector2f Multiply(Vector2f rhs) => Multiply(this, rhs);
+        public Vector2f Multiply(Vector2f rhs) => Multiply(rhs, this);
 
-        public static Vector2f operator *(Matrix2x2f lhs, Vector2f rhs) => Multiply(lhs, rhs);
-        
-        public static Vector2f operator *(Vector2f lhs, Matrix2x2f rhs) => Multiply(rhs, lhs);
+        public static Vector2f operator *(Vector2f lhs, Matrix2x2f rhs) => Multiply(lhs, rhs);
 
-        #endregion Vector2 / Matrix Operations
+        public static Vector2f operator *(Matrix2x2f lhs, Vector2f rhs) => Multiply(rhs, lhs);
+
+        #endregion Vector2 / Matrix2x2 Operations
 
         #region Transformation Matrices
 
         /// <summary>
         /// Get a rotation matrix assuming origin is 0,0
-        /// </summary>        
+        /// </summary>
         public static Matrix2x2f Rotation(float theta)
         {
             return new Matrix2x2f
@@ -268,14 +286,25 @@ namespace Kz.Engine.DataStructures
 
         /// <summary>
         /// Get a scaling matrix assuming origin is 0,0
-        /// </summary>        
+        /// </summary>
         public static Matrix2x2f Scaling(float xScale, float yScale)
         {
             return new Matrix2x2f
             (
-                xScale, 0,
-                0, yScale
+                xScale, 0.0f,
+                0.0f, yScale
             );
+        }
+
+        /// <summary>
+        /// To use:
+        ///     1) create a Vector3f (x, y, 1) from the Vector2f (x, y)
+        ///     2) Multiply the Vector3f with the translation matrix
+        ///     3) pull out the Vector3f x and y components back into a Vector2f
+        /// </summary>
+        public static Matrix3x3f Translation(float xTranslate, float yTranslate)
+        {
+            return Matrix3x3f.Translation(xTranslate, yTranslate);
         }
 
         #endregion Transformation Matrices

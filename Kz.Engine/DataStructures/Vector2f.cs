@@ -502,5 +502,11 @@
         public Vector2f Reflect(Vector2f rhs) => Reflect(this, rhs);
 
         #endregion Reflect
+
+        #region Vector2 / Matrix2x2 Operations
+
+        public Vector2f Multiply(Matrix2x2f rhs) => Matrix2x2f.Multiply(this, rhs);
+
+        #endregion Vector2 / Matrix2x2 Operations
     }
 }

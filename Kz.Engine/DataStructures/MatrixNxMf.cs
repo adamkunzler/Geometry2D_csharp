@@ -1,9 +1,9 @@
 ﻿namespace Kz.Engine.DataStructures
 {
     /// <summary>
-    /// A Row-Major 3x3 Matrix
+    /// A Row-Major NxM3 Matrix
     /// </summary>
-    public class Matrix3x3
+    public class MatrixNxMf
     {
         #region ctor
         #endregion ctor

@@ -459,5 +459,11 @@ namespace Kz.Engine.DataStructures
         public Vector3f Reflect(Vector3f rhs) => Reflect(this, rhs);
 
         #endregion Reflect
+
+        #region Vector2 / Matrix2x2 Operations
+
+        public Vector3f Multiply(Matrix3x3f rhs) => Matrix3x3f.Multiply(this, rhs);
+
+        #endregion Vector2 / Matrix2x2 Operations
     }
 }

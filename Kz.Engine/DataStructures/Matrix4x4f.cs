@@ -3,7 +3,7 @@
     /// <summary>
     /// A Row-Major 4x4 Matrix
     /// </summary>
-    public class Matrix4x4
+    public class Matrix4x4f
     {
         #region ctor
         #endregion ctor
