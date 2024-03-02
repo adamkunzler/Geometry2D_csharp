@@ -104,9 +104,8 @@
         }
 
         public static Vector2f operator -(Vector2f lhs, Vector2f rhs) => Subtract(lhs, rhs);
-        
+
         public Vector2f Subtract(Vector2f rhs) => Subtract(this, rhs);
-        
 
         #endregion Vector Subtraction
 
@@ -123,11 +122,10 @@
         }
 
         public static Vector2f operator -(Vector2f a, float t) => Subtract(a, t);
-        
+
         public static Vector2f operator -(float t, Vector2f a) => Subtract(t, a);
-        
+
         public Vector2f Subtract(float t) => Subtract(this, t);
-        
 
         #endregion Scalar Subtraction
 
@@ -276,7 +274,7 @@
         /// <summary>
         /// returns the normalized version of the vector (length = 1)
         /// </summary>
-        public Vector2f Normal() => Normal(this);        
+        public Vector2f Normal() => Normal(this);
 
         #endregion Normalization
 
@@ -324,7 +322,25 @@
 
         #endregion Perpendicular
 
-        #region Misc
+        #region Distance Between
+
+        /// <summary>
+        /// Calculate the distance between two vectors
+        /// </summary>
+        public static float DistanceBetween(Vector2f lhs, Vector2f rhs)
+        {
+            var distance = (lhs - rhs).Magnitude();
+            return distance;
+        }
+
+        /// <summary>
+        /// Calculate the distance between two vectors
+        /// </summary>
+        public float DistanceBetween(Vector2f rhs) => DistanceBetween(this, rhs);
+
+        #endregion Distance Between
+
+        #region Area
 
         /// <summary>
         /// returns rectangular area of vector
@@ -341,6 +357,10 @@
         {
             return Area(this);
         }
+
+        #endregion Area
+
+        #region Floor / Ceiling
 
         /// <summary>
         /// round both components down
@@ -374,6 +394,10 @@
             return Floor(this);
         }
 
+        #endregion Floor / Ceiling
+
+        #region Min / Max
+
         /// <summary>
         /// returns element-wise max of two vectors
         /// </summary>
@@ -405,6 +429,10 @@
         {
             return Min(this, other);
         }
+
+        #endregion Min / Max
+
+        #region Polar / Cartesian
 
         /// <summary>
         /// treat this as polar coordinate (R, Theta), return cartesian equivalent (X, Y)
@@ -439,6 +467,10 @@
             return ToPolar(this);
         }
 
+        #endregion Polar / Cartesian
+
+        #region Clamp
+
         /// <summary>
         /// clamp the components of this vector in between the 'element-wise' minimum and maximum of 2 other vectors
         /// </summary>
@@ -454,6 +486,10 @@
         {
             return Clamp(this, min, max);
         }
+
+        #endregion Clamp
+
+        #region Lerp
 
         /// <summary>
         /// linearly interpolate between this vector, and another vector, given normalised parameter 't'
@@ -475,6 +511,10 @@
             return Lerp(this, other, t);
         }
 
+        #endregion Lerp
+
+        #region Angle Between
+
         /// <summary>
         /// return the angle between two vectors in radians
         /// </summary>
@@ -491,6 +531,26 @@
         /// </summary>
         public float AngleBetwen(Vector2f rhs) => AngleBetween(this, rhs);
 
-        #endregion Misc
+        #endregion Angle Between
+
+        #region Projection
+
+        /// <summary>
+        /// Calculate the projection of lhs onto rhs
+        /// </summary>
+        public static Vector2f Project(Vector2f lhs, Vector2f rhs)
+        {
+            var scalarProjection = lhs.Dot(rhs) / rhs.Magnitude();
+            var normal = rhs.Normal();
+            var projection = normal * scalarProjection;
+            return projection;
+        }
+
+        /// <summary>
+        /// Calculate the projection of lhs onto rhs
+        /// </summary>
+        public Vector2f Project(Vector2f rhs) => Project(this, rhs);
+
+        #endregion Projection
     }
 }
