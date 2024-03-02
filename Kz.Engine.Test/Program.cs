@@ -5,3 +5,6 @@ var u = new Vector2f(5, 5);
 var v = new Vector2f(7, 0);
 var projection = u.Project(v);
 Console.WriteLine(projection);
+
+var reflection = u.Reflect(v);
+Console.WriteLine(reflection);

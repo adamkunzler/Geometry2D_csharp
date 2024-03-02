@@ -1,5 +1,8 @@
 ﻿namespace Kz.Engine.DataStructures
 {
+    /// <summary>
+    /// Represents a vector in 2-dimensional space
+    /// </summary>
     public class Vector2f
     {
         #region ctor
@@ -52,6 +55,17 @@
         public bool AreEqual(Vector2f rhs) => AreEqual(this, rhs);
 
         #endregion Equality
+
+        #region Negate
+
+        public static Vector2f Negate(Vector2f lhs)
+        {
+            return new Vector2f(-lhs.X, -lhs.Y);
+        }
+
+        public Vector2f Negate() => Negate(this);
+
+        #endregion Negate
 
         #region Vector Addition
 
@@ -468,5 +482,25 @@
         public Vector2f Project(Vector2f rhs) => Project(this, rhs);
 
         #endregion Projection
+
+        #region Reflect
+
+        /// <summary>
+        /// Reflect a vector (lhs) around another vector (rhs)
+        /// </summary>        
+        public static Vector2f Reflect(Vector2f lhs, Vector2f rhs)
+        {
+            var normal = rhs.Normal();
+            var projection = lhs.Dot(normal) * normal;
+            var reflection = lhs - 2.0f * projection;
+            return reflection;
+        }
+
+        /// <summary>
+        /// Reflect a vector (lhs) around another vector (rhs)
+        /// </summary>        
+        public Vector2f Reflect(Vector2f rhs) => Reflect(this, rhs);
+
+        #endregion Reflect
     }
 }

@@ -257,7 +257,7 @@
 
         #endregion Wrap
 
-        #region FloatEquals
+        #region EpsilonEquals
 
         /// <summary>
         /// Check if two floats are equal
