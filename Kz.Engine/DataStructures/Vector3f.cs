@@ -51,6 +51,15 @@ namespace Kz.Engine.DataStructures
 
         #endregion Equality
 
+        #region Implicit/Explicit Operators
+
+        /// <summary>
+        /// Explicity cast from Vector3f to Vector4f (W = 0)
+        /// </summary>        
+        public static explicit operator Vector4f(Vector3f val) => new(val.X, val.Y, val.Z, 0.0f);
+
+        #endregion Implicit/Explicit Operators
+
         #region Negate
 
         public static Vector3f Negate(Vector3f lhs)

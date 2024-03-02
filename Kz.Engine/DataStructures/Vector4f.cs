@@ -7,6 +7,8 @@ namespace Kz.Engine.DataStructures
     /// 
     /// 'W' is used in the basic mathematical methods (e.g. add, subtract, floor, max, etc), 
     /// but not used in vector operations (e.g. cross product, magnitude, dot product, reflect, etc).
+    /// 
+    /// If it's unclear, check the implementation.
     /// </summary>
     public class Vector4f
     {
@@ -56,6 +58,15 @@ namespace Kz.Engine.DataStructures
         public bool AreEqual(Vector4f rhs) => AreEqual(this, rhs);
 
         #endregion Equality
+
+        #region Implicit/Explicit Operators
+
+        /// <summary>
+        /// Explicity cast from Vector4f to Vector3f (drops the W component)
+        /// </summary>        
+        public static explicit operator Vector3f(Vector4f val) => new (val.X, val.Y, val.Z);
+
+        #endregion Implicit/Explicit Operators
 
         #region Negate
 
@@ -458,3 +469,4 @@ namespace Kz.Engine.DataStructures
         #endregion Reflect
     }
 }
+
