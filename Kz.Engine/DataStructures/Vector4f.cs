@@ -467,6 +467,12 @@ namespace Kz.Engine.DataStructures
         public Vector4f Reflect(Vector4f rhs) => Reflect(this, rhs);
 
         #endregion Reflect
+
+        #region Vector4 / Matrix4x4 Operations
+
+        public Vector4f Multiply(Matrix4x4f rhs) => Matrix4x4f.Multiply(this, rhs);
+
+        #endregion Vector4 / Matrix4x4 Operations
     }
 }
 

@@ -13,6 +13,7 @@ namespace Kz.Engine.DataStructures
     ///     a b c
     ///     d e f
     ///     g h i
+    ///     
     /// </summary>
     public class Matrix3x3f
     {
@@ -124,6 +125,20 @@ namespace Kz.Engine.DataStructures
         public bool AreEqual(Matrix3x3f rhs) => AreEqual(this, rhs);
 
         #endregion Equality
+
+        #region Identity
+
+        public static Matrix3x3f Identity()
+        {
+            return new Matrix3x3f
+            (
+                1.0f, 0.0f, 0.0f,
+                0.0f, 1.0f, 0.0f,
+                0.0f, 0.0f, 1.0f
+            );
+        }
+
+        #endregion Identity
 
         #region Addition
 
@@ -293,14 +308,12 @@ namespace Kz.Engine.DataStructures
 
         #endregion Inverse
 
-        #region Rank
-
-        // TODO - use a library or just be smarter??? MathNet.Numerics?
+        #region IsAllZeroes
 
         /// <summary>
         /// Returns true if all elements of the matrix are 0
         /// </summary>
-        public bool AllZeroes()
+        public bool IsAllZeroes()
         {
             bool allZeroes = true;
             for (var i = 0; i < 9; i++)
@@ -313,13 +326,7 @@ namespace Kz.Engine.DataStructures
             return allZeroes;
         }
 
-        #endregion Rank
-
-        #region Eigenvalues / Eigenvectors
-
-        // TODO
-
-        #endregion Eigenvalues / Eigenvectors
+        #endregion IsAllZeroes
 
         #region Trace
 

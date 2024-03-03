@@ -81,6 +81,19 @@ namespace Kz.Engine.DataStructures
 
         #endregion Equality
 
+        #region Identity
+
+        public static Matrix2x2f Identity()
+        {
+            return new Matrix2x2f
+            (
+                1.0f, 0.0f,
+                0.0f, 1.0f
+            );
+        }
+
+        #endregion Identity
+
         #region Addition
 
         public static Matrix2x2f Add(Matrix2x2f lhs, Matrix2x2f rhs)
@@ -234,13 +247,27 @@ namespace Kz.Engine.DataStructures
 
         public int Rank() => Rank(this);
 
-        #endregion Rank
+        #endregion Rank        
 
-        #region Eigenvalues / Eigenvectors
+        #region IsAllZeroes
 
-        // TODO
+        /// <summary>
+        /// Returns true if all elements of the matrix are 0
+        /// </summary>
+        public bool IsAllZeroes()
+        {
+            bool allZeroes = true;
+            for (var i = 0; i < 4; i++)
+            {
+                if (Utils.EpsilonEquals(_data[i], 0.0f))
+                    continue;
 
-        #endregion Eigenvalues / Eigenvectors
+                allZeroes = false;
+            }
+            return allZeroes;
+        }
+
+        #endregion IsAllZeroes
 
         #region Trace
 

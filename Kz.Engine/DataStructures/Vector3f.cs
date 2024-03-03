@@ -460,10 +460,10 @@ namespace Kz.Engine.DataStructures
 
         #endregion Reflect
 
-        #region Vector2 / Matrix2x2 Operations
+        #region Vector3 / Matrix3x3 Operations
 
         public Vector3f Multiply(Matrix3x3f rhs) => Matrix3x3f.Multiply(this, rhs);
 
-        #endregion Vector2 / Matrix2x2 Operations
+        #endregion Vector3 / Matrix3x3 Operations
     }
 }

@@ -16,7 +16,7 @@
                 result += "(";
                 for (var x = 0; x < m; x++)
                 {
-                    result += $"{data[x + y * m]}";
+                    result += $"{data[x + y * m],8:0.000}";
                     if (x < m - 1)
                     {
                         result += ",\t";
