@@ -5,10 +5,10 @@ namespace Kz.Engine.DataStructures
     /// <summary>
     /// A Row-Major 4x4 Matrix
     ///
-    ///     M11     M12     M13     M14         M11     M12     M13     M14
-    ///     M21     M22     M23     M24         M21     M22     M23     M24
-    ///     M31     M32     M33     M34         M31     M32     M33     M34
-    ///     M41     M42     M43     M44         M41     M42     M43     M44
+    ///     M11     M12     M13     M14
+    ///     M21     M22     M23     M24
+    ///     M31     M32     M33     M34
+    ///     M41     M42     M43     M44
     ///
     ///     Aliases
     ///     a b c d
@@ -477,5 +477,79 @@ namespace Kz.Engine.DataStructures
         public static Vector4f operator *(Matrix4x4f lhs, Vector4f rhs) => Multiply(rhs, lhs);
 
         #endregion Vector4 / Matrix4x4 Operations
+
+        #region Transformation Matrices
+
+        /// <summary>
+        /// Get an x-rotation matrix assuming origin is 0,0 (Roll)
+        /// </summary>
+        public static Matrix4x4f RotationX(float theta)
+        {
+            return new Matrix4x4f
+            (
+                1.0f, 0.0f, 0.0f, 0.0f,
+                0.0f, MathF.Cos(theta), -MathF.Sin(theta), 0.0f,
+                0.0f, MathF.Sin(theta), MathF.Cos(theta), 0.0f,
+                0.0f, 0.0f, 0.0f, 1.0f
+            );
+        }
+
+        /// <summary>
+        /// Get an y-rotation matrix assuming origin is 0,0 (Pitch)
+        /// </summary>
+        public static Matrix4x4f RotationY(float theta)
+        {
+            return new Matrix4x4f
+            (
+                MathF.Cos(theta), 0.0f, MathF.Sin(theta), 0.0f,
+                0.0f, 1.0f, 0.0f, 0.0f,
+                -MathF.Sin(theta), 0.0f, MathF.Cos(theta), 0.0f,
+                0.0f, 0.0f, 0.0f, 1.0f
+            );
+        }
+
+        /// <summary>
+        /// Get an z-rotation matrix assuming origin is 0,0 (Yaw)
+        /// </summary>
+        public static Matrix4x4f RotationZ(float theta)
+        {
+            return new Matrix4x4f
+            (
+                MathF.Cos(theta), -MathF.Sin(theta), 0.0f, 0.0f,
+                MathF.Sin(theta), MathF.Cos(theta), 0.0f, 0.0f,
+                0.0f, 0.0f, 1.0f, 0.0f,
+                0.0f, 0.0f, 0.0f, 1.0f
+            );
+        }
+
+        /// <summary>
+        /// Get a scaling matrix assuming origin is 0,0
+        /// </summary>
+        public static Matrix4x4f Scaling(float xScale, float yScale, float zScale)
+        {
+            return new Matrix4x4f
+            (
+                xScale, 0.0f, 0.0f, 0.0f,
+                0.0f, yScale, 0.0f, 0.0f,
+                0.0f, 0.0f, zScale, 0.0f,
+                0.0f, 0.0f, 0.0f,   1.0f
+            );
+        }
+
+        /// <summary>
+        /// Get a translation matrix
+        /// </summary>        
+        public static Matrix4x4f Translation(float xTranslate, float yTranslate, float zTranslate)
+        {
+            return new Matrix4x4f
+            (
+                1.0f, 0.0f, 0.0f, xTranslate,
+                0.0f, 1.0f, 0.0f, yTranslate,
+                0.0f, 0.0f, 1.0f, zTranslate,
+                0.0f, 0.0f, 0.0f, 1.0f
+            );
+        }
+
+        #endregion Transformation Matrices
     }
 }
