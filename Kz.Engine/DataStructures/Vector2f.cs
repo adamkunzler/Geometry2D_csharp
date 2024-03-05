@@ -403,6 +403,19 @@
         /// </summary>
         public Vector2f ToPolar() => ToPolar(this);
 
+        /// <summary>
+        /// Get the angle of the vector in radians
+        /// </summary>
+        public static float AngleOf(Vector2f lhs)
+        {
+            return MathF.Atan2(lhs.Y, lhs.X);
+        }
+
+        /// <summary>
+        /// Get the angle of the vector in radians
+        /// </summary>
+        public float AngleOf() => AngleOf(this);
+
         #endregion Polar / Cartesian
 
         #region Clamp
@@ -487,7 +500,7 @@
 
         /// <summary>
         /// Reflect a vector (lhs) around another vector (rhs)
-        /// </summary>        
+        /// </summary>
         public static Vector2f Reflect(Vector2f lhs, Vector2f rhs)
         {
             var normal = rhs.Normal();
@@ -498,7 +511,7 @@
 
         /// <summary>
         /// Reflect a vector (lhs) around another vector (rhs)
-        /// </summary>        
+        /// </summary>
         public Vector2f Reflect(Vector2f rhs) => Reflect(this, rhs);
 
         #endregion Reflect
@@ -508,5 +521,24 @@
         public Vector2f Multiply(Matrix2x2f rhs) => Matrix2x2f.Multiply(this, rhs);
 
         #endregion Vector2 / Matrix2x2 Operations
+
+        #region Limit
+
+        /// <summary>
+        /// Limit the magnitude of a vector by a max value
+        /// </summary>        
+        public static Vector2f Limit(Vector2f lhs, float max)
+        {
+            return lhs.Magnitude() > max 
+                ? lhs.Normal() * max 
+                : lhs;
+        }
+
+        /// <summary>
+        /// Limit the magnitude of a vector by a max value
+        /// </summary>        
+        public Vector2f Limit(float max) => Limit(this, max);
+
+        #endregion Limit
     }
 }

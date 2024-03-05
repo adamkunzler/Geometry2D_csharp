@@ -14,6 +14,17 @@
         }
 
         /// <summary>
+        /// Calculates the shortest difference between two angles (in radians) taking into
+        /// account angles < 0 and > 2π
+        /// </summary>        
+        public static float DeltaAngle(float current, float target)
+        {
+            var difference = target - current;
+            difference = (difference + TrigConsts.PI) % TrigConsts.TWO_PI - TrigConsts.PI;
+            return difference;
+        }
+
+        /// <summary>
         /// Reflect an angle across the Y-axis
         /// </summary>
         public static float MirrorAngle(float angle)
