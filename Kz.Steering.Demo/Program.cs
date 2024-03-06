@@ -99,13 +99,14 @@ public class Agent
         _steeringForce = totalSteeringForce; // for debugging/rendering
 
         // acceleration = force / mass
-        Acceleration = (totalSteeringForce / _mass).Limit(_maxForce);
+        Acceleration = (totalSteeringForce / _mass).LimitMagnitude(_maxForce);
         
         var newVelocity = Velocity + Acceleration;
 
         // constrain changes in velocity to maxTurningAngle and maxVelocity
-        //Velocity = LimitTurningAngle(Velocity, newVelocity, _maxTurningRate).Limit(_maxSpeed); ??? arrive doesn't work with LimitTurningAngle
-        Velocity = newVelocity.Limit(_maxSpeed);
+        Velocity = Vector2f
+            .LimitAngleDelta(Velocity, newVelocity, _maxTurningRate)
+            .LimitMagnitude(_maxSpeed);        
         Position += Velocity;
 
         // bound to aabb
@@ -153,17 +154,7 @@ public class Agent
     }
 
     #region Private Methods
-    
-    private static Vector2f LimitTurningAngle(Vector2f currentVelocity, Vector2f desiredVelocity, float maxTheta)
-    {                        
-        float angleDifference = TrigUtil.DeltaAngle(currentVelocity.AngleOf(), desiredVelocity.AngleOf());
-
-        // Limit the angle change
-        float newAngle = currentVelocity.AngleOf() + Utils.Clamp(angleDifference, -maxTheta, maxTheta);
-        var newVelocity = new Vector2f(MathF.Cos(newAngle), MathF.Sin(newAngle)) * currentVelocity.Magnitude();
-        return newVelocity;
-    }
-
+       
     private List<Agent> GetNeighbors(List<Agent> others)
     {
         var neighbors = new List<Agent>();

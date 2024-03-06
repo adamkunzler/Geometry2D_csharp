@@ -1,4 +1,7 @@
-﻿namespace Kz.Engine.DataStructures
+﻿using Kz.Engine.General;
+using Kz.Engine.Trigonometry;
+
+namespace Kz.Engine.DataStructures
 {
     /// <summary>
     /// Represents a vector in 2-dimensional space
@@ -526,18 +529,38 @@
 
         /// <summary>
         /// Limit the magnitude of a vector by a max value
-        /// </summary>        
-        public static Vector2f Limit(Vector2f lhs, float max)
+        /// </summary>
+        public static Vector2f LimitMagnitude(Vector2f lhs, float max)
         {
-            return lhs.Magnitude() > max 
-                ? lhs.Normal() * max 
+            return lhs.Magnitude() > max
+                ? lhs.Normal() * max
                 : lhs;
         }
 
         /// <summary>
         /// Limit the magnitude of a vector by a max value
-        /// </summary>        
-        public Vector2f Limit(float max) => Limit(this, max);
+        /// </summary>
+        public Vector2f LimitMagnitude(float max) => LimitMagnitude(this, max);
+
+        /// <summary>
+        /// Limit the amount a vectors' direction can change. Returns a vector with a magnitude matching the desired
+        /// vectors' magnitude and a direction limited to maxTheta.
+        /// </summary>
+        public static Vector2f LimitAngleDelta(Vector2f current, Vector2f desired, float maxTheta)
+        {
+            float angleDifference = TrigUtil.DeltaAngle(current.AngleOf(), desired.AngleOf());
+
+            // Limit the angle change
+            float newAngle = current.AngleOf() + Utils.Clamp(angleDifference, -maxTheta, maxTheta);
+            var newVelocity = new Vector2f(MathF.Cos(newAngle), MathF.Sin(newAngle)) * desired.Magnitude();
+            return newVelocity;
+        }
+
+        /// <summary>
+        /// Limit the amount a vectors' direction can change. Returns a vector with a magnitude matching the desired
+        /// vectors' magnitude and a direction limited to maxTheta.
+        /// </summary>
+        public Vector2f LimitAngleDelta(Vector2f desired, float maxTheta) => LimitAngleDelta(this, desired, maxTheta);
 
         #endregion Limit
     }

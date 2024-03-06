@@ -424,7 +424,7 @@ namespace Kz.Engine.DataStructures
             );
         }
 
-        public Matrix4x4f Inverse() => Inverse(this);
+        public Matrix4x4f? Inverse() => Inverse(this);
 
         #endregion Inverse
 

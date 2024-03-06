@@ -9,7 +9,7 @@ namespace Kz.Steering.Demo
         Normal = 2,
         Slow = 3,
     }
-
+    
     public static class Behaviors
     {
         /// <summary>
@@ -25,13 +25,14 @@ namespace Kz.Steering.Demo
         /// <summary>
         /// Create a steering force to move an agent away from a target.
         ///
-        /// Optionally allows setting a distance squared value so that the agent only
-        /// flees if they are within a certain distance (using the squared form for optimizations)
+        /// Optionally allows setting a distance value so that the agent only
+        /// flees if they are within a certain distance.
         /// </summary>
-        public static Vector2f Flee(Agent agent, Vector2f target, float? distanceSquared = null)
+        public static Vector2f Flee(Agent agent, Vector2f target, float? distance = null)
         {
             var targetToPosition = agent.Position - target;
-            if (targetToPosition.Magnitude2() > distanceSquared) return Vector2f.Zero;
+            if (distance.HasValue && targetToPosition.Magnitude2() > (distance.Value * distance.Value)) 
+                return Vector2f.Zero;
 
             var desiredVelocity = targetToPosition.Normal() * agent.MaxSpeed;
             var steeringForce = desiredVelocity - agent.Velocity;
