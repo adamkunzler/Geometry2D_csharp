@@ -287,5 +287,17 @@
         }
 
         #endregion FloatEquals
+
+        #region Random
+
+        /// <summary>
+        /// Get a random number between -1.0 and 1.0
+        /// </summary>        
+        public static float RandomNegOnetoPosOne(Random random)
+        {
+            return (float)random.NextDouble() * 2.0f - 1.0f;
+        }
+
+        #endregion Random
     }
 }
