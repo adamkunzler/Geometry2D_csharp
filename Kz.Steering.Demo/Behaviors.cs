@@ -125,7 +125,10 @@ namespace Kz.Steering.Demo
             var predictedFuturePoint = other.Position + other.Velocity * lookAheadTime;
             return Flee(agent, predictedFuturePoint);
         }
-
+        
+        /// <summary>
+        /// Calculate a steering force away from a group of obstacles
+        /// </summary>        
         public static Vector2f AvoidObstacles(Agent agent, List<Circle> obstacles)
         {
             var force = Vector2f.Zero;
@@ -138,14 +141,69 @@ namespace Kz.Steering.Demo
             return force;
         }
 
+        /// <summary>
+        /// Calculate a steering force away from an obstacle
+        /// </summary>
         public static Vector2f AvoidObstacle(Agent agent, Circle obstacle)
         {
             var force = Vector2f.Zero;
+            
+            var minIntersection = GetClosestIntersectionPoint(agent, obstacle);
+            if (minIntersection == null) return force;
+            
+            var avoidanceDirection = (minIntersection - obstacle.Origin);
+            var avoidanceStrength = 1.0f;
 
+            return avoidanceDirection * avoidanceStrength;
+        }
+
+        public static Vector2f HideFrom(Agent agent, Vector2f hideFrom, List<Circle> obstacles)
+        {
+            var hidingSpots = GetHidingSpots(hideFrom, obstacles);
+            if (hidingSpots.Count == 0) return Vector2f.Zero;
+
+            // ??? how to choose which spot...current is choose closest
+            var minDist = float.MaxValue;
+            Point bestSpot = null!;
+            foreach(var spot in hidingSpots)
+            {
+                var dist = (spot - agent.Position).Magnitude2();
+                if (dist < minDist)
+                {
+                    minDist = dist;
+                    bestSpot = spot;
+                }
+            }
+                        
+            var force = Arrive(agent, bestSpot, Deceleration.Fast);
+            return force;
+        }
+
+        #region Private Helper Methods
+
+        public static List<Point> GetHidingSpots(Vector2f hideFrom, List<Circle> obstacles)
+        {
+            var hidingSpots = obstacles.Select(x => GetHidingSpot(hideFrom, x)).ToList();
+            return hidingSpots;
+        }
+
+        private static Point GetHidingSpot(Vector2f hideFrom, Circle obstacle)
+        {
+            var toObstacle = obstacle.Origin - hideFrom;
+            var distFromObstacle = 100.0f + obstacle.Radius + toObstacle.Magnitude();            
+            var hidingSpot = hideFrom + (toObstacle.Normal() * distFromObstacle);
+            return new Point(hidingSpot);
+        }
+
+        /// <summary>
+        /// Get the closest intersection point with an obstacle to an agent
+        /// </summary>        
+        private static Point? GetClosestIntersectionPoint(Agent agent, Circle obstacle)
+        {
             // check for intersections
             var detectionLine = agent.GetDetectionLine();
             var intersections = G2d.Intersects(detectionLine, obstacle);
-            if (intersections.Count == 0) return force;
+            if (intersections.Count == 0) return null;
 
             // closest intersection point
             var minDist = float.MaxValue;
@@ -160,10 +218,9 @@ namespace Kz.Steering.Demo
                 }
             }
 
-            var avoidanceDirection = (minIntersection - obstacle.Origin);
-            var avoidanceStrength = 1.0f;
-
-            return avoidanceDirection * avoidanceStrength;
+            return minIntersection;
         }
+
+        #endregion Private Helper Methods
     }
 }

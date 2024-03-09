@@ -21,7 +21,7 @@ internal class Program
     {
         var random = new Random();
 
-        var numBoids = 250;
+        var numBoids = 1;
         var screenWidth = 1536;
         var screenHeight = 1536;
 

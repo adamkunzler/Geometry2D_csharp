@@ -76,25 +76,27 @@ namespace Kz.Steering.Demo
         #endregion Fields
 
         private Vector2f _steeringForce = Vector2f.Zero;
-        
+        private List<Circle> _obstacles = new List<Circle>();
+
         public void Update(
             List<Agent> others,
             Kz.Engine.Geometry2d.Primitives.Rectangle aabb,
             Vector2f mousePosition,
             List<Circle> obstacles)
-        {            
+        {
+            _obstacles = obstacles;
             // Get Neighbors
             //var neighbors = GetNeighbors(others);
 
-            // calculate rules
-            var target = new Vector2f(mousePosition.X, mousePosition.Y);
+            // calculate rules            
             var seekForce = Vector2f.Zero;// Behaviors.Seek(this, target);
-            var fleeForce = Vector2f.Zero;// Behaviors.Flee(this, target, 500.0f);
-            var arriveForce = Id > 0 ? Vector2f.Zero : Behaviors.Arrive(this, target, Deceleration.Fast);
+            var fleeForce = Behaviors.Flee(this, mousePosition, 500.0f);
+            var arriveForce = Vector2f.Zero;// Id > 0 ? Vector2f.Zero : Behaviors.Arrive(this, target, Deceleration.Fast);
             var pursueForce = Vector2f.Zero;
             var evadeForce = Vector2f.Zero;
             var wanderForce = Id == 0 ? Vector2f.Zero : Behaviors.Wander(this);
             var avoidObstacleForce = Behaviors.AvoidObstacles(this, obstacles);
+            var hidingForce = Behaviors.HideFrom(this, mousePosition, obstacles);
 
             //if(Id == 0)
             //{
@@ -107,9 +109,9 @@ namespace Kz.Steering.Demo
 
             // combined force of all steering behaviours
             var totalSteeringForce =
-                seekForce + fleeForce + arriveForce +
+                seekForce + (fleeForce * 3.0f) + arriveForce +
                 pursueForce + evadeForce + wanderForce +
-                avoidObstacleForce;
+                avoidObstacleForce + hidingForce;
             _steeringForce = totalSteeringForce; // for debugging/rendering
 
             // acceleration = force / mass
@@ -140,6 +142,28 @@ namespace Kz.Steering.Demo
             var xx = Position.X + MathF.Cos(theta) * Size * 2.0f;
             var yy = Position.Y + MathF.Sin(theta) * Size * 2.0f;
             Raylib.DrawLine((int)Position.X, (int)Position.Y, (int)xx, (int)yy, Color.RayWhite);
+
+            if (Id == 0)
+            {
+                var mousePos = new Vector2f(Raylib.GetMousePosition().X, Raylib.GetMousePosition().Y);
+                var hidingSpots = Behaviors.GetHidingSpots(
+                    mousePos, 
+                    _obstacles);
+
+                //var toObstacle = (_obstacles[0].Origin - mousePos);
+                //var dist = toObstacle.Magnitude() + _obstacles[0].Radius + 50.0f;
+                //var temp = toObstacle.Normal() * dist;
+
+                //Raylib.DrawLine(
+                //    (int)mousePos.X, (int)mousePos.Y, 
+                //    (int)(mousePos.X + temp.X), (int)(mousePos.Y + temp.Y), 
+                //    Color.Red);
+
+                foreach (var spot in hidingSpots)
+                {
+                    Raylib.DrawCircle((int)spot.X, (int)spot.Y, 5.0f, Color.Red);
+                }
+            }
 
             // special case: agent #0
             if (Id == 0 && false)
