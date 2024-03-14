@@ -2,6 +2,7 @@
 using Kz.Engine.General;
 using Kz.Engine.Geometry2d.Primitives;
 using Kz.Engine.Geometry2d.Utils;
+using System.Reflection.Metadata;
 using System.Runtime.CompilerServices;
 
 namespace Kz.Steering.Demo
@@ -16,6 +17,8 @@ namespace Kz.Steering.Demo
     public static class Behaviors
     {
         private static Random _random = new Random();
+
+        #region Individual Behaviors
 
         /// <summary>
         /// Calculate a steering force for an agent to move towards. The point is calculated by
@@ -187,6 +190,9 @@ namespace Kz.Steering.Demo
             return force;
         }
 
+        /// <summary>
+        /// Calculate a steering force away from a wall(s)
+        /// </summary>        
         public static Vector2f AvoidWalls(Agent agent, List<Line> walls)
         {
             var force = Vector2f.Zero;
@@ -227,7 +233,63 @@ namespace Kz.Steering.Demo
 
             return force;
         }
+
+        #endregion Individual Behaviors
+
+        #region Group Behaviors
+
+        public static Vector2f Separation(Agent agent, List<Agent> neighbors)
+        {
+            var force = Vector2f.Zero;
+
+            if(neighbors.Count == 0) return force;
+
+            foreach(var neighbor in neighbors)
+            {
+                var toAgent = agent.Position - neighbor.Position;
+                var separationForce = (toAgent.Normal() * 20.5f) / toAgent.Magnitude();
+                force += separationForce;
+            }
+
+            return force;
+        }
+
+        public static Vector2f Alignment(Agent agent, List<Agent> neighbors)
+        {
+            var force = Vector2f.Zero;
+
+            if(neighbors.Count == 0) return force;
+
+            foreach(var neighbor in neighbors)
+            {
+                force += neighbor.Velocity.Normal();
+            }
+
+            force /= neighbors.Count;
+            force -= agent.Velocity.Normal();
+
+            return force;
+        }
+
+        public static Vector2f Cohesion(Agent agent, List<Agent> neighbors)
+        {
+            var force = Vector2f.Zero;
+
+            if (neighbors.Count == 0) return force;
+
+            var centerOfMass = Vector2f.Zero;
+            foreach (var neighbor in neighbors)
+            {
+                centerOfMass += neighbor.Position;
+            }
+
+            centerOfMass /= neighbors.Count;
+            force = Seek(agent, centerOfMass);
+
+            return force;
+        }
         
+        #endregion Group Behaviors
 
         #region Private Helper Methods
 
@@ -250,9 +312,12 @@ namespace Kz.Steering.Demo
         /// </summary>        
         private static Point? GetClosestIntersectionPoint(Agent agent, Circle obstacle)
         {
+            // make obstacle "bigger" temporarily
+            var bigObstacle = new Circle(obstacle.Origin, obstacle.Radius * 1.3f);
+
             // check for intersections
             var detectionLine = agent.GetDetectionLine();
-            var intersections = G2d.Intersects(detectionLine, obstacle);
+            var intersections = G2d.Intersects(detectionLine, bigObstacle);
             if (intersections.Count == 0) return null;
 
             // closest intersection point

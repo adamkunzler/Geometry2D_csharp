@@ -21,7 +21,7 @@ internal class Program
     {
         var random = new Random();
 
-        var numBoids = 5;
+        var numBoids = 250;
         var screenWidth = 1536;
         var screenHeight = 1536;
 
@@ -44,16 +44,16 @@ internal class Program
         }
 
         var obstacles = new List<Circle>();
-        obstacles.Add(new Circle(500.0f, 750.0f, 100.0f));
-        obstacles.Add(new Circle(900.0f, 250.0f, 75.0f));
+        //obstacles.Add(new Circle(500.0f, 750.0f, 100.0f));
+        //obstacles.Add(new Circle(900.0f, 250.0f, 75.0f));
         obstacles.Add(new Circle(1100.0f, 1050.0f, 150.0f));
 
         var walls = new List<Line>();
         var wallOffset = 10.0f;
-        walls.Add(new Line(wallOffset, wallOffset, screenWidth - wallOffset, wallOffset)); // top
-        walls.Add(new Line(wallOffset, screenHeight - wallOffset, screenWidth - wallOffset, screenHeight - wallOffset)); // bottom
-        walls.Add(new Line(wallOffset, wallOffset, wallOffset, screenHeight - wallOffset)); // left
-        walls.Add(new Line(screenWidth - wallOffset, wallOffset, screenWidth - wallOffset, screenWidth - wallOffset)); // right
+        //walls.Add(new Line(wallOffset, wallOffset, screenWidth - wallOffset, wallOffset)); // top
+        //walls.Add(new Line(wallOffset, screenHeight - wallOffset, screenWidth - wallOffset, screenHeight - wallOffset)); // bottom
+        //walls.Add(new Line(wallOffset, wallOffset, wallOffset, screenHeight - wallOffset)); // left
+        //walls.Add(new Line(screenWidth - wallOffset, wallOffset, screenWidth - wallOffset, screenWidth - wallOffset)); // right
 
         //
         // MAIN RENDER LOOP
@@ -91,7 +91,7 @@ internal class Program
 
             foreach (var wall in walls)
             {
-                Gfx.DrawLine(wall, Color.Red);
+                Gfx.DrawLine(wall, Color.DarkBrown);
             }
 
             foreach (var boid in boids)
@@ -100,9 +100,7 @@ internal class Program
             }
 
             Raylib.DrawFPS(10, 10);
-            Raylib.DrawText($"Mouse: {Raylib.GetMousePosition().X}, {Raylib.GetMousePosition().Y}", 10, 35, 20, Color.RayWhite);
-            Raylib.DrawText("Steering Force", 10, 65, 20, Color.Red);
-
+            
             Raylib.EndDrawing();
         }
 

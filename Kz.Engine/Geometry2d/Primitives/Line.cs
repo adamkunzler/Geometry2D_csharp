@@ -188,7 +188,12 @@ namespace Kz.Engine.Geometry2d.Primitives
 
             return normal;
         }
-
+        
+        // <summary>
+        /// Calculate the normal vector of a line so that it is in the direction of a point.
+        /// e.g. if the rhs is to the right of the lhs, then the normal should be on the "right" side 
+        /// of the line.
+        /// </summary>  
         public Vector2f Normal(Vector2f rhs) => Normal(this, rhs);
 
         #endregion Line Properties

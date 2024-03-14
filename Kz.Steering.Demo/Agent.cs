@@ -89,18 +89,24 @@ namespace Kz.Steering.Demo
         {
             _obstacles = obstacles;
             // Get Neighbors
-            //var neighbors = GetNeighbors(others);
+            var neighbors = GetNeighbors(others);
 
-            // calculate rules            
-            var seekForce = Vector2f.Zero;// Behaviors.Seek(this, mousePosition);
+            // calculate individual rules            
+            var seekForce = Id == 0 ?  Behaviors.Seek(this, mousePosition) : Vector2f.Zero;
             var fleeForce = Vector2f.Zero;// Behaviors.Flee(this, mousePosition, 500.0f);
-            var arriveForce =  Behaviors.Arrive(this, mousePosition, Deceleration.Slow);
+            var arriveForce = Vector2f.Zero;// Behaviors.Arrive(this, mousePosition, Deceleration.Slow);
             var pursueForce = Vector2f.Zero;
             var evadeForce = Vector2f.Zero;
-            var wanderForce = Vector2f.Zero;// Id == 0 ? Vector2f.Zero : Behaviors.Wander(this);
+            var wanderForce = Id == 0 ? Vector2f.Zero : Behaviors.Wander(this);
             var avoidObstacleForce = Behaviors.AvoidObstacles(this, obstacles);
             var hidingForce = Vector2f.Zero;// Behaviors.HideFrom(this, mousePosition, obstacles);
-            var avoidWallForce = Behaviors.AvoidWalls(this, walls);
+            var avoidWallForce = Vector2f.Zero;// Behaviors.AvoidWalls(this, walls);
+
+            // calculate group rules
+            var separationForce = Id == 0 ? Vector2f.Zero : Behaviors.Separation(this, neighbors);
+            var alignmentForce = Id == 0 ? Vector2f.Zero : Behaviors.Alignment(this, neighbors);
+            var cohesionForce = Id == 0 ? Vector2f.Zero : Behaviors.Cohesion(this, neighbors);
+
 
             //if(Id == 0)
             //{
@@ -116,6 +122,9 @@ namespace Kz.Steering.Demo
                 seekForce + (fleeForce * 3.0f) + arriveForce +
                 pursueForce + evadeForce + wanderForce +
                 avoidObstacleForce + hidingForce + avoidWallForce;
+
+            totalSteeringForce += separationForce + alignmentForce + cohesionForce;
+
             _steeringForce = totalSteeringForce; // for debugging/rendering
 
             // acceleration = force / mass
@@ -134,6 +143,8 @@ namespace Kz.Steering.Demo
             else if (Position.X > aabb.Position.X + aabb.Size.X + HalfSize) Position.X = aabb.Position.X + HalfSize;
             if (Position.Y < aabb.Position.Y + HalfSize) Position.Y = aabb.Position.Y + aabb.Size.Y + HalfSize;
             else if (Position.Y > aabb.Position.Y + aabb.Size.Y + HalfSize) Position.Y = aabb.Position.Y + HalfSize;
+
+            EnforceNonPenetrationConstraint(neighbors);
         }
 
         public void Render(List<Agent> others)
@@ -196,7 +207,7 @@ namespace Kz.Steering.Demo
         public List<Line> GetFeelers()
         {
             var angle = Velocity.AngleOf();
-            var offsetAngle = angle - TrigUtil.DegreesToRadians(45);
+            var offsetAngle = TrigUtil.DegreesToRadians(25);
 
             var middleDetectionLength = Size * 20.0f;
             var sideDetectionLength = Size * 10.0f;
@@ -247,6 +258,20 @@ namespace Kz.Steering.Demo
                 neighbors.Add(agent);
             }
             return neighbors;
+        }
+
+        public void EnforceNonPenetrationConstraint(List<Agent> neighbors)
+        {
+            foreach (var neighbor in neighbors)
+            {
+                var toAgent = Position - neighbor.Position;
+                var dist = toAgent.Magnitude();
+                var overlap = Size + neighbor.Size - dist;
+                if (overlap > 0)
+                {
+                    Position += ((toAgent / dist) * overlap);
+                }
+            }
         }
 
         #endregion Private Methods
