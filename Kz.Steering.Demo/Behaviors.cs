@@ -2,6 +2,7 @@
 using Kz.Engine.General;
 using Kz.Engine.Geometry2d.Primitives;
 using Kz.Engine.Geometry2d.Utils;
+using System.Runtime.CompilerServices;
 
 namespace Kz.Steering.Demo
 {
@@ -157,8 +158,15 @@ namespace Kz.Steering.Demo
             return avoidanceDirection * avoidanceStrength;
         }
 
-        public static Vector2f HideFrom(Agent agent, Vector2f hideFrom, List<Circle> obstacles)
+        /// <summary>
+        /// Calculate a steering force to a position that puts an obstacle in between the agent and the position to hide from
+        /// </summary>        
+        public static Vector2f HideFrom(Agent agent, Vector2f hideFrom, List<Circle> obstacles, float? distance = null)
         {
+            var targetToPosition = agent.Position - hideFrom;
+            if (distance.HasValue && targetToPosition.Magnitude2() > (distance.Value * distance.Value))
+                return Vector2f.Zero;
+
             var hidingSpots = GetHidingSpots(hideFrom, obstacles);
             if (hidingSpots.Count == 0) return Vector2f.Zero;
 
@@ -178,6 +186,48 @@ namespace Kz.Steering.Demo
             var force = Arrive(agent, bestSpot, Deceleration.Fast);
             return force;
         }
+
+        public static Vector2f AvoidWalls(Agent agent, List<Line> walls)
+        {
+            var force = Vector2f.Zero;
+
+            var feelers = agent.GetFeelers();
+
+            var closestDistance = float.MaxValue;
+            Vector2f? closestIntersectionPoint = null;
+            Line? closestWall = null;
+            Line? intersectedFeeler = null;
+
+            // find the closest intersection point and wall to the agent
+            foreach (var feeler in feelers)
+            {
+                foreach (var wall in walls)
+                {
+                    var intersection = G2d.Intersects(feeler, wall);
+                    if(intersection.Count > 0)
+                    {
+                        var dist = (intersection[0] - agent.Position).Magnitude();
+                        if(dist < closestDistance)
+                        {
+                            closestDistance = dist;
+                            closestIntersectionPoint = intersection[0];
+                            closestWall = wall;
+                            intersectedFeeler = feeler;
+                        }
+                    }
+                }
+            }
+
+            // not close to a wall, return
+            if (closestIntersectionPoint == null || closestWall == null || intersectedFeeler == null) return force;
+
+            // calculate the steering force away from the wall
+            var overshoot = intersectedFeeler.End - closestIntersectionPoint;            
+            force = closestWall.Normal(agent.Position) * overshoot.Magnitude();
+
+            return force;
+        }
+        
 
         #region Private Helper Methods
 

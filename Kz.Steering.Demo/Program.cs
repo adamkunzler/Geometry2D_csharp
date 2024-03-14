@@ -21,7 +21,7 @@ internal class Program
     {
         var random = new Random();
 
-        var numBoids = 1;
+        var numBoids = 5;
         var screenWidth = 1536;
         var screenHeight = 1536;
 
@@ -48,6 +48,13 @@ internal class Program
         obstacles.Add(new Circle(900.0f, 250.0f, 75.0f));
         obstacles.Add(new Circle(1100.0f, 1050.0f, 150.0f));
 
+        var walls = new List<Line>();
+        var wallOffset = 10.0f;
+        walls.Add(new Line(wallOffset, wallOffset, screenWidth - wallOffset, wallOffset)); // top
+        walls.Add(new Line(wallOffset, screenHeight - wallOffset, screenWidth - wallOffset, screenHeight - wallOffset)); // bottom
+        walls.Add(new Line(wallOffset, wallOffset, wallOffset, screenHeight - wallOffset)); // left
+        walls.Add(new Line(screenWidth - wallOffset, wallOffset, screenWidth - wallOffset, screenWidth - wallOffset)); // right
+
         //
         // MAIN RENDER LOOP
         //
@@ -68,7 +75,7 @@ internal class Program
             foreach (var boid in boids)
             {
                 var mousePosition = new Vector2f(Raylib.GetMousePosition().X, Raylib.GetMousePosition().Y);
-                boid.Update(boids, screenAABB, mousePosition, obstacles);
+                boid.Update(boids, screenAABB, mousePosition, obstacles, walls);
             }
 
             //
@@ -80,6 +87,11 @@ internal class Program
             foreach (var obstacle in obstacles)
             {
                 Gfx.DrawCircle(obstacle, Color.DarkBrown);
+            }
+
+            foreach (var wall in walls)
+            {
+                Gfx.DrawLine(wall, Color.Red);
             }
 
             foreach (var boid in boids)

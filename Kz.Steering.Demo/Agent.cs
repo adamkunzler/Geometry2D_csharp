@@ -78,25 +78,29 @@ namespace Kz.Steering.Demo
         private Vector2f _steeringForce = Vector2f.Zero;
         private List<Circle> _obstacles = new List<Circle>();
 
-        public void Update(
+        public void Update
+            (
             List<Agent> others,
             Kz.Engine.Geometry2d.Primitives.Rectangle aabb,
             Vector2f mousePosition,
-            List<Circle> obstacles)
+            List<Circle> obstacles,
+            List<Line> walls
+        )
         {
             _obstacles = obstacles;
             // Get Neighbors
             //var neighbors = GetNeighbors(others);
 
             // calculate rules            
-            var seekForce = Vector2f.Zero;// Behaviors.Seek(this, target);
-            var fleeForce = Behaviors.Flee(this, mousePosition, 500.0f);
-            var arriveForce = Vector2f.Zero;// Id > 0 ? Vector2f.Zero : Behaviors.Arrive(this, target, Deceleration.Fast);
+            var seekForce = Vector2f.Zero;// Behaviors.Seek(this, mousePosition);
+            var fleeForce = Vector2f.Zero;// Behaviors.Flee(this, mousePosition, 500.0f);
+            var arriveForce =  Behaviors.Arrive(this, mousePosition, Deceleration.Slow);
             var pursueForce = Vector2f.Zero;
             var evadeForce = Vector2f.Zero;
-            var wanderForce = Id == 0 ? Vector2f.Zero : Behaviors.Wander(this);
+            var wanderForce = Vector2f.Zero;// Id == 0 ? Vector2f.Zero : Behaviors.Wander(this);
             var avoidObstacleForce = Behaviors.AvoidObstacles(this, obstacles);
-            var hidingForce = Behaviors.HideFrom(this, mousePosition, obstacles);
+            var hidingForce = Vector2f.Zero;// Behaviors.HideFrom(this, mousePosition, obstacles);
+            var avoidWallForce = Behaviors.AvoidWalls(this, walls);
 
             //if(Id == 0)
             //{
@@ -111,7 +115,7 @@ namespace Kz.Steering.Demo
             var totalSteeringForce =
                 seekForce + (fleeForce * 3.0f) + arriveForce +
                 pursueForce + evadeForce + wanderForce +
-                avoidObstacleForce + hidingForce;
+                avoidObstacleForce + hidingForce + avoidWallForce;
             _steeringForce = totalSteeringForce; // for debugging/rendering
 
             // acceleration = force / mass
@@ -142,31 +146,9 @@ namespace Kz.Steering.Demo
             var xx = Position.X + MathF.Cos(theta) * Size * 2.0f;
             var yy = Position.Y + MathF.Sin(theta) * Size * 2.0f;
             Raylib.DrawLine((int)Position.X, (int)Position.Y, (int)xx, (int)yy, Color.RayWhite);
-
-            if (Id == 0)
-            {
-                var mousePos = new Vector2f(Raylib.GetMousePosition().X, Raylib.GetMousePosition().Y);
-                var hidingSpots = Behaviors.GetHidingSpots(
-                    mousePos, 
-                    _obstacles);
-
-                //var toObstacle = (_obstacles[0].Origin - mousePos);
-                //var dist = toObstacle.Magnitude() + _obstacles[0].Radius + 50.0f;
-                //var temp = toObstacle.Normal() * dist;
-
-                //Raylib.DrawLine(
-                //    (int)mousePos.X, (int)mousePos.Y, 
-                //    (int)(mousePos.X + temp.X), (int)(mousePos.Y + temp.Y), 
-                //    Color.Red);
-
-                foreach (var spot in hidingSpots)
-                {
-                    Raylib.DrawCircle((int)spot.X, (int)spot.Y, 5.0f, Color.Red);
-                }
-            }
-
+            
             // special case: agent #0
-            if (Id == 0 && false)
+            if (Id == 0 && true)
             {
                 // render neighborDistance
                 Raylib.DrawCircleLines((int)Position.X, (int)Position.Y, _neighbordDistance, Color.RayWhite);
@@ -188,6 +170,12 @@ namespace Kz.Steering.Demo
                 // detection line
                 var detectionLine = GetDetectionLine();
                 Gfx.DrawLine(detectionLine, Color.RayWhite);
+
+                var feelers = GetFeelers();
+                foreach(var feeler in feelers) 
+                {
+                    Gfx.DrawLine(feeler, Color.Purple);
+                }
             }
         }
 
@@ -203,6 +191,41 @@ namespace Kz.Steering.Demo
                 Position.Y + MathF.Sin(angle) * detectionLength);
 
             return new Line(Position.X, Position.Y, point.X, point.Y);
+        }
+
+        public List<Line> GetFeelers()
+        {
+            var angle = Velocity.AngleOf();
+            var offsetAngle = angle - TrigUtil.DegreesToRadians(45);
+
+            var middleDetectionLength = Size * 20.0f;
+            var sideDetectionLength = Size * 10.0f;
+            
+            var middle = new Point
+            (
+                Position.X + MathF.Cos(angle) * middleDetectionLength,
+                Position.Y + MathF.Sin(angle) * middleDetectionLength
+            );
+
+            var left = new Point
+            (
+                Position.X + MathF.Cos(angle - offsetAngle) * sideDetectionLength,
+                Position.Y + MathF.Sin(angle - offsetAngle) * sideDetectionLength
+            );
+
+            var right = new Point
+            (
+                Position.X + MathF.Cos(angle + offsetAngle) * sideDetectionLength,
+                Position.Y + MathF.Sin(angle + offsetAngle) * sideDetectionLength
+            );
+
+
+            var feelers = new List<Line>();
+            feelers.Add(new Line(Position.X, Position.Y, middle.X, middle.Y));
+            feelers.Add(new Line(Position.X, Position.Y, left.X, left.Y));
+            feelers.Add(new Line(Position.X, Position.Y, right.X, right.Y));
+
+            return feelers;
         }
 
         public void Cleanup()

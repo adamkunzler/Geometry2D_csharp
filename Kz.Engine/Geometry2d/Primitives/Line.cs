@@ -1,5 +1,6 @@
 ﻿using Kz.Engine.DataStructures;
 using Kz.Engine.General;
+using System.Numerics;
 
 namespace Kz.Engine.Geometry2d.Primitives
 {
@@ -154,16 +155,52 @@ namespace Kz.Engine.Geometry2d.Primitives
 
         public List<Point> Endpoints() => Endpoints(this);
 
+        /// <summary>
+        /// Calculate the normal vector of a line
+        /// </summary>
+        public static Vector2f Normal(Line lhs)
+        {
+            return lhs.Vector().Perpendicular().Normal();
+        }
+
+        /// <summary>
+        /// Calculate the normal vector of a line
+        /// </summary>
+        public Vector2f Normal() => Normal(this);
+
+        /// <summary>
+        /// Calculate the normal vector of a line so that it is in the direction of a point.
+        /// e.g. if the rhs is to the right of the lhs, then the normal should be on the "right" side 
+        /// of the line.
+        /// </summary>        
+        public static Vector2f Normal(Line lhs, Vector2f rhs)
+        {
+            var normal = lhs.Normal();
+            var lineStartToPoint = new Vector2f(rhs.X - lhs.Start.X, rhs.Y -lhs.Start.Y);
+
+            var dot = normal.Dot(lineStartToPoint);
+            if (dot < 0)
+            {
+                // Reverse the normal
+                normal.X = -normal.X;
+                normal.Y = -normal.Y;
+            }
+
+            return normal;
+        }
+
+        public Vector2f Normal(Vector2f rhs) => Normal(this, rhs);
+
         #endregion Line Properties
 
         #region Line Equation Forms
-        
+
         /// <summary>
         /// y = mx + b
-        /// 
+        ///
         /// m is the slope
         /// b is the y-intercept
-        /// </summary>        
+        /// </summary>
         public static (float M, float B) SlopeInterceptForm(Line line)
         {
             return Coefficients(line);
@@ -171,24 +208,24 @@ namespace Kz.Engine.Geometry2d.Primitives
 
         /// <summary>
         /// y = mx + b
-        /// 
+        ///
         /// m is the slope
         /// b is the y-intercept
-        /// </summary>        
+        /// </summary>
         public (float M, float B) SlopeInterceptForm() => SlopeInterceptForm(this);
 
         /// <summary>
         /// Ax + By = C
-        /// </summary>        
+        /// </summary>
         public static (float A, float B, float C) StandardForm(Line line)
         {
             // convert to standard form
-            var a = line.End.Y - line.Start.Y;            
+            var a = line.End.Y - line.Start.Y;
             var b = line.Start.X - line.End.X;
             var c = a * line.Start.X + b * line.Start.Y;
 
             // normalize
-            if(a < 0)
+            if (a < 0)
             {
                 a = -a;
                 b = -b;
@@ -200,27 +237,27 @@ namespace Kz.Engine.Geometry2d.Primitives
 
         /// <summary>
         /// Ax + By = C
-        /// </summary>        
+        /// </summary>
         public (float A, float B, float C) StandardForm() => StandardForm(this);
 
         /// <summary>
         /// y - y1 = m(x - x1)
-        /// </summary>        
+        /// </summary>
         public static (float M, float X1, float Y1) PointSlopeForm(Line line)
         {
             var coef = Coefficients(line);
-            
+
             return (coef.M, line.Start.X, line.Start.Y);
         }
-        
+
         /// <summary>
         /// y - y1 = m(x - x1)
-        /// </summary>        
+        /// </summary>
         public void PointSlopeForm() => PointSlopeForm(this);
 
         /// <summary>
         /// (y - y1) / (x - x1) = (y2 - y1) / (x2 - x1)
-        /// </summary>        
+        /// </summary>
         public static void TwoPointForm(Line line)
         {
             // doesn't make sense to return anything
@@ -228,35 +265,35 @@ namespace Kz.Engine.Geometry2d.Primitives
 
         /// <summary>
         /// (y - y1) / (x - x1) = (y2 - y1) / (x2 - x1)
-        /// </summary>        
+        /// </summary>
         public void TwoPointForm() => TwoPointForm(this);
 
         /// <summary>
         /// (x / a) + (y / b) = 1
-        /// 
+        ///
         /// If a line intersects the x-axis and y-axis at distinct points.
-        /// 
+        ///
         /// a is the x-intercept (if == 0 then no intercept...parallel to x-axis)
         /// b is the y-intercept
-        /// </summary>        
+        /// </summary>
         public static (float A, float B) InterceptForm(Line line)
         {
             var coef = Coefficients(line);
 
             var b = line.Start.Y - coef.M * line.Start.X;
             var a = coef.M != 0 ? -b / coef.M : 0;
-            
+
             return (a, b);
         }
 
         /// <summary>
         /// x = x1 + t(vx)
         /// y = y1 + t(vy)
-        /// 
+        ///
         /// x1,y1 is a point on the line
         /// vx,vy are components of a direction vector parallel to the line
         /// t can be interpreted as time
-        /// </summary>        
+        /// </summary>
         public static void ParametricForm(Line line)
         {
             // TODO
@@ -264,10 +301,10 @@ namespace Kz.Engine.Geometry2d.Primitives
 
         /// <summary>
         /// x cos(theta) + y sin(theta) = p
-        /// 
+        ///
         /// p is the perpendicular distance from the origin to the line
         /// theta is the angle formed by the x-axis and the line perpendicular to the given line
-        /// </summary>        
+        /// </summary>
         public static void NormalForm(Line line)
         {
             // TODO
