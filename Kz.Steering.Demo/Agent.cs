@@ -92,20 +92,20 @@ namespace Kz.Steering.Demo
             var neighbors = GetNeighbors(others);
 
             // calculate individual rules            
-            var seekForce = Id == 0 ?  Behaviors.Seek(this, mousePosition) : Vector2f.Zero;
+            var seekForce = Vector2f.Zero;// Behaviors.Seek(this, mousePosition) : Vector2f.Zero;
             var fleeForce = Vector2f.Zero;// Behaviors.Flee(this, mousePosition, 500.0f);
             var arriveForce = Vector2f.Zero;// Behaviors.Arrive(this, mousePosition, Deceleration.Slow);
             var pursueForce = Vector2f.Zero;
             var evadeForce = Vector2f.Zero;
-            var wanderForce = Id == 0 ? Vector2f.Zero : Behaviors.Wander(this);
+            var wanderForce = Behaviors.Wander(this);
             var avoidObstacleForce = Behaviors.AvoidObstacles(this, obstacles);
             var hidingForce = Vector2f.Zero;// Behaviors.HideFrom(this, mousePosition, obstacles);
-            var avoidWallForce = Vector2f.Zero;// Behaviors.AvoidWalls(this, walls);
+            var avoidWallForce = Behaviors.AvoidWalls(this, walls);
 
             // calculate group rules
-            var separationForce = Id == 0 ? Vector2f.Zero : Behaviors.Separation(this, neighbors);
-            var alignmentForce = Id == 0 ? Vector2f.Zero : Behaviors.Alignment(this, neighbors);
-            var cohesionForce = Id == 0 ? Vector2f.Zero : Behaviors.Cohesion(this, neighbors);
+            var separationForce =Behaviors.Separation(this, neighbors);
+            var alignmentForce = Behaviors.Alignment(this, neighbors);
+            var cohesionForce = Behaviors.Cohesion(this, neighbors);
 
 
             //if(Id == 0)
@@ -147,10 +147,12 @@ namespace Kz.Steering.Demo
             EnforceNonPenetrationConstraint(neighbors);
         }
 
+        private Color _color = new Color(80, 148, 82, 255);
+
         public void Render(List<Agent> others)
         {
             // render agent
-            Raylib.DrawCircle((int)Position.X, (int)Position.Y, Size, Color.DarkGreen);
+            Raylib.DrawCircle((int)Position.X, (int)Position.Y, Size, _color);
 
             // render direction vector
             var theta = Velocity.AngleOf();
@@ -159,7 +161,7 @@ namespace Kz.Steering.Demo
             Raylib.DrawLine((int)Position.X, (int)Position.Y, (int)xx, (int)yy, Color.RayWhite);
             
             // special case: agent #0
-            if (Id == 0 && true)
+            if (Id == 0 && false)
             {
                 // render neighborDistance
                 Raylib.DrawCircleLines((int)Position.X, (int)Position.Y, _neighbordDistance, Color.RayWhite);

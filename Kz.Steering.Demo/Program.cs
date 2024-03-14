@@ -19,9 +19,12 @@ internal class Program
 
     public static void Main()
     {
+        var backgroundColor = new Color(41, 37, 33, 255);
+        var obstacleColor = new Color(245, 174, 45, 255);
         var random = new Random();
 
-        var numBoids = 250;
+        var numBoids = 500;
+        var boidSize = 5.0f;
         var screenWidth = 1536;
         var screenHeight = 1536;
 
@@ -44,8 +47,8 @@ internal class Program
         }
 
         var obstacles = new List<Circle>();
-        //obstacles.Add(new Circle(500.0f, 750.0f, 100.0f));
-        //obstacles.Add(new Circle(900.0f, 250.0f, 75.0f));
+        obstacles.Add(new Circle(500.0f, 750.0f, 100.0f));
+        obstacles.Add(new Circle(900.0f, 250.0f, 75.0f));
         obstacles.Add(new Circle(1100.0f, 1050.0f, 150.0f));
 
         var walls = new List<Line>();
@@ -82,16 +85,16 @@ internal class Program
             // RENDER STUFF
             //
             Raylib.BeginDrawing();
-            Raylib.ClearBackground(Color.Black);
+            Raylib.ClearBackground(backgroundColor);
 
             foreach (var obstacle in obstacles)
             {
-                Gfx.DrawCircle(obstacle, Color.DarkBrown);
+                Gfx.DrawCircle(obstacle, obstacleColor);
             }
 
             foreach (var wall in walls)
             {
-                Gfx.DrawLine(wall, Color.DarkBrown);
+                Gfx.DrawLine(wall, obstacleColor);
             }
 
             foreach (var boid in boids)
