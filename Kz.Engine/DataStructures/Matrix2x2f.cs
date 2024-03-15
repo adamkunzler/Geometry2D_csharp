@@ -13,7 +13,7 @@ namespace Kz.Engine.DataStructures
     ///     c d
     ///
     /// </summary>
-    public class Matrix2x2f
+    public struct Matrix2x2f
     {
         #region ctor
 

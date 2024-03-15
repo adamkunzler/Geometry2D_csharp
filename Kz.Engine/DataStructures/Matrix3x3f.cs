@@ -15,7 +15,7 @@ namespace Kz.Engine.DataStructures
     ///     g h i
     ///     
     /// </summary>
-    public class Matrix3x3f
+    public struct Matrix3x3f
     {
         #region ctor
 

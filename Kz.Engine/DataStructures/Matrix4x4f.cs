@@ -17,7 +17,7 @@ namespace Kz.Engine.DataStructures
     ///     m n o p
     ///
     /// </summary>
-    public class Matrix4x4f
+    public struct Matrix4x4f
     {
         #region ctor
 

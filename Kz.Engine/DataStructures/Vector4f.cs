@@ -4,13 +4,13 @@ namespace Kz.Engine.DataStructures
 {
     /// <summary>
     /// Represents a vector in 3-dimensional space, but with an additional component 'W'.
-    /// 
-    /// 'W' is used in the basic mathematical methods (e.g. add, subtract, floor, max, etc), 
+    ///
+    /// 'W' is used in the basic mathematical methods (e.g. add, subtract, floor, max, etc),
     /// but not used in vector operations (e.g. cross product, magnitude, dot product, reflect, etc).
-    /// 
+    ///
     /// If it's unclear, check the implementation.
     /// </summary>
-    public class Vector4f
+    public struct Vector4f
     {
         #region ctor
 
@@ -48,10 +48,6 @@ namespace Kz.Engine.DataStructures
 
         public static bool AreEqual(Vector4f lhs, Vector4f rhs)
         {
-            if (lhs == null && rhs == null) return true;
-            if (lhs != null && rhs == null) return false;
-            if (lhs == null && rhs != null) return false;
-
             return lhs!.X == rhs!.X && lhs.Y == rhs.Y && lhs.Z == rhs.Z && lhs.W == rhs.W;
         }
 
@@ -63,8 +59,8 @@ namespace Kz.Engine.DataStructures
 
         /// <summary>
         /// Explicity cast from Vector4f to Vector3f (drops the W component)
-        /// </summary>        
-        public static explicit operator Vector3f(Vector4f val) => new (val.X, val.Y, val.Z);
+        /// </summary>
+        public static explicit operator Vector3f(Vector4f val) => new(val.X, val.Y, val.Z);
 
         #endregion Implicit/Explicit Operators
 
@@ -452,7 +448,7 @@ namespace Kz.Engine.DataStructures
 
         /// <summary>
         /// Reflect a vector (lhs) around another vector (rhs)
-        /// </summary>        
+        /// </summary>
         public static Vector4f Reflect(Vector4f lhs, Vector4f rhs)
         {
             var normal = rhs.Normal();
@@ -463,7 +459,7 @@ namespace Kz.Engine.DataStructures
 
         /// <summary>
         /// Reflect a vector (lhs) around another vector (rhs)
-        /// </summary>        
+        /// </summary>
         public Vector4f Reflect(Vector4f rhs) => Reflect(this, rhs);
 
         #endregion Reflect
@@ -475,4 +471,3 @@ namespace Kz.Engine.DataStructures
         #endregion Vector4 / Matrix4x4 Operations
     }
 }
-

@@ -5,7 +5,7 @@ namespace Kz.Engine.DataStructures
     /// <summary>
     /// Represents a vector in 3-dimensional space
     /// </summary>
-    public class Vector3f
+    public struct Vector3f
     {
         #region ctor
 
@@ -40,10 +40,6 @@ namespace Kz.Engine.DataStructures
 
         public static bool AreEqual(Vector3f lhs, Vector3f rhs)
         {
-            if (lhs == null && rhs == null) return true;
-            if (lhs != null && rhs == null) return false;
-            if (lhs == null && rhs != null) return false;
-
             return lhs!.X == rhs!.X && lhs.Y == rhs.Y && lhs.Z == rhs.Z;
         }
 
@@ -55,7 +51,7 @@ namespace Kz.Engine.DataStructures
 
         /// <summary>
         /// Explicity cast from Vector3f to Vector4f (W = 0)
-        /// </summary>        
+        /// </summary>
         public static explicit operator Vector4f(Vector3f val) => new(val.X, val.Y, val.Z, 0.0f);
 
         #endregion Implicit/Explicit Operators
@@ -444,7 +440,7 @@ namespace Kz.Engine.DataStructures
 
         /// <summary>
         /// Reflect a vector (lhs) around another vector (rhs)
-        /// </summary>        
+        /// </summary>
         public static Vector3f Reflect(Vector3f lhs, Vector3f rhs)
         {
             var normal = rhs.Normal();
@@ -455,7 +451,7 @@ namespace Kz.Engine.DataStructures
 
         /// <summary>
         /// Reflect a vector (lhs) around another vector (rhs)
-        /// </summary>        
+        /// </summary>
         public Vector3f Reflect(Vector3f rhs) => Reflect(this, rhs);
 
         #endregion Reflect
