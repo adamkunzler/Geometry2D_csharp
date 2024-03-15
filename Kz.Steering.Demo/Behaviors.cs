@@ -155,7 +155,7 @@ namespace Kz.Steering.Demo
             var minIntersection = GetClosestIntersectionPoint(agent, obstacle);
             if (minIntersection == null) return force;
             
-            var avoidanceDirection = (minIntersection - obstacle.Origin);
+            var avoidanceDirection = (minIntersection.Value - obstacle.Origin);
             var avoidanceStrength = 1.0f;
 
             return avoidanceDirection * avoidanceStrength;
@@ -175,7 +175,8 @@ namespace Kz.Steering.Demo
 
             // ??? how to choose which spot...current is choose closest
             var minDist = float.MaxValue;
-            Vector2f bestSpot = null!;
+            Vector2f bestSpot = Vector2f.Zero; // maybe a better default
+            var foundSpot = false;
             foreach(var spot in hidingSpots)
             {
                 var dist = (spot - agent.Position).Magnitude2();
@@ -183,9 +184,12 @@ namespace Kz.Steering.Demo
                 {
                     minDist = dist;
                     bestSpot = spot;
+                    foundSpot = true;
                 }
             }
-                        
+
+            if (!foundSpot) return Vector2f.Zero;
+
             var force = Arrive(agent, bestSpot, Deceleration.Fast);
             return force;
         }
@@ -200,7 +204,8 @@ namespace Kz.Steering.Demo
             var feelers = agent.GetFeelers();
 
             var closestDistance = float.MaxValue;
-            Vector2f? closestIntersectionPoint = null;
+            Vector2f closestIntersectionPoint = Vector2f.Zero;
+            var foundClosestIntersectionPoint = false;
             Line? closestWall = null;
             Line? intersectedFeeler = null;
 
@@ -219,13 +224,14 @@ namespace Kz.Steering.Demo
                             closestIntersectionPoint = intersection[0];
                             closestWall = wall;
                             intersectedFeeler = feeler;
+                            foundClosestIntersectionPoint = true;
                         }
                     }
                 }
             }
 
             // not close to a wall, return
-            if (closestIntersectionPoint == null || closestWall == null || intersectedFeeler == null) return force;
+            if (!foundClosestIntersectionPoint || closestWall == null || intersectedFeeler == null) return force;
 
             // calculate the steering force away from the wall
             var overshoot = intersectedFeeler.End - closestIntersectionPoint;            

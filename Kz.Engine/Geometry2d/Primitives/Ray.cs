@@ -8,7 +8,7 @@ namespace Kz.Engine.Geometry2d.Primitives
 
         private Vector2f _direction = new();
 
-        public Vector2f Origin { get; set; }
+        public Vector2f Origin;
 
         public Vector2f Direction
         {

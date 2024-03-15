@@ -9,9 +9,9 @@ namespace Kz.Engine.DataStructures
     {
         #region ctor
 
-        public float X { get; set; }
-        public float Y { get; set; }
-        public float Z { get; set; }
+        public float X;
+        public float Y;
+        public float Z;
 
         public static Vector3f Zero => new Vector3f();
 

@@ -15,9 +15,9 @@ namespace Kz.Steering.Demo
         private static uint CURRENT_ID = 0;
         public uint Id { get; init; }
 
-        public Vector2f Acceleration { get; private set; }
-        public Vector2f Velocity { get; private set; }
-        public Vector2f Position { get; private set; }
+        public Vector2f Acceleration;
+        public Vector2f Velocity;
+        public Vector2f Position;
 
         public float Size { get; private set; }
         public float HalfSize => Size / 2.0f;

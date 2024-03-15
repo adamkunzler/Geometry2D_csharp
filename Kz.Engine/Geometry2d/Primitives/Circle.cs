@@ -6,9 +6,9 @@ namespace Kz.Engine.Geometry2d.Primitives
     {
         #region ctor
 
-        public Vector2f Origin { get; set; }
+        public Vector2f Origin;
 
-        public float Radius { get; set; }
+        public float Radius;
 
         public Circle()
         {

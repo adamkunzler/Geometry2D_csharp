@@ -11,12 +11,12 @@ namespace Kz.Engine.Geometry2d.Primitives
     {
         #region ctor
 
-        public Vector2f Origin { get; set; }
+        public Vector2f Origin;
 
         /// <summary>
         /// The semi-major axis length (e.g radius of longest side)
         /// </summary>
-        public float A { get; set; }
+        public float A;
 
         /// <summary>
         /// The semi-major axis length (e.g radius of longest side)
@@ -31,7 +31,7 @@ namespace Kz.Engine.Geometry2d.Primitives
         /// <summary>
         /// The semi-minor axis length (e.g radius of narrowest side)
         /// </summary>
-        public float B { get; set; }
+        public float B;
 
         /// <summary>
         /// The semi-minor axis length (e.g radius of narrowest side)

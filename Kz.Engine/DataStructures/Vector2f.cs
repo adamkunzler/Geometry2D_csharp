@@ -7,20 +7,20 @@ namespace Kz.Engine.DataStructures
     /// <summary>
     /// Represents a vector in 2-dimensional space
     /// </summary>
-    public class Vector2f : IShape
+    public struct Vector2f : IShape
     {
         #region ctor
 
-        public float X { get; set; }
-        public float Y { get; set; }
+        public float X;
+        public float Y;
 
         #region Aliases
 
-        public float R => X;
-        public float Theta => Y;
+        public readonly float R => X;
+        public readonly float Theta => Y;
 
-        public float Width => X;
-        public float Height => Y;
+        public readonly float Width => X;
+        public readonly float Height => Y;
 
         #endregion Aliases
 
@@ -49,10 +49,6 @@ namespace Kz.Engine.DataStructures
 
         public static bool AreEqual(Vector2f lhs, Vector2f rhs)
         {
-            if (lhs == null && rhs == null) return true;
-            if (lhs != null && rhs == null) return false;
-            if (lhs == null && rhs != null) return false;
-
             return (lhs!.X == rhs!.X && lhs.Y == rhs.Y);
         }
 

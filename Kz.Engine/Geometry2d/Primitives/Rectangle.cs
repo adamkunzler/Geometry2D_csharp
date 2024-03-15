@@ -6,8 +6,8 @@ namespace Kz.Engine.Geometry2d.Primitives
     {
         #region ctor
 
-        public Vector2f Position { get; set; }
-        public Vector2f Size { get; set; }
+        public Vector2f Position;
+        public Vector2f Size;
 
         public Rectangle()
         {

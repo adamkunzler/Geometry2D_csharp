@@ -8,8 +8,8 @@ namespace Kz.Engine.Geometry2d.Primitives
     {
         #region ctor
 
-        public Vector2f Start { get; set; }
-        public Vector2f End { get; set; }
+        public Vector2f Start;
+        public Vector2f End;
 
         public Line()
         {

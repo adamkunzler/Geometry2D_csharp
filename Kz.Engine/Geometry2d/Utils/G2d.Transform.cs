@@ -75,8 +75,8 @@ namespace Kz.Engine.Geometry2d.Utils
         {
             for (var i = 0; i < vertices.Count(); i++)
             {
-                vertices[i].X += rhs.X;
-                vertices[i].Y += rhs.Y;
+                var translated = new Vector2f(vertices[i].X + rhs.X, vertices[i].Y + rhs.Y);
+                vertices[i] = translated;                
             }
         }
 

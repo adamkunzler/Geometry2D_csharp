@@ -758,7 +758,7 @@ namespace Kz.Engine.Geometry2d.Utils
         {
             var minDistance = float.MaxValue;
             Line? closestLine = null;
-            Vector2f? closestPoint = null;
+            Vector2f closestPoint = Vector2f.Zero;
 
             foreach (var line in rhs)
             {
@@ -772,7 +772,7 @@ namespace Kz.Engine.Geometry2d.Utils
                 }
             }
 
-            return (closestPoint!, closestLine!);
+            return (closestPoint, closestLine!);
         }
 
         /// <summary>

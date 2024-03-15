@@ -14,10 +14,10 @@ namespace Kz.Engine.DataStructures
     {
         #region ctor
 
-        public float X { get; set; }
-        public float Y { get; set; }
-        public float Z { get; set; }
-        public float W { get; set; }
+        public float X;
+        public float Y;
+        public float Z;
+        public float W;
 
         public static Vector4f Zero => new Vector4f();
 
