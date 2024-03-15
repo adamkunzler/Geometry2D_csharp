@@ -1,4 +1,5 @@
 ﻿using Kz.Engine.General;
+using Kz.Engine.Geometry2d.Primitives;
 using Kz.Engine.Trigonometry;
 
 namespace Kz.Engine.DataStructures
@@ -6,7 +7,7 @@ namespace Kz.Engine.DataStructures
     /// <summary>
     /// Represents a vector in 2-dimensional space
     /// </summary>
-    public class Vector2f
+    public class Vector2f : IShape
     {
         #region ctor
 

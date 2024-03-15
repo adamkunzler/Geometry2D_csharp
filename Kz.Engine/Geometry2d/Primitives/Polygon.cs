@@ -6,21 +6,21 @@ namespace Kz.Engine.Geometry2d.Primitives
     {
         #region ctor
 
-        public List<Point> Vertices = [];
+        public List<Vector2f> Vertices = [];
 
         public Polygon()
         {
             Vertices = [];
         }
 
-        public Polygon(List<Point> vertices)
+        public Polygon(List<Vector2f> vertices)
         {
             Vertices = [.. vertices];
 
             if (!IsValid()) throw new ArgumentException("vertices are not in clockwise order");
         }
 
-        public Polygon(params Point[] vertices)
+        public Polygon(params Vector2f[] vertices)
         {
             Vertices = [.. vertices];
 
@@ -122,7 +122,7 @@ namespace Kz.Engine.Geometry2d.Primitives
 
         public List<Line> Sides() => Sides(this);
 
-        public static Point Center(Polygon p)
+        public static Vector2f Center(Polygon p)
         {
             var center = new Vector2f();
 
@@ -133,10 +133,10 @@ namespace Kz.Engine.Geometry2d.Primitives
 
             center /= p.NumSides();
 
-            return new Point(center);
+            return center;
         }
 
-        public Point Center() => Center(this);
+        public Vector2f Center() => Center(this);
 
         #endregion Polygon Properties
     }

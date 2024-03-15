@@ -8,22 +8,22 @@ namespace Kz.Engine.Geometry2d.Primitives
     {
         #region ctor
 
-        public Point Start { get; set; }
-        public Point End { get; set; }
+        public Vector2f Start { get; set; }
+        public Vector2f End { get; set; }
 
         public Line()
         {
-            Start = new Point();
-            End = new Point();
+            Start = new Vector2f();
+            End = new Vector2f();
         }
 
         public Line(float x1, float y1, float x2, float y2)
         {
-            Start = new Point(x1, y1);
-            End = new Point(x2, y2);
+            Start = new Vector2f(x1, y1);
+            End = new Vector2f(x2, y2);
         }
 
-        public Line(Point a, Point b) : this(a.X, a.Y, b.X, b.Y)
+        public Line(Vector2f a, Vector2f b) : this(a.X, a.Y, b.X, b.Y)
         {
         }
 
@@ -34,8 +34,8 @@ namespace Kz.Engine.Geometry2d.Primitives
 
         public static bool AreEqual(Line lhs, Line rhs)
         {
-            return (Point.AreEqual(lhs.Start, rhs.Start) && Point.AreEqual(lhs.End, rhs.End)) ||
-                   (Point.AreEqual(lhs.Start, rhs.End) && Point.AreEqual(lhs.End, rhs.Start));
+            return (Vector2f.AreEqual(lhs.Start, rhs.Start) && Vector2f.AreEqual(lhs.End, rhs.End)) ||
+                   (Vector2f.AreEqual(lhs.Start, rhs.End) && Vector2f.AreEqual(lhs.End, rhs.Start));
         }
 
         public bool AreEqual(Line rhs) => AreEqual(this, rhs);
@@ -95,38 +95,38 @@ namespace Kz.Engine.Geometry2d.Primitives
         /// <summary>
         /// given a real distance, get a point along the line (distance is percent along the line, e.g. 0.5 would be middle)
         /// </summary>
-        public static Point RealPoint(Line line, float distance)
+        public static Vector2f RealPoint(Line line, float distance)
         {
-            return new Point(line.Start + Vector(line).Normal() * distance);
+            return line.Start + Vector(line).Normal() * distance;
         }
 
         /// <summary>
         /// given a real distance, get a point along the line
         /// </summary>
-        public Point RealPoint(float distance) => RealPoint(this, distance);
+        public Vector2f RealPoint(float distance) => RealPoint(this, distance);
 
         /// <summary>
         /// returns the middle point of a line
         /// </summary>
-        public static Point Middle(Line line) => UnitPoint(line, 0.5f);
+        public static Vector2f Middle(Line line) => UnitPoint(line, 0.5f);
 
         /// <summary>
         /// returns the middle point of a line
         /// </summary>
-        public Point Middle() => Middle(this);
+        public Vector2f Middle() => Middle(this);
 
         /// <summary>
         /// given a unit distance, get a point along the line (1 unit = length of line)
         /// </summary>
-        public static Point UnitPoint(Line line, float distance)
+        public static Vector2f UnitPoint(Line line, float distance)
         {
-            return new Point(line.Start + Vector(line) * distance);
+            return line.Start + Vector(line) * distance;
         }
 
         /// <summary>
         /// given a unit distance, get a point along the line
         /// </summary>
-        public Point UnitPoint(float distance) => UnitPoint(this, distance);
+        public Vector2f UnitPoint(float distance) => UnitPoint(this, distance);
 
         /// <summary>
         /// return lne equation "mx + b" coefficients where: x = m and y-intercept = b
@@ -151,9 +151,9 @@ namespace Kz.Engine.Geometry2d.Primitives
         /// </summary>
         public (float M, float A) Coefficients() => Coefficients(this);
 
-        public static List<Point> Endpoints(Line line) => new List<Point> { line.Start, line.End };
+        public static List<Vector2f> Endpoints(Line line) => new List<Vector2f> { line.Start, line.End };
 
-        public List<Point> Endpoints() => Endpoints(this);
+        public List<Vector2f> Endpoints() => Endpoints(this);
 
         /// <summary>
         /// Calculate the normal vector of a line

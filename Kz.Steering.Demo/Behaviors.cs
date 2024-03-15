@@ -175,7 +175,7 @@ namespace Kz.Steering.Demo
 
             // ??? how to choose which spot...current is choose closest
             var minDist = float.MaxValue;
-            Point bestSpot = null!;
+            Vector2f bestSpot = null!;
             foreach(var spot in hidingSpots)
             {
                 var dist = (spot - agent.Position).Magnitude2();
@@ -293,24 +293,24 @@ namespace Kz.Steering.Demo
 
         #region Private Helper Methods
 
-        public static List<Point> GetHidingSpots(Vector2f hideFrom, List<Circle> obstacles)
+        public static List<Vector2f> GetHidingSpots(Vector2f hideFrom, List<Circle> obstacles)
         {
             var hidingSpots = obstacles.Select(x => GetHidingSpot(hideFrom, x)).ToList();
             return hidingSpots;
         }
 
-        private static Point GetHidingSpot(Vector2f hideFrom, Circle obstacle)
+        private static Vector2f GetHidingSpot(Vector2f hideFrom, Circle obstacle)
         {
             var toObstacle = obstacle.Origin - hideFrom;
             var distFromObstacle = 100.0f + obstacle.Radius + toObstacle.Magnitude();            
             var hidingSpot = hideFrom + (toObstacle.Normal() * distFromObstacle);
-            return new Point(hidingSpot);
+            return hidingSpot;
         }
 
         /// <summary>
         /// Get the closest intersection point with an obstacle to an agent
         /// </summary>        
-        private static Point? GetClosestIntersectionPoint(Agent agent, Circle obstacle)
+        private static Vector2f? GetClosestIntersectionPoint(Agent agent, Circle obstacle)
         {
             // make obstacle "bigger" temporarily
             var bigObstacle = new Circle(obstacle.Origin, obstacle.Radius * 1.3f);

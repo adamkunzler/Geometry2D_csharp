@@ -6,17 +6,17 @@ namespace Kz.Engine.Geometry2d.Primitives
     {
         #region ctor
 
-        public Point Origin { get; set; }
+        public Vector2f Origin { get; set; }
 
         public float Radius { get; set; }
 
         public Circle()
         {
-            Origin = new Point();
+            Origin = new Vector2f();
             Radius = 0.0f;
         }
 
-        public Circle(Point position, float radius)
+        public Circle(Vector2f position, float radius)
         {
             Origin = position;
             Radius = radius;
@@ -24,7 +24,7 @@ namespace Kz.Engine.Geometry2d.Primitives
 
         public Circle(float x, float y, float radius)
         {
-            Origin = new Point(x, y);
+            Origin = new Vector2f(x, y);
             Radius = radius;
         }
 

@@ -8,7 +8,7 @@ namespace Kz.Engine.Geometry2d.Utils
         /// <summary>
         /// Calculate perpendicular distance from a point to a line
         /// </summary>
-        public static float DistanceTo(Point p, Line l)
+        public static float DistanceTo(Vector2f p, Line l)
         {
             var vLine = l.End - l.Start;
             var vPointLine = p - l.Start;

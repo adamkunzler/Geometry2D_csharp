@@ -8,7 +8,7 @@ namespace Kz.Engine.Geometry2d.Primitives
 
         private Vector2f _direction = new();
 
-        public Point Origin { get; set; }
+        public Vector2f Origin { get; set; }
 
         public Vector2f Direction
         {
@@ -18,11 +18,11 @@ namespace Kz.Engine.Geometry2d.Primitives
 
         public Ray()
         {
-            Origin = new Point();
+            Origin = new Vector2f();
             Direction = new();
         }
 
-        public Ray(Point origin, Vector2f direction)
+        public Ray(Vector2f origin, Vector2f direction)
         {
             Origin = origin;
             Direction = direction;

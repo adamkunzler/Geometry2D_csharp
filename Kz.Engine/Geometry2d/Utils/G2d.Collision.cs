@@ -3,7 +3,7 @@ using Kz.Engine.DataStructures;
 
 namespace Kz.Engine.Geometry2d.Utils
 {
-    public record CollisionData(bool IsHit, Point Intersection, Vector2f Normal, IShape Shape);
+    public record CollisionData(bool IsHit, Vector2f Intersection, Vector2f Normal, IShape Shape);
 
     public static partial class G2d
     {
@@ -16,22 +16,22 @@ namespace Kz.Engine.Geometry2d.Utils
         {
             return rhs switch
             {
-                Point x => Collision(lhs, x),
+                Vector2f x => Collision(lhs, x),
                 Line x => Collision(lhs, x),
                 Rectangle x => Collision(lhs, x),
                 Circle x => Collision(lhs, x),
                 Triangle x => Collision(lhs, x),
                 Polygon x => Collision(lhs, x),
-                _ => new CollisionData(false, Point.Zero, Vector2f.Zero, null!)
+                _ => new CollisionData(false, Vector2f.Zero, Vector2f.Zero, null!)
             };
         }
 
         /// <summary>
         /// Return collision information for a collision between a ray and a point
         /// </summary>
-        public static CollisionData Collision(Ray lhs, Point rhs)
+        public static CollisionData Collision(Ray lhs, Vector2f rhs)
         {
-            return new CollisionData(false, Point.Zero, Vector2f.Zero, null!);
+            return new CollisionData(false, Vector2f.Zero, Vector2f.Zero, null!);
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace Kz.Engine.Geometry2d.Utils
         public static CollisionData Collision(Ray lhs, Line rhs)
         {
             var intersections = Intersects(lhs, rhs);
-            if (intersections.Count == 0) return new CollisionData(false, Point.Zero, Vector2f.Zero, null!);
+            if (intersections.Count == 0) return new CollisionData(false, Vector2f.Zero, Vector2f.Zero, null!);
 
             var closest = ClosestIntersection(lhs.Origin, intersections);
 
@@ -57,7 +57,7 @@ namespace Kz.Engine.Geometry2d.Utils
             var collision = Collision(lhs, rhs.Sides);
             return collision.IsHit
                 ? new CollisionData(true, collision.Intersection, collision.Normal, rhs)
-                : new CollisionData(false, Point.Zero, Vector2f.Zero, null!);
+                : new CollisionData(false, Vector2f.Zero, Vector2f.Zero, null!);
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace Kz.Engine.Geometry2d.Utils
         public static CollisionData Collision(Ray lhs, Circle rhs)
         {
             var intersections = Intersects(lhs, rhs);
-            if (intersections.Count == 0) return new CollisionData(false, Point.Zero, Vector2f.Zero, null!);
+            if (intersections.Count == 0) return new CollisionData(false, Vector2f.Zero, Vector2f.Zero, null!);
 
             var closest = ClosestIntersection(lhs.Origin, intersections);
 
@@ -83,7 +83,7 @@ namespace Kz.Engine.Geometry2d.Utils
             var collision = Collision(lhs, rhs.Sides);
             return collision.IsHit
                 ? new CollisionData(true, collision.Intersection, collision.Normal, rhs)
-                : new CollisionData(false, Point.Zero, Vector2f.Zero, null!);
+                : new CollisionData(false, Vector2f.Zero, Vector2f.Zero, null!);
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace Kz.Engine.Geometry2d.Utils
             var collision = Collision(lhs, rhs.Sides());
             return collision.IsHit
                 ? new CollisionData(true, collision.Intersection, collision.Normal, rhs)
-                : new CollisionData(false, Point.Zero, Vector2f.Zero, null!);
+                : new CollisionData(false, Vector2f.Zero, Vector2f.Zero, null!);
         }
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace Kz.Engine.Geometry2d.Utils
         {
             var isCollision = false;
             var min = float.MaxValue;
-            var closestIntersection = Point.Zero;
+            var closestIntersection = Vector2f.Zero;
             var closestNormal = Vector2f.Zero;
 
             foreach (var side in sides)
@@ -126,13 +126,13 @@ namespace Kz.Engine.Geometry2d.Utils
 
             return isCollision
                 ? new CollisionData(true, closestIntersection, closestNormal, null!)
-                : new CollisionData(false, Point.Zero, Vector2f.Zero, null!);
+                : new CollisionData(false, Vector2f.Zero, Vector2f.Zero, null!);
         }
 
-        private static Point ClosestIntersection(Point rayOrigin, List<Point> intersections)
+        private static Vector2f ClosestIntersection(Vector2f rayOrigin, List<Vector2f> intersections)
         {
             var min = float.MaxValue;
-            var closest = Point.Zero;
+            var closest = Vector2f.Zero;
 
             foreach (var intersection in intersections)
             {

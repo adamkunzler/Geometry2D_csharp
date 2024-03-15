@@ -12,9 +12,9 @@ namespace Kz.Engine.Geometry2d.Utils
         {
             return lhs switch
             {
-                Point v => rhs switch
+                Vector2f v => rhs switch
                 {
-                    Point v2 => Contains(v, v2),
+                    Vector2f v2 => Contains(v, v2),
                     //case Line l2: return Contains(v, l2);
                     //case Rectangle r2: return Contains(v, r2);
                     //case Circle c2: return Contains(v, c2);
@@ -25,7 +25,7 @@ namespace Kz.Engine.Geometry2d.Utils
                 },
                 Line l => rhs switch
                 {
-                    Point v2 => Contains(l, v2),
+                    Vector2f v2 => Contains(l, v2),
                     Line l2 => Contains(l, l2),
                     //case Rectangle r2: return Contains(l, r2);
                     //case Circle c2: return Contains(l, c2);
@@ -36,7 +36,7 @@ namespace Kz.Engine.Geometry2d.Utils
                 },
                 Rectangle r => rhs switch
                 {
-                    Point v2 => Contains(r, v2),
+                    Vector2f v2 => Contains(r, v2),
                     Line l2 => Contains(r, l2),
                     Rectangle r2 => Contains(r, r2),
                     Circle c2 => Contains(r, c2),
@@ -48,7 +48,7 @@ namespace Kz.Engine.Geometry2d.Utils
                 },
                 Circle c => rhs switch
                 {
-                    Point v2 => Contains(c, v2),
+                    Vector2f v2 => Contains(c, v2),
                     Line l2 => Contains(c, l2),
                     Rectangle r2 => Contains(c, r2),
                     Circle c2 => Contains(c, c2),
@@ -60,7 +60,7 @@ namespace Kz.Engine.Geometry2d.Utils
                 },
                 Triangle t => rhs switch
                 {
-                    Point v2 => Contains(t, v2),
+                    Vector2f v2 => Contains(t, v2),
                     Line l2 => Contains(t, l2),
                     Rectangle r2 => Contains(t, r2),
                     Circle c2 => Contains(t, c2),
@@ -72,7 +72,7 @@ namespace Kz.Engine.Geometry2d.Utils
                 },
                 Polygon poly => rhs switch
                 {
-                    Point v2 => Contains(poly, v2),
+                    Vector2f v2 => Contains(poly, v2),
                     Line l2 => Contains(poly, l2),
                     Rectangle r2 => Contains(poly, r2),
                     Circle c2 => Contains(poly, c2),
@@ -84,7 +84,7 @@ namespace Kz.Engine.Geometry2d.Utils
                 },
                 Ray ray => rhs switch
                 {
-                    Point v2 => Contains(ray, v2),
+                    Vector2f v2 => Contains(ray, v2),
                     Line l2 => Contains(ray, l2),
                     //case Rectangle r2: return Contains(ray, r2);
                     //case Circle c2: return Contains(ray, c2);
@@ -95,7 +95,7 @@ namespace Kz.Engine.Geometry2d.Utils
                 },
                 Ellipse e => rhs switch
                 {
-                    Point x => Contains(e, x),
+                    Vector2f x => Contains(e, x),
                     Line x => Contains(e, x),
                     Rectangle x => Contains(e, x),
                     Circle x => Contains(e, x),
@@ -111,12 +111,12 @@ namespace Kz.Engine.Geometry2d.Utils
 
         #endregion IShape CONTAINS IShape
 
-        #region [Shape] CONTAINS Point
+        #region [Shape] CONTAINS Vector2f
 
         /// <summary>
         /// determine if a point contains a point
         /// </summary>
-        public static bool Contains(Point p, Point other)
+        public static bool Contains(Vector2f p, Vector2f other)
         {
             // get the magnitude squared of the vector p pointing to other
             var mag2 = (p - other).Magnitude2();
@@ -126,7 +126,7 @@ namespace Kz.Engine.Geometry2d.Utils
         /// <summary>
         /// determine if a line contains a point
         /// </summary>
-        public static bool Contains(Line l, Point p)
+        public static bool Contains(Line l, Vector2f p)
         {
             double dx = l.End.X - l.Start.X;
             double dy = l.End.Y - l.Start.Y;
@@ -155,7 +155,7 @@ namespace Kz.Engine.Geometry2d.Utils
         /// <summary>
         /// determine if a rectangle contains a point
         /// </summary>
-        public static bool Contains(Rectangle r, Point p)
+        public static bool Contains(Rectangle r, Vector2f p)
         {
             return !(
                 p.X < r.Position.X ||
@@ -167,7 +167,7 @@ namespace Kz.Engine.Geometry2d.Utils
         /// <summary>
         /// determine if a circle contains a point
         /// </summary>
-        public static bool Contains(Circle c, Point p)
+        public static bool Contains(Circle c, Vector2f p)
         {
             var mag2 = (p - c.Origin).Magnitude2();
             return mag2 < (c.Radius * c.Radius);
@@ -176,7 +176,7 @@ namespace Kz.Engine.Geometry2d.Utils
         /// <summary>
         /// determine if a triangle contains a point
         /// </summary>
-        public static bool Contains(Triangle t, Point p)
+        public static bool Contains(Triangle t, Vector2f p)
         {
             // compute vectors from P to each vertex of triangle
             var v0 = t.Vertices[2] - t.Vertices[0];
@@ -202,7 +202,7 @@ namespace Kz.Engine.Geometry2d.Utils
         /// <summary>
         /// determine if a polygon contains a point
         /// </summary>
-        public static bool Contains(Polygon poly, Point p)
+        public static bool Contains(Polygon poly, Vector2f p)
         {
             int numVertices = poly.Vertices.Count;
             float x = p.X;
@@ -210,7 +210,7 @@ namespace Kz.Engine.Geometry2d.Utils
             bool inside = false;
 
             var p1 = poly.Vertices[0];
-            var p2 = new Point();
+            var p2 = new Vector2f();
 
             // loop over each polygon edge
             for (var i = 1; i <= numVertices; i++)
@@ -250,7 +250,7 @@ namespace Kz.Engine.Geometry2d.Utils
         /// <summary>
         /// determine if a ray contains a point
         /// </summary>
-        public static bool Contains(Ray r, Point p)
+        public static bool Contains(Ray r, Vector2f p)
         {
             var originPoint = p - r.Origin;
 
@@ -274,7 +274,7 @@ namespace Kz.Engine.Geometry2d.Utils
         /// determine if an ellipse contains a point
         /// </summary>
         /// <returns></returns>
-        public static bool Contains(Ellipse lhs, Point rhs)
+        public static bool Contains(Ellipse lhs, Vector2f rhs)
         {
             var translated = rhs - lhs.Origin;
             var left = (translated.X * translated.X) / (lhs.A * lhs.A);
@@ -282,7 +282,7 @@ namespace Kz.Engine.Geometry2d.Utils
             return (left + right) <= 1.0 + Consts.EPSILON;
         }
 
-        #endregion [Shape] CONTAINS Point
+        #endregion [Shape] CONTAINS Vector2f
 
         #region [Shape] CONTAINS Line
 

@@ -17,29 +17,29 @@ internal class Program
 {
     public static void Main()
     {
-        IShape mouse = new Point();
-        var mousePoint = new Point();
+        IShape mouse = new Vector2f();
+        var mousePoint = new Vector2f();
 
         var shapes = new List<IShape>();
 
-        var p = new Point(150.0f, 150.0f);
+        var p = new Vector2f(150.0f, 150.0f);
         var l = new Line(63.0f, 204.0f, 172.0f, 232.0f);
         var r = new Rectangle(120.0f, 120.0f, 200.0f, 80.0f);
         var c = new Circle(300.0f, 300.0f, 35.0f);
         var t = new Triangle(130.0f, 235.0f, 212.0f, 338.0f, 66.0f, 306.0f);
-        var ray = new Ray(new Point(0.0f, 0.0f), new Vector2f(1.0f, 1.0f));
+        var ray = new Ray(new Vector2f(0.0f, 0.0f), new Vector2f(1.0f, 1.0f));
         var e = new Ellipse(325.0f, 50.0f, 50.0f, 25.0f);
         var poly = new Polygon
         (
-            new Point(218.0f, 18.0f),
-            new Point(265.0f, 52.0f),
-            new Point(229.0f, 97.0f),
-            new Point(199.0f, 70.0f),
-            new Point(170.0f, 96.0f),
-            new Point(108.0f, 77.0f),
-            new Point(100.0f, 35.0f),
-            new Point(140.0f, 22.0f),
-            new Point(179.0f, 46.0f)
+            new Vector2f(218.0f, 18.0f),
+            new Vector2f(265.0f, 52.0f),
+            new Vector2f(229.0f, 97.0f),
+            new Vector2f(199.0f, 70.0f),
+            new Vector2f(170.0f, 96.0f),
+            new Vector2f(108.0f, 77.0f),
+            new Vector2f(100.0f, 35.0f),
+            new Vector2f(140.0f, 22.0f),
+            new Vector2f(179.0f, 46.0f)
         );
         var polyRect = new PolyRectangle(20.0f, 80.0f, 55.0f, 70.0f);
 
@@ -90,7 +90,7 @@ internal class Program
             }
             else if (Raylib.IsKeyPressed(KeyboardKey.One))
             {
-                mouse = new Point();
+                mouse = new Vector2f();
             }
             else if (Raylib.IsKeyPressed(KeyboardKey.Two))
             {
@@ -153,7 +153,7 @@ internal class Program
             if (Raylib.IsMouseButtonDown(MouseButton.Left))
             {
                 // get shape that contains mouse
-                IShape shape = new Point();
+                IShape shape = new Vector2f();
                 foreach (var s in shapes)
                 {
                     if (G2d.Contains(s, mouse))
@@ -286,7 +286,7 @@ internal class Program
                     }
                 }
 
-                G2d.Rotate(e, new Point(middleX, middleY), theta, true);
+                G2d.Rotate(e, new Vector2f(middleX, middleY), theta, true);
 
                 #endregion Transformation
 
@@ -378,7 +378,7 @@ internal class Program
                 break;
 
             case RegularPolygon poly:
-                poly.BuildRegularPolygon(new Point(mx, my), 5, 25.0f);
+                poly.BuildRegularPolygon(new Vector2f(mx, my), 5, 25.0f);
                 break;
 
             case Ray ray:

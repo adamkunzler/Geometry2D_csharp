@@ -1,7 +1,7 @@
-﻿using Kz.Engine.Geometry2d.Primitives;
+﻿using Kz.Engine.DataStructures;
+using Kz.Engine.Geometry2d.Primitives;
 using Kz.Engine.Geometry2d.Utils;
 using Color = Raylib_cs.Color;
-using Point = Kz.Engine.Geometry2d.Primitives.Point;
 using Ray = Kz.Engine.Geometry2d.Primitives.Ray;
 using Rectangle = Kz.Engine.Geometry2d.Primitives.Rectangle;
 
@@ -13,7 +13,7 @@ namespace Kz.Engine.Raylib
         {
             switch (shape)
             {
-                case Point v: DrawPoint(v, color); break;
+                case Vector2f v: DrawPoint(v, color); break;
                 case Line l: DrawLine(l, color); break;
                 case Rectangle r: DrawRectangle(r, color, fill); break;
                 case Circle c: DrawCircle(c, color, fill); break;
@@ -24,7 +24,7 @@ namespace Kz.Engine.Raylib
             }
         }
 
-        public static void DrawPoint(Point p, Color color)
+        public static void DrawPoint(Vector2f p, Color color)
         {
             Raylib_cs.Raylib.DrawPixel((int)p.X, (int)p.Y, color);
         }

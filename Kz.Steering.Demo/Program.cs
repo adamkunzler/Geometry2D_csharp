@@ -43,7 +43,7 @@ internal class Program
             var acceleration = Vector2f.Zero;
             var velocity = new Vector2f(GetRandomNegativeOneToOne(random), GetRandomNegativeOneToOne(random)).Normal();
             var position = new Vector2f(random.Next(0, screenWidth), random.Next(0, screenHeight));
-            boids.Add(new Agent(acceleration, velocity, position, 10.0f));
+            boids.Add(new Agent(acceleration, velocity, position, boidSize));
         }
 
         var obstacles = new List<Circle>();
@@ -52,7 +52,7 @@ internal class Program
         obstacles.Add(new Circle(1100.0f, 1050.0f, 150.0f));
 
         var walls = new List<Line>();
-        var wallOffset = 10.0f;
+        //var wallOffset = 10.0f;
         //walls.Add(new Line(wallOffset, wallOffset, screenWidth - wallOffset, wallOffset)); // top
         //walls.Add(new Line(wallOffset, screenHeight - wallOffset, screenWidth - wallOffset, screenHeight - wallOffset)); // bottom
         //walls.Add(new Line(wallOffset, wallOffset, wallOffset, screenHeight - wallOffset)); // left

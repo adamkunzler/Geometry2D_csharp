@@ -7,16 +7,16 @@ namespace Kz.Engine.Geometry2d.Primitives
     {
         #region ctor
 
-        public Point[] Vertices = new Point[3];
+        public Vector2f[] Vertices = new Vector2f[3];
 
         public Triangle()
         {
-            Vertices[0] = new Point();
-            Vertices[1] = new Point();
-            Vertices[2] = new Point();
+            Vertices[0] = new Vector2f();
+            Vertices[1] = new Vector2f();
+            Vertices[2] = new Vector2f();
         }
 
-        public Triangle(Point[] vertices)
+        public Triangle(Vector2f[] vertices)
         {
             if (vertices.Count() != 3) throw new ArgumentException("invalid number of vertices");
 
@@ -25,7 +25,7 @@ namespace Kz.Engine.Geometry2d.Primitives
             if (!IsValid()) throw new ArgumentException("vertices are not in clockwise order");
         }
 
-        public Triangle(Point p1, Point p2, Point p3)
+        public Triangle(Vector2f p1, Vector2f p2, Vector2f p3)
         {
             Vertices[0] = p1;
             Vertices[1] = p2;
@@ -36,9 +36,9 @@ namespace Kz.Engine.Geometry2d.Primitives
 
         public Triangle(float px1, float py1, float px2, float py2, float px3, float py3)
         {
-            Vertices[0] = new Point(px1, py1);
-            Vertices[1] = new Point(px2, py2);
-            Vertices[2] = new Point(px3, py3);
+            Vertices[0] = new Vector2f(px1, py1);
+            Vertices[1] = new Vector2f(px2, py2);
+            Vertices[2] = new Vector2f(px3, py3);
 
             if (!IsValid()) throw new ArgumentException("vertices are not in clockwise order");
         }
@@ -117,21 +117,21 @@ namespace Kz.Engine.Geometry2d.Primitives
         /// <summary>
         /// Calculates the center of a triangle (the point where the triangle's three medians intersect). Also the center of gravity of the triangle.
         /// </summary>
-        public static Point Centroid(Triangle t)
+        public static Vector2f Centroid(Triangle t)
         {
             var center = (t.Vertices[0] + t.Vertices[1] + t.Vertices[2]) / 3.0f;
-            return new Point(center);
+            return center;
         }
 
         /// <summary>
         /// Calculates the center of a triangle (the point where the triangle's three medians intersect). Also the center of gravity of the triangle.
         /// </summary>
-        public Point Centroid() => Centroid(this);
+        public Vector2f Centroid() => Centroid(this);
 
         /// <summary>
         /// Calculates the intersection of the perpendicular bisectors of the sides.
         /// </summary>
-        public static Point Circumcenter(Triangle t)
+        public static Vector2f Circumcenter(Triangle t)
         {
             var x1 = t.Vertices[0].X;
             var y1 = t.Vertices[0].Y;
@@ -161,13 +161,13 @@ namespace Kz.Engine.Geometry2d.Primitives
             var yDenominator = MathF.Sin(2.0f * a) + MathF.Sin(2.0f * b) + MathF.Sin(2.0f * c);
             var y = yNumerator / yDenominator;
 
-            return new Point(x, y);
+            return new Vector2f(x, y);
         }
 
         /// <summary>
         /// Calculates the intersection of the perpendicular bisectors of the sides.
         /// </summary>
-        public Point Circumcenter() => Circumcenter(this);
+        public Vector2f Circumcenter() => Circumcenter(this);
 
         /// <summary>
         /// Calculate the circumcircle of a triangle. A circle that passes through all three vertices of the triangle.
@@ -199,7 +199,7 @@ namespace Kz.Engine.Geometry2d.Primitives
         /// <summary>
         /// Calculate the incenter of a triangle. Located at the intersection of the angle bisectors.
         /// </summary>
-        public static Point Incenter(Triangle t)
+        public static Vector2f Incenter(Triangle t)
         {
             var a = t.Vertices[0];
             var b = t.Vertices[1];
@@ -214,13 +214,13 @@ namespace Kz.Engine.Geometry2d.Primitives
             var x = (lenA * a.X + lenB * b.X + lenC * c.X) / p;
             var y = (lenA * a.Y + lenB * b.Y + lenC * c.Y) / p;
 
-            return new Point(x, y);
+            return new Vector2f(x, y);
         }
 
         /// <summary>
         /// Calculate the incenter of a triangle. Located at the intersection of the angle bisectors.
         /// </summary>
-        public Point Incenter() => Incenter(this);
+        public Vector2f Incenter() => Incenter(this);
 
         /// <summary>
         /// Calculate the incircle of a triangle. The largest circle that will fit in a triangle.
@@ -241,7 +241,7 @@ namespace Kz.Engine.Geometry2d.Primitives
         /// <summary>
         /// Calculate the orthocenter of a triangle. Located at the intersection of the altitudes.
         /// </summary>
-        public static Point Orthocenter(Triangle t)
+        public static Vector2f Orthocenter(Triangle t)
         {
             var cc = t.Circumcenter();
             var ct = t.Centroid();
@@ -249,13 +249,13 @@ namespace Kz.Engine.Geometry2d.Primitives
             var ox = 3.0f * ct.X - 2.0f * cc.X;
             var oy = 3.0f * ct.Y - 2.0f * cc.Y;
 
-            return new Point(ox, oy);
+            return new Vector2f(ox, oy);
         }
 
         /// <summary>
         /// Calculate the orthocenter of a triangle. Located at the intersection of the altitudes.
         /// </summary>
-        public Point Orthocenter() => Orthocenter(this);
+        public Vector2f Orthocenter() => Orthocenter(this);
 
         #endregion Triangle Centers
     }

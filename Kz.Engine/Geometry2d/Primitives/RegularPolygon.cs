@@ -6,7 +6,7 @@ namespace Kz.Engine.Geometry2d.Primitives
     {
         public float Radius { get; init; }
 
-        public RegularPolygon(Point center, int numSides, float radius)
+        public RegularPolygon(Vector2f center, int numSides, float radius)
         {
             Radius = radius;
             BuildRegularPolygon(center, numSides, radius);
@@ -15,12 +15,12 @@ namespace Kz.Engine.Geometry2d.Primitives
         public RegularPolygon(float centerX, float centerY, int numSides, float radius)
         {
             Radius = radius;
-            BuildRegularPolygon(new Point(centerX, centerY), numSides, radius);
+            BuildRegularPolygon(new Vector2f(centerX, centerY), numSides, radius);
         }
 
-        public void BuildRegularPolygon(Point center, int numSides, float radius)
+        public void BuildRegularPolygon(Vector2f center, int numSides, float radius)
         {
-            Vertices = new List<Point>();
+            Vertices = new List<Vector2f>();
 
             for (var i = 0; i < numSides; i++)
             {
@@ -29,7 +29,7 @@ namespace Kz.Engine.Geometry2d.Primitives
                 var x = center.X + radius * MathF.Cos(angle);
                 var y = center.Y + radius * MathF.Sin(angle);
 
-                Vertices.Add(new Point(x, y));
+                Vertices.Add(new Vector2f(x, y));
             }
         }
     }

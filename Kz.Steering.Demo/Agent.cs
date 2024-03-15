@@ -199,7 +199,7 @@ namespace Kz.Steering.Demo
             var maxDetectionLength = 500.0f;
             var detectionLength = (Velocity.Magnitude2() / (MaxSpeed * MaxSpeed)) * maxDetectionLength;
 
-            var point = new Point(
+            var point = new Vector2f(
                 Position.X + MathF.Cos(angle) * detectionLength,
                 Position.Y + MathF.Sin(angle) * detectionLength);
 
@@ -214,19 +214,19 @@ namespace Kz.Steering.Demo
             var middleDetectionLength = Size * 20.0f;
             var sideDetectionLength = Size * 10.0f;
             
-            var middle = new Point
+            var middle = new Vector2f
             (
                 Position.X + MathF.Cos(angle) * middleDetectionLength,
                 Position.Y + MathF.Sin(angle) * middleDetectionLength
             );
 
-            var left = new Point
+            var left = new Vector2f
             (
                 Position.X + MathF.Cos(angle - offsetAngle) * sideDetectionLength,
                 Position.Y + MathF.Sin(angle - offsetAngle) * sideDetectionLength
             );
 
-            var right = new Point
+            var right = new Vector2f
             (
                 Position.X + MathF.Cos(angle + offsetAngle) * sideDetectionLength,
                 Position.Y + MathF.Sin(angle + offsetAngle) * sideDetectionLength

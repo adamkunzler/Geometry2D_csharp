@@ -3,7 +3,7 @@ using Kz.Engine.DataStructures;
 
 namespace Kz.Engine.Geometry2d.Utils
 {
-    public record ReflectData(Point Intersection, Vector2f Reflection);
+    public record ReflectData(Vector2f Intersection, Vector2f Reflection);
 
     public static partial class G2d
     {
@@ -70,8 +70,8 @@ namespace Kz.Engine.Geometry2d.Utils
                 var dir = (ray.Origin - closest.Intersection).Normal();
                 var adjustedIntersection = closest.Intersection + (dir * 0.05f);
 
-                ray = new Ray(new Point(adjustedIntersection), closest.Reflection);
-                reflectData.Add(new ReflectData(new Point(adjustedIntersection), closest.Reflection));
+                ray = new Ray(adjustedIntersection, closest.Reflection);
+                reflectData.Add(new ReflectData(adjustedIntersection, closest.Reflection));
             }
 
             return reflectData;
