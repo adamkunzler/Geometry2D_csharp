@@ -5,7 +5,7 @@
 using Kz.Engine.DataStructures;
 using Kz.Engine.Geometry2d.Primitives;
 using Kz.Engine.Raylib;
-using Kz.Steering.Demo;
+using Kz.Engine.Steering2d;
 using Raylib_cs;
 using Color = Raylib_cs.Color;
 
@@ -43,13 +43,14 @@ internal class Program
             var acceleration = Vector2f.Zero;
             var velocity = new Vector2f(GetRandomNegativeOneToOne(random), GetRandomNegativeOneToOne(random)).Normal();
             var position = new Vector2f(random.Next(0, screenWidth), random.Next(0, screenHeight));
-            boids.Add(new Agent(acceleration, velocity, position, boidSize));
+            boids.Add(new Agent(acceleration, velocity, position, boidSize));            
         }
 
         var obstacles = new List<Circle>();
-        obstacles.Add(new Circle(500.0f, 750.0f, 100.0f));
+        //obstacles.Add(new Circle(500.0f, 750.0f, 100.0f));
         obstacles.Add(new Circle(900.0f, 250.0f, 75.0f));
-        obstacles.Add(new Circle(1100.0f, 1050.0f, 150.0f));
+        //obstacles.Add(new Circle(1100.0f, 1050.0f, 150.0f));
+        obstacles.Add(new Circle(screenWidth / 2.0f, screenHeight / 2.0f, 150.0f));
 
         var walls = new List<Line>();
         //var wallOffset = 10.0f;

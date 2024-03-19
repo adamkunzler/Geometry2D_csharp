@@ -11,10 +11,6 @@
     <PackageReference Include="Raylib-cs" Version="6.0.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Steering\" />
-  </ItemGroup>
-
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="xcopy /Y &quot;$(TargetDir)*.dll&quot; &quot;C:\__adam\_gitrepos\KzEngine\bin\&quot;" />
   </Target>

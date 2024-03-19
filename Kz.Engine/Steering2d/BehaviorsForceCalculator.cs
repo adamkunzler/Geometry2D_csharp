@@ -2,10 +2,8 @@
 using Kz.Engine.General;
 using Kz.Engine.Geometry2d.Primitives;
 using Kz.Engine.Geometry2d.Utils;
-using System.Reflection.Metadata;
-using System.Runtime.CompilerServices;
 
-namespace Kz.Steering.Demo
+namespace Kz.Engine.Steering2d
 {
     public enum Deceleration
     {
@@ -14,7 +12,7 @@ namespace Kz.Steering.Demo
         Slow = 3,
     }
 
-    public static class Behaviors
+    public static class BehaviorsForceCalculator
     {
         private static Random _random = new Random();
 
@@ -93,6 +91,7 @@ namespace Kz.Steering.Demo
         /// </summary>
         public static Vector2f Pursue(Agent agent, Agent target)
         {
+            if (target == null) return Vector2f.Zero;
             //
             // if agent is ahead and facing the target, seek to the target position
             //
@@ -123,16 +122,18 @@ namespace Kz.Steering.Demo
         /// </summary>
         public static Vector2f Evade(Agent agent, Agent other)
         {
+            if (other == null) return Vector2f.Zero;
+
             var toOther = other.Position - agent.Position;
 
             var lookAheadTime = toOther.Magnitude() / (agent.MaxSpeed + other.Velocity.Magnitude());
             var predictedFuturePoint = other.Position + other.Velocity * lookAheadTime;
             return Flee(agent, predictedFuturePoint);
         }
-        
+
         /// <summary>
         /// Calculate a steering force away from a group of obstacles
-        /// </summary>        
+        /// </summary>
         public static Vector2f AvoidObstacles(Agent agent, List<Circle> obstacles)
         {
             var force = Vector2f.Zero;
@@ -150,11 +151,13 @@ namespace Kz.Steering.Demo
         /// </summary>
         public static Vector2f AvoidObstacle(Agent agent, Circle obstacle)
         {
+            if (obstacle == null) return Vector2f.Zero;
+
             var force = Vector2f.Zero;
-            
+
             var minIntersection = GetClosestIntersectionPoint(agent, obstacle);
             if (minIntersection == null) return force;
-            
+
             var avoidanceDirection = (minIntersection.Value - obstacle.Origin);
             var avoidanceStrength = 1.0f;
 
@@ -163,7 +166,7 @@ namespace Kz.Steering.Demo
 
         /// <summary>
         /// Calculate a steering force to a position that puts an obstacle in between the agent and the position to hide from
-        /// </summary>        
+        /// </summary>
         public static Vector2f HideFrom(Agent agent, Vector2f hideFrom, List<Circle> obstacles, float? distance = null)
         {
             var targetToPosition = agent.Position - hideFrom;
@@ -177,7 +180,7 @@ namespace Kz.Steering.Demo
             var minDist = float.MaxValue;
             Vector2f bestSpot = Vector2f.Zero; // maybe a better default
             var foundSpot = false;
-            foreach(var spot in hidingSpots)
+            foreach (var spot in hidingSpots)
             {
                 var dist = (spot - agent.Position).Magnitude2();
                 if (dist < minDist)
@@ -196,7 +199,7 @@ namespace Kz.Steering.Demo
 
         /// <summary>
         /// Calculate a steering force away from a wall(s)
-        /// </summary>        
+        /// </summary>
         public static Vector2f AvoidWalls(Agent agent, List<Line> walls)
         {
             var force = Vector2f.Zero;
@@ -215,10 +218,10 @@ namespace Kz.Steering.Demo
                 foreach (var wall in walls)
                 {
                     var intersection = G2d.Intersects(feeler, wall);
-                    if(intersection.Count > 0)
+                    if (intersection.Count > 0)
                     {
                         var dist = (intersection[0] - agent.Position).Magnitude();
-                        if(dist < closestDistance)
+                        if (dist < closestDistance)
                         {
                             closestDistance = dist;
                             closestIntersectionPoint = intersection[0];
@@ -234,7 +237,7 @@ namespace Kz.Steering.Demo
             if (!foundClosestIntersectionPoint || closestWall == null || intersectedFeeler == null) return force;
 
             // calculate the steering force away from the wall
-            var overshoot = intersectedFeeler.End - closestIntersectionPoint;            
+            var overshoot = intersectedFeeler.End - closestIntersectionPoint;
             force = closestWall.Normal(agent.Position) * overshoot.Magnitude();
 
             return force;
@@ -248,9 +251,9 @@ namespace Kz.Steering.Demo
         {
             var force = Vector2f.Zero;
 
-            if(neighbors.Count == 0) return force;
+            if (neighbors.Count == 0) return force;
 
-            foreach(var neighbor in neighbors)
+            foreach (var neighbor in neighbors)
             {
                 var toAgent = agent.Position - neighbor.Position;
                 var separationForce = (toAgent.Normal() * 20.5f) / toAgent.Magnitude();
@@ -264,9 +267,9 @@ namespace Kz.Steering.Demo
         {
             var force = Vector2f.Zero;
 
-            if(neighbors.Count == 0) return force;
+            if (neighbors.Count == 0) return force;
 
-            foreach(var neighbor in neighbors)
+            foreach (var neighbor in neighbors)
             {
                 force += neighbor.Velocity.Normal();
             }
@@ -294,7 +297,7 @@ namespace Kz.Steering.Demo
 
             return force;
         }
-        
+
         #endregion Group Behaviors
 
         #region Private Helper Methods
@@ -308,14 +311,14 @@ namespace Kz.Steering.Demo
         private static Vector2f GetHidingSpot(Vector2f hideFrom, Circle obstacle)
         {
             var toObstacle = obstacle.Origin - hideFrom;
-            var distFromObstacle = 100.0f + obstacle.Radius + toObstacle.Magnitude();            
+            var distFromObstacle = 100.0f + obstacle.Radius + toObstacle.Magnitude();
             var hidingSpot = hideFrom + (toObstacle.Normal() * distFromObstacle);
             return hidingSpot;
         }
 
         /// <summary>
         /// Get the closest intersection point with an obstacle to an agent
-        /// </summary>        
+        /// </summary>
         private static Vector2f? GetClosestIntersectionPoint(Agent agent, Circle obstacle)
         {
             // make obstacle "bigger" temporarily

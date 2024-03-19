@@ -1,10 +1,8 @@
 ﻿using Kz.Engine.DataStructures;
 using Kz.Engine.Geometry2d.Primitives;
-using Kz.Engine.Raylib;
 using Kz.Engine.Trigonometry;
-using Raylib_cs;
 
-namespace Kz.Steering.Demo
+namespace Kz.Engine.Steering2d
 {
     public class Agent
     {
@@ -19,6 +17,9 @@ namespace Kz.Steering.Demo
         public Vector2f Velocity;
         public Vector2f Position;
 
+        private Behaviors _behaviors = Behaviors.None;
+        public Behaviors Behaviors => _behaviors;
+
         public float Size { get; private set; }
         public float HalfSize => Size / 2.0f;
 
@@ -29,6 +30,7 @@ namespace Kz.Steering.Demo
             Velocity = Vector2f.Zero;
             Position = Vector2f.Zero;
             Size = 1.0f;
+            _behaviors = Behaviors.DEFAULT;
         }
 
         public Agent(Vector2f acceleration, Vector2f velocity, Vector2f position, float size)
@@ -38,6 +40,7 @@ namespace Kz.Steering.Demo
             Velocity = velocity;
             Position = position;
             Size = size;
+            _behaviors = Behaviors.DEFAULT;
         }
 
         public Agent(Vector2f position, float size)
@@ -47,6 +50,7 @@ namespace Kz.Steering.Demo
             Velocity = Vector2f.Zero;
             Position = position;
             Size = size;
+            _behaviors = Behaviors.DEFAULT;
         }
 
         public override string ToString()
@@ -56,9 +60,9 @@ namespace Kz.Steering.Demo
 
         #endregion ctor
 
-        #region Fields
+        #region Config Fields
 
-        private float _neighbordDistance = 200.0f;
+        private float _neighborDistance = 200.0f;
 
         private float _mass = 1.0f;
 
@@ -73,66 +77,35 @@ namespace Kz.Steering.Demo
         // maximum force an agent can power itself
         private float _maxForce = 3.5f;
 
-        #endregion Fields
+        #endregion Config Fields
 
         private Vector2f _steeringForce = Vector2f.Zero;
-        private List<Circle> _obstacles = new List<Circle>();
 
         public void Update
             (
             List<Agent> others,
-            Kz.Engine.Geometry2d.Primitives.Rectangle aabb,
+            Rectangle aabb,
             Vector2f mousePosition,
             List<Circle> obstacles,
             List<Line> walls
         )
         {
-            _obstacles = obstacles;
-            // Get Neighbors
             var neighbors = GetNeighbors(others);
 
-            // calculate individual rules            
-            var seekForce = Vector2f.Zero;// Behaviors.Seek(this, mousePosition) : Vector2f.Zero;
-            var fleeForce = Vector2f.Zero;// Behaviors.Flee(this, mousePosition, 500.0f);
-            var arriveForce = Vector2f.Zero;// Behaviors.Arrive(this, mousePosition, Deceleration.Slow);
-            var pursueForce = Vector2f.Zero;
-            var evadeForce = Vector2f.Zero;
-            var wanderForce = Behaviors.Wander(this);
-            var avoidObstacleForce = Behaviors.AvoidObstacles(this, obstacles);
-            var hidingForce = Vector2f.Zero;// Behaviors.HideFrom(this, mousePosition, obstacles);
-            var avoidWallForce = Behaviors.AvoidWalls(this, walls);
+            var config = new BehaviorForceConfig
+            {
+                Neighbors = neighbors,
+                Obstacles = obstacles,
+                Walls = walls,
+            };
 
-            // calculate group rules
-            var separationForce =Behaviors.Separation(this, neighbors);
-            var alignmentForce = Behaviors.Alignment(this, neighbors);
-            var cohesionForce = Behaviors.Cohesion(this, neighbors);
-
-
-            //if(Id == 0)
-            //{
-            //    pursueForce = Behaviors.Pursue(this, others[1]);
-            //}
-            //else if (Id == 1)
-            //{
-            //    evadeForce = Behaviors.Evade(this, others[0]);
-            //}
-
-            // combined force of all steering behaviours
-            var totalSteeringForce =
-                seekForce + (fleeForce * 3.0f) + arriveForce +
-                pursueForce + evadeForce + wanderForce +
-                avoidObstacleForce + hidingForce + avoidWallForce;
-
-            totalSteeringForce += separationForce + alignmentForce + cohesionForce;
-
-            _steeringForce = totalSteeringForce; // for debugging/rendering
+            _steeringForce = BehaviorManager.CalculateSteeringForce(this, config);
 
             // acceleration = force / mass
-            Acceleration = (totalSteeringForce / _mass).LimitMagnitude(_maxForce);
-
-            var newVelocity = Velocity + Acceleration;
+            Acceleration = (_steeringForce / _mass).LimitMagnitude(_maxForce);
 
             // constrain changes in velocity to maxTurningAngle and maxVelocity
+            var newVelocity = Velocity + Acceleration;
             Velocity = Vector2f
                 .LimitAngleDelta(Velocity, newVelocity, _maxTurningRate)
                 .LimitMagnitude(_maxSpeed);
@@ -147,49 +120,18 @@ namespace Kz.Steering.Demo
             EnforceNonPenetrationConstraint(neighbors);
         }
 
-        private Color _color = new Color(80, 148, 82, 255);
+        private Raylib_cs.Color _color = new Raylib_cs.Color(80, 148, 82, 255);
 
         public void Render(List<Agent> others)
         {
             // render agent
-            Raylib.DrawCircle((int)Position.X, (int)Position.Y, Size, _color);
+            Raylib_cs.Raylib.DrawCircle((int)Position.X, (int)Position.Y, Size, _color);
 
             // render direction vector
             var theta = Velocity.AngleOf();
             var xx = Position.X + MathF.Cos(theta) * Size * 2.0f;
             var yy = Position.Y + MathF.Sin(theta) * Size * 2.0f;
-            Raylib.DrawLine((int)Position.X, (int)Position.Y, (int)xx, (int)yy, Color.RayWhite);
-            
-            // special case: agent #0
-            if (Id == 0 && false)
-            {
-                // render neighborDistance
-                Raylib.DrawCircleLines((int)Position.X, (int)Position.Y, _neighbordDistance, Color.RayWhite);
-
-                // render neighbors
-                foreach (var neighbor in GetNeighbors(others))
-                {
-                    Raylib.DrawCircleLines((int)neighbor.Position.X, (int)neighbor.Position.Y, Size * 1.2f, Color.RayWhite);
-                }
-
-                // steering force
-                var steeringForce = _steeringForce * Size;
-                Raylib.DrawLine(
-                    (int)Position.X, (int)Position.Y,
-                    (int)Position.X + (int)steeringForce.X,
-                    (int)Position.Y + (int)steeringForce.Y,
-                    Color.Red);
-
-                // detection line
-                var detectionLine = GetDetectionLine();
-                Gfx.DrawLine(detectionLine, Color.RayWhite);
-
-                var feelers = GetFeelers();
-                foreach(var feeler in feelers) 
-                {
-                    Gfx.DrawLine(feeler, Color.Purple);
-                }
-            }
+            Raylib_cs.Raylib.DrawLine((int)Position.X, (int)Position.Y, (int)xx, (int)yy, Raylib_cs.Color.RayWhite);
         }
 
         public Line GetDetectionLine()
@@ -213,7 +155,7 @@ namespace Kz.Steering.Demo
 
             var middleDetectionLength = Size * 20.0f;
             var sideDetectionLength = Size * 10.0f;
-            
+
             var middle = new Vector2f
             (
                 Position.X + MathF.Cos(angle) * middleDetectionLength,
@@ -231,7 +173,6 @@ namespace Kz.Steering.Demo
                 Position.X + MathF.Cos(angle + offsetAngle) * sideDetectionLength,
                 Position.Y + MathF.Sin(angle + offsetAngle) * sideDetectionLength
             );
-
 
             var feelers = new List<Line>();
             feelers.Add(new Line(Position.X, Position.Y, middle.X, middle.Y));
@@ -255,7 +196,7 @@ namespace Kz.Steering.Demo
                 if (agent == this) continue;
 
                 var distance = (this.Position - agent.Position).Magnitude();
-                if (distance > _neighbordDistance) continue;
+                if (distance > _neighborDistance) continue;
 
                 neighbors.Add(agent);
             }
